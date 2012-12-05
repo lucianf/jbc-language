@@ -463,13 +463,15 @@ Terminal type (e.g. ntcon, vt220 etc):
 ## Introduction to BASIC...CATALOG and jcompile
 
 <pre>
-    **BASIC MY.BP TEST.SUB**
+    BASIC MY.BP TEST.SUB
+    &nbsp;
     TEST.SUB
     BASIC_1.c
     Source file TEST.SUB compiled successfully</pre>
 
 <pre>
-    **CATALOG MY.BP TEST.SUB**
+    CATALOG MY.BP TEST.SUB
+    &nbsp;
     TEST.SUB
     Object TEST.SUB cataloged successfully
     Library $HOME\lib\lib0.dll rebuild okay
@@ -492,7 +494,7 @@ In this case "-E" option of jcompile can be used to build executable only
 and not the shared library, e.g.:
 
 <pre>
-    **jcompile -E test.b**</pre>
+    jcompile -E test.b</pre>
 
 And then test.dll isn't created. The final compilation is of course to be done
 without "-E" option. Also - without shared library CHAIN statement might work
@@ -522,7 +524,8 @@ in a jBC program or subroutine (using EXECUTE/PERFORM).
 Create both data and dictionary:
 
 <pre>
-    **CREATE-FILE F.SAMPLE 101 1**
+    CREATE-FILE F.SAMPLE 101 1
+    &nbsp;
     [ 417 ] File F.SAMPLE]D created , type = J4
     [ 417 ] File F.SAMPLE created , type = J4</pre>
 
@@ -534,18 +537,20 @@ If the file already exists, the error message appears:
 Delete hashed file (both data and dictionary):
 
 <pre>
-    **DELETE-FILE F.SAMPLE</pre>**
+    DELETE-FILE F.SAMPLE</pre>
 
 Create hashed file (data only):
 
 <pre>
-    **CREATE-FILE DATA F.SAMPLE 101 1**
+    CREATE-FILE DATA F.SAMPLE 101 1
+    &nbsp;
     [ 417 ] File F.SAMPLE created , type = J4</pre>
 
 Create hashed file (dictionary only):
 
 <pre>
-    **CREATE-FILE DICT F.SAMPLE 101 1**
+    CREATE-FILE DICT F.SAMPLE 101 1
+    &nbsp;
     [ 417 ] File F.SAMPLE]D created , type = J4</pre>
 
 ## Create and list the data
@@ -553,7 +558,8 @@ Create hashed file (dictionary only):
 Put some data to file:
 
 <pre>
-    **JED F.SAMPLE REC1**
+    JED F.SAMPLE REC1
+    &nbsp;
     0001 Field one
     0002 Field two
     0003 Field three</pre>
@@ -563,15 +569,19 @@ Press Esc; then type FI to save the record.
 List file contents:
 
 <pre>
-    **LIST F.SAMPLE**
+    LIST F.SAMPLE
+    &nbsp;
     F.SAMPLE......
+    &nbsp;
     REC1
+    &nbsp;
     1 Records Listed</pre>
 
 No dictionary; we see only @ID. Raw output:
 
 <pre>
-    **CT F.SAMPLE**
+    CT F.SAMPLE
+    &nbsp;
     REC1
     001 Field one
     002 Field two
@@ -580,8 +590,10 @@ No dictionary; we see only @ID. Raw output:
 As an alternative, we can use standard correlatives:
 
 <pre>
-    **LIST F.SAMPLE &lowast;A1 &lowast;A2 &lowast;A3**
+    LIST F.SAMPLE &lowast;A1 &lowast;A2 &lowast;A3
+    &nbsp;
     F.SAMPLE......   &lowast;A1...........   &lowast;A2...........   &lowast;A3...........
+    &nbsp;
     REC1             Field one        Field two         Field three</pre>
 
 ## Adding dictionary items
@@ -589,7 +601,8 @@ As an alternative, we can use standard correlatives:
 Add a dictionary item to assign the name to a field:
 
 <pre>
-    **JED DICT F.SAMPLE FLD1**
+    JED DICT F.SAMPLE FLD1
+    &nbsp;
     0001 D
     0002 1
     0003
@@ -601,34 +614,43 @@ Add a dictionary item to assign the name to a field:
 Use field name in a query:
 
 <pre>
-    **LIST F.SAMPLE FLD1**
+    LIST F.SAMPLE FLD1
+    &nbsp;
     F.SAMPLE......   FIELD 1 HEADER
+    &nbsp;
     REC1             Field one
+    &nbsp;
     1 Records Listed</pre>
 
 <pre>
-    **LIST F.SAMPLE WITH FLD1 EQ ''**
+    LIST F.SAMPLE WITH FLD1 EQ ''
+    &nbsp;
      No Records Listed</pre>
 
 In default view we still don’t have it:
 
 <pre>
-    **LIST F.SAMPLE**
+    LIST F.SAMPLE
+    &nbsp;
     F.SAMPLE......
+    &nbsp;
     REC1</pre>
 
 Set the field to be seen by default:
 
 <pre>
-    **JED DICT F.SAMPLE @**
+    JED DICT F.SAMPLE @
+    &nbsp;
     0001 PH
     0002 @ID FLD1</pre>
 
 See the result:
 
 <pre>
-    **LIST F.SAMPLE**
+    LIST F.SAMPLE
+    &nbsp;
     F.SAMPLE......   ID..................   FIELD 1 HEADER
+    &nbsp;
     REC1             REC1                   Field one</pre>
 
 ## Change of size and format, statistics, properties
@@ -636,7 +658,8 @@ See the result:
 See file statistics:
 
 <pre>
-    **jstat -v F.SAMPLE**
+    jstat -v F.SAMPLE
+    &nbsp;
     File C:\r11\bnk\bnk.run\F.SAMPLE
     Type=J4 , Hash method = 5
     Created at Tue Nov 20 19:38:25 2012
@@ -657,32 +680,36 @@ See file statistics:
 Add more records:
 
 <pre>
-    **COPY FROM F.SAMPLE REC1,REC2**
+    COPY FROM F.SAMPLE REC1,REC2
+    &nbsp;
     1 records copied</pre>
 
 Try to resize the file:
 
 <pre>
-    **jrf -V F.SAMPLE**
+    jrf -V F.SAMPLE
+    &nbsp;
     ...
     Downsizing skipped from modulo 101 to 3.</pre>
 
 Resize it anyway:
 
 <pre>
-    **jrf -VD F.SAMPLE**
+    jrf -VD F.SAMPLE
+    &nbsp;
     ...
     Downsizing from modulo 101 to 3</pre>
 
 Change file type to JR:
 
 <pre>
-    **jrf -H6 F.SAMPLE**</pre>
+    jrf -H6 F.SAMPLE</pre>
 
 See statistics now:
 
 <pre>
-    **jstat -v F.SAMPLE**
+    jstat -v F.SAMPLE
+    &nbsp;
     File Type       = JR,        Hash method = 5, Created = Tue Nov 20 19:56:00 2012
     Frame size      = 4096,        OOG Threshold   = 2048
     File size       = 8192, Freespace       = 0 frames
@@ -701,12 +728,13 @@ See statistics now:
 Turn on secure updates:
 
 <pre>
-    **jchmod +S F.SAMPLE**</pre>
+    jchmod +S F.SAMPLE</pre>
 
 Check the result:
 
 <pre>
-    **jstat -v F.SAMPLE**
+    jstat -v F.SAMPLE
+    &nbsp;
     ...
     Backup  = YES, Log      = YES,  Rollback        = YES,  Secure updates  = YES
     ...</pre>
@@ -714,23 +742,27 @@ Check the result:
 Delete a record:
 
 <pre>
-    **DELETE F.SAMPLE REC2**
+    DELETE F.SAMPLE REC2
+    &nbsp;
     1 record(s) deleted.</pre>
 
 Add data sections:
 
 <pre>
-    **CREATE-FILE F.SAMPLE,TWO TYPE=JR**
+    CREATE-FILE F.SAMPLE,TWO TYPE=JR
+    &nbsp;
     [ 417 ] File F.SAMPLE]MTWO created , type = JR</pre>
 
 <pre>
-    **CREATE-FILE F.SAMPLE,THREE TYPE=JR**
+    CREATE-FILE F.SAMPLE,THREE TYPE=JR
+    &nbsp;
     [ 417 ] File F.SAMPLE]MTHREE created , type = JR</pre>
 
 Create a record in a section:
 
 <pre>
-    **JED F.SAMPLE,TWO REC5**
+    JED F.SAMPLE,TWO REC5
+    &nbsp;
     0001 Section 2/1
     0002 Section 2/2
     0003 Section 2/3</pre>
@@ -738,13 +770,17 @@ Create a record in a section:
 See that all sections use the same dictionary:
 
 <pre>
-    **LIST F.SAMPLE,TWO**
+    LIST F.SAMPLE,TWO
+    &nbsp;
     F.SAMPLE,TWO..    ID..................    FIELD 1 HEADER
+    &nbsp;
     REC5              REC5                    Section 2/1</pre>
 
 <pre>
-    **LIST F.SAMPLE,THREE**
+    LIST F.SAMPLE,THREE
+    &nbsp;
     F.SAMPLE,THREE    ID..................    FIELD 1 HEADER
+    &nbsp;
      No Records Listed</pre>
 
 ### NOTE
@@ -762,56 +798,65 @@ files and folders. Some examples:
 Create the folder:
 
 <pre>
-    **CREATE-FILE DATA TEST.BP TYPE=UD**
+    CREATE-FILE DATA TEST.BP TYPE=UD
+    &nbsp;
     [ 417 ] File TEST.BP created , type = UD</pre>
 
 Create a program:
 
 <pre>
-    **JED TEST.BP PROG1**
+    JED TEST.BP PROG1
+    &nbsp;
     0001 CRT 2*2</pre>
 
 Save file. Compile and run it:
 
 <pre>
-    **BASIC TEST.BP PROG1**
+    BASIC TEST.BP PROG1
+    &nbsp;
     PROG1
     BASIC_3.c
     Source file PROG1 compiled successfully</pre>
 
 <pre>
-    **CATALOG TEST.BP PROG1**
+    CATALOG TEST.BP PROG1
+    &nbsp;
     PROG1
     Object PROG1 cataloged successfully</pre>
 
 <pre>
-    **PROG1**
+    PROG1
+    &nbsp;
     4</pre>
 
 Copy data:
 
 <pre>
-    **COPY FROM F.SAMPLE TO TEST.BP REC1**
+    COPY FROM F.SAMPLE TO TEST.BP REC1
+    &nbsp;
     1 records copied</pre>
 
 Edit file REC1 in TEST.BP folder with any text editor so it now looks like:
 
 <pre>
-    Field one **- updated**
+    Field one - updated
     Field two
     Field three</pre>
 
 Copy it back to hashed file:
 
 <pre>
-    **COPY FROM TEST.BP TO F.SAMPLE REC1 OVERWRITING**
+    COPY FROM TEST.BP TO F.SAMPLE REC1 OVERWRITING
+    &nbsp;
     1 records copied</pre>
 
 See the result:
 
 <pre>
-    **LIST F.SAMPLE**
+    LIST F.SAMPLE
+    &nbsp;
     F.SAMPLE......     ID..................   FIELD 1 HEADER
+    &nbsp;
     REC1               REC1                   Field one - up
                                               dated</pre>
 
@@ -4920,7 +4965,7 @@ The output of this program is: 5]3]1\4]0
 
 <a name="DOWNCASE"/>
 
-## DOWNCASE / UPCASE
+## DOWNCASE
 
 DOWNCASE converts all uppercase characters in an expression to lowercase
 characters.
@@ -8653,13 +8698,13 @@ executing.
        IF V.RET NE 0 THEN CRT 'JQLEXECUTE RETURNED', V.RET  ; STOP
        //
        LOOP
-          GOSUB GET.NEXT
+          GOSUB FETCH.NEXT
        UNTIL V.FETCH NE 1
        REPEAT
        //
        STOP
        //
-    GET.NEXT:
+    FETCH.NEXT:
        //
        V.FETCH = JQLFETCH(V.STMT, V.CTRL, V.DATA)
        IF V.FETCH NE 1 THEN RETURN
@@ -15105,7 +15150,7 @@ beginning of a transaction.
 transaction end or abort. start-text specifies an optional text
 string to save with the transaction start record.
 
-A **THEN** or **ELSE** (or both) statement is required. The THEN
+**THEN** or **ELSE** (or both) statement is required. The THEN
 clause will be executed if the transaction is successfully started.
 The ELSE clause will be executed if the transaction start fails for
 any reason.
@@ -15139,9 +15184,12 @@ Write to file without transactions:
 Output: LIST will show the same results both times:
 
 <pre>
-    **LIST F.TEMP &lowast;A1 &lowast;A2 &lowast;A3**
+    LIST F.TEMP &lowast;A1 &lowast;A2 &lowast;A3
+    &nbsp;
     DICT F.TEMP...    &lowast;A1...........    &lowast;A2...........    &lowast;A3...........
+    &nbsp;
     REC1              LINE 1            LINE 2            LINE 3
+    &nbsp;
      1 Records Listed</pre>
 
 Write to file in a transaction:
@@ -15166,13 +15214,20 @@ Write to file in a transaction:
 Until transaction is over -- no records will be shown:
 
 <pre>
-    **LIST F.TEMP &lowast;A1 &lowast;A2 &lowast;A3**
+    LIST F.TEMP &lowast;A1 &lowast;A2 &lowast;A3
+    &nbsp;
     DICT F.TEMP...    &lowast;A1...........    &lowast;A2...........    &lowast;A3...........
+    &nbsp;
      No Records Listed
+    &nbsp;
     Press any key to continue
-    **LIST F.TEMP &lowast;A1 &lowast;A2 &lowast;A3**
+    &nbsp;
+    LIST F.TEMP &lowast;A1 &lowast;A2 &lowast;A3
+    &nbsp;
     DICT F.TEMP...    &lowast;A1...........    &lowast;A2...........    &lowast;A3...........
+    &nbsp;
     REC1              LINE 1            LINE 2            LINE 3
+    &nbsp;
      1 Records Listed</pre>
 
 ### EXAMPLE 2
@@ -15194,10 +15249,13 @@ Until transaction is over -- no records will be shown:
 Output:
 
 <pre>
-    **LIST F.TEMP &lowast;A1 &lowast;A2 &lowast;A3**
+    LIST F.TEMP &lowast;A1 &lowast;A2 &lowast;A3
+    &nbsp;
     DICT F.TEMP...    &lowast;A1...........    &lowast;A2...........    &lowast;A3...........
+    &nbsp;
     REC1              LINE 1            LINE 2            LINE 3
     REC3              LINE 1            LINE 2            LINE 3
+    &nbsp;
      2 Records Listed</pre>
 
 <a name="TRIM"/>
@@ -16368,7 +16426,7 @@ PartEntry.b listing (Oracle)
     *
     * Declare jBC vars to use in Embedded SQL statements ( A )
     *
-
+    *
     EXEC SQL BEGIN DECLARE SECTION;
     INT PartNo;
     STRING(20) PartName;
@@ -16402,7 +16460,7 @@ PartEntry.b listing (Oracle)
         CRT "Part Number :":
         INPUT PartNo
     WHILE PartNo NE '' DO
-
+    *
     *
     * Prompt for PartName
     *
@@ -16413,11 +16471,11 @@ PartEntry.b listing (Oracle)
     *
         EXEC SQL INSERT INTO Parts VALUES (:PartNo, :PartName );
     REPEAT
-
+    *
     *
     * Commit updates to database ( F )
     *
-
+    *
     EXEC SQL COMMIT ;
 
 ( A ) Declare jBC variables to use within Embedded SQL statements
@@ -16454,10 +16512,10 @@ Where
 
 | Value        | Description                                              |
 |--------------|----------------------------------------------------------|
-|**Condition** |NOT FOUND                                                 |
+|  Condition   |NOT FOUND                                                 |
 |              |SQLERROR                                                  |
 |              |                                                          |
-|**Action**    |DO Function - Oracle implementation.                      |
+|  Action      |DO Function - Oracle implementation.                      |
 |              |                                                          |
 |              |CALL Function - Ingres and Informix implementations.      |
 |              |                                                          |
@@ -16465,20 +16523,18 @@ Where
 |              |implementations.                                          |
 |              |CONTINUE                                                  |
 |              |                                                          |
-|**Function**  |User defined function.                                    |
+|  Function    |User defined function.                                    |
 |              |                                                          |
 |              |SQLERROR() - Display Embedded SQL error then return to    |
 |              |program.                                                  |
 |              |SQLABORT() - Display Embedded SQL error then exit program.|
 |              |                                                          |
-|**Label**     |Label in executing program:                               |
+|  Label       |Label in executing program:                               |
 |              |                                                          |
-|              |                                                          |
-|              |                                                          |
-|              | `DOSQLERR:                                               |
+|              |  DOSQLERR:                                               |
 |              |  DEFC INT SQL_ERROR                                      |
 |              |  CALL SQL_ERROR                                          |
-|              |  STOP`                                                   |
+|              |  STOP                                                    |
 |              |                                                          |
 
 ( C ) Connect to database supplying user and password
@@ -16543,7 +16599,8 @@ described below.
 e.g. To compile the jBC example program PartEntry.b for an Oracle SQL
 implementation database.
 
-    jcompile -Jqo PartEntry.b
+<pre>
+    jcompile -Jqo PartEntry.b</pre>
 
 In this example the SQL specifier is "o" for Oracle. Other specifiers
 are added as and when Embedded SQL implementations are required. e.g.
@@ -16569,8 +16626,9 @@ the correct directory paths, etc.
 When attempting to compile a program with Embedded SQL and you get an
 error along the lines of...
 
+<pre>
     Command failed: nsqlprep PartEntry.sqc
-    SQL Pre Processor error -1
+    SQL Pre Processor error -1</pre>
 
 ...this is an indication that either you have not loaded the Embedded
 SQL Kit and do not have the 'nsqlprep' command, or the 'nsqlprep'
