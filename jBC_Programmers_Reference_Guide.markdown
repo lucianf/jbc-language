@@ -7,6 +7,54 @@ jBC is a programming language that is used in jBASE post-relational
 converts the source code to C which in turn is compiled for the target platform
 with the usage of standard C compiler.
 
+**Copyright notice**
+
+Copyright (c) 2012 TEMENOS HOLDINGS NV.
+All rights reserved.
+
+This document contains proprietary information that is protected by copyright. No part of this
+document may be reproduced, transmitted, or made available directly or indirectly to a third party
+without the express written agreement of TEMENOS UK Limited. Receipt of this material directly
+from TEMENOS UK Limited constitutes its express permission to copy. Permission to use or copy
+this document expressly excludes modifying it for any purpose, or using it to create a derivative
+therefrom.
+
+Acknowledgements
+
+Information regarding Unicode has been provided in part courtesy of the Unicode Consortium. The
+Unicode Consortium is a non-profit organization founded to develop, extend and promote use of the
+Unicode Standard, which specifies the representation of text in modern software products and
+standards. The membership of the consortium represents a broad spectrum of corporations and
+organizations in the computer and information processing industry. The consortium is supported
+financially solely through membership dues. Membership in the Unicode Consortium is open to
+organizations and individuals anywhere in the world who support the Unicode Standard and wish to
+assist in its extension and implementation.
+
+Portions of the information included herein regarding IBM’s ICU has been reprinted by permission
+from International Business Machines Corporation copyright 2001.
+
+jBASE, jBASE BASIC, jED, jSHELL, jLP, jEDI, jCL, jQL, j3 j4 and jPLUS files are trademarks of
+TEMENOS Holdings NV.
+
+REALITY is a trademark of Northgate Solutions Limited.
+
+PICK is a trademark of Raining Data Inc.
+
+All other trademarks are acknowledged.
+
+Java and all Java-based trademarks and logos are trademarks or registered trademarks of Sun
+Microsystems, Inc. in the United States and other countries.
+
+Windows, Windows NT, and Excel are either registered trademarks or trademarks of Microsoft
+Corporation in the United States and/or other countries.
+
+UNIX is a registered trademark in the United States and other countries licensed exclusively through
+X/Open Company Limited.
+
+Other company, product, and service names used in this publication may be trademarks or service
+marks of others.
+
+
 ## What is TAFC
 
 TAFC stands for "Temenos application framework for C". This name was adopted to
