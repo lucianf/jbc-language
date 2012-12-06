@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>OSBREAD</title>
+<title>DOWNCASE</title>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" type="text/css" href="../index.css">
 </head>
@@ -434,56 +434,28 @@
 </ul>
 </div>
 <div id="scrollable">
-<div id="content"><h1>OSBREAD</h1>
-<p>OSBREAD command reads data from a file starting at a specified byte
- location for a certain length of bytes, and assigns the data to a
- variable.
+<div id="content"><h1>DOWNCASE</h1>
+<p>DOWNCASE converts all uppercase characters in an expression to lowercase
+ characters.
+</p>
+<p>UPCASE converts all lowercase characters in an expression to uppercase
+ characters.
 </p>
 <h2>COMMAND SYNTAX</h2>
-<pre><span>    <span class="c-1com">OSBREAD</span> var <span class="c-1com">FROM</span> file.var [ <span class="c-1com">AT</span> byte.expr ] <span class="c-1com">LENGTH</span> length.expr [ <span class="c-1com">ON</span> <span class="c-1com">ERROR</span> statements ]
+<pre><span>    <span class="c-0fun">DOWNCASE</span>(expression) | <span class="c-0fun">LOWCASE</span>(expression) / <span class="c-0fun">UPCASE</span>(expression)
 </span></pre>
-<p>OSBREAD performs an operating system block read on a UNIX or
- Windows file.
+<h2>INTERNATIONAL MODE</h2>
+<p>When using the DOWNCASE or UPCASE function in International Mode the
+ conversion from upper case to lower case or vice versa will be
+ determined for each character in the expression by the Unicode
+ standard, which describes the up or down case properties for the
+ character.
 </p>
 <h2>SYNTAX ELEMENTS</h2>
-<p><strong>var</strong> specifies a variable to which the data read is assigned.
+<p><strong>expression</strong> in a string containing some alphabetic characters
 </p>
-<p><strong>FROM file.var</strong> specifies a file from which the data is read.
-</p>
-<p><strong>AT byte.expr</strong> specifies a location inside the file from where
- the data reading operation is to start. If byte.expr is 0, the
- read begins at the beginning of the file.
-</p>
-<p><strong>LENGTH length.expr</strong> specifies length of data to be read from the
- file, starting at byte.expr. length.expr cannot be longer than the
- maximum string length determined by your system configuration.
-</p>
-<p><strong>ON ERROR statements</strong> are statements executed if a fatal error
- occurs (if the file is not open, or if the file is a read-only
- file). If you do not specify the ON ERROR clause, the program will
- terminate under such fatal error conditions.
-</p>
-<p><em>STATUS Function Return Values</em>
- After you execute OSBREAD, the STATUS function returns either 0 or
- a failure code.
-</p>
-<h2>NOTE</h2>
-<p>Before you use OSBREAD, you must open the file by using the
- <a href="osopen.html">OSOPEN</a> or <a href="openseq.html">OPENSEQ</a> command.
-</p>
-<p>jBASE uses the ASCII 0 character [CHAR (0)] as a string-end delimiter.
- Therefore, ASCII 0 cannot be used in any string variable within jBASE.
- OSBREAD converts CHAR(0) to CHAR(128) when reading a block of data.
-</p>
-<h2>EXAMPLE</h2>
-<p>In the following example, the program test.b reads itself and outputs its
- contents to the screen:
-</p>
-<pre><span>       <span class="c-1com">OSOPEN</span> <span class="c-4str">'test.b'</span> <span class="c-1com">TO</span> MYFILE <span class="c-1com">ELSE</span> <span class="c-1com">STOP</span>
-</span><span>       <span class="c-1com">OSBREAD</span> Data <span class="c-1com">FROM</span> MYFILE <span class="c-1com">AT</span> <span class="c-2num">0</span> <span class="c-1com">LENGTH</span> <span class="c-2num">10000</span>
-</span><span>       <span class="c-1com">CRT</span> Data
-</span></pre>
-<p><a name="OSBWRITE"/>
+<h2>NOTES</h2>
+<p>It ignores Non-alphabetic characters.
 </p></div>
 </div>
 <script type="text/javascript">
