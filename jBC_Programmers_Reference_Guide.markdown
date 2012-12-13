@@ -9,8 +9,6 @@ with the usage of standard C compiler.
 
 **Copyright notice**
 
-Copyright notice
-
 jBASE and the jBASE logo (dove) are registered trademarks of T-jBASE SA, a company of the TEMENOS Group, Copyright © 2012 T-jBASE SA.
 
 ## What is TAFC
@@ -77,8 +75,7 @@ extensions can be developed in (but not limited to) jBC.
 - Transactions support.
 - Transparent access to jBASE data and dictionary files converted to Oracle, DB2 or MS SQL.
 - Possibility to call C or Java code.
-- Possibility to [EXECUTE](#EXECUTE) any jBASE, system or database enquiry
-  command.
+- Possibility to [EXECUTE](#EXECUTE) any jBASE, system or database enquiry command.
 - Source code editor - JED (also capable of editing data files).
 - Debugger.
 
@@ -1273,7 +1270,7 @@ have spawned.
 
 <a name="@"/>
 
-## @##
+## @
 
 Use the @ function to position the cursor to a specific point on the
 terminal screen
@@ -1410,7 +1407,7 @@ program that called it.
 
 ### COMMAND SYNTAX
 
-    ABORT {message.number{, expression ...}}
+    ABORT {message.number {, expression ...}}
 
 ### SYNTAX ELEMENTS
 
@@ -1475,11 +1472,11 @@ expression.
 
 ### EXAMPLES
 
-       CRT ABS(10-15)
+       CRT ABS(10 - 15)
 
 Displays the value 5.
 
-       PositiveVar = ABS(100-200)
+       PositiveVar = ABS(100 - 200)
 
 Assigns the value 100 to the variable PositiveVar.
 
@@ -1573,7 +1570,7 @@ is zero or an empty string, it returns false for those elements.
 ### EXAMPLE
 
         A = 1 :@SM: 4 :@VM: 4 :@SM: 1
-        B = 1 :@SM: 1-1 :@VM: 2
+        B = 1 :@SM: 1 - 1 :@VM: 2
         PRINT OCONV( ANDS(A, B), 'MCP' )    ;*  1\0]1\0
 
 ## ASCII
@@ -1737,7 +1734,7 @@ values.
 
 ### COMMAND SYNTAX
 
-    BITLOAD({bit-string})
+    BITLOAD({ bitstring })
 
 ### SYNTAX ELEMENTS
 
@@ -2110,7 +2107,7 @@ will then return the byte count of the expression.
              : CHAR(262) : CHAR(382) : CHAR(381) : CHAR(273) : CHAR(272)
        V.LEN = LEN(V.UTF)  ;  CRT V.LEN  ;* 16
        CRT BYTELEN(V.UTF)                ;* 26
-
+    *
     * [] takes characters, not bytes, so output is:
     * 41 42 43 44 45 46 C5A1 C5A0 C48D C48C C487 C486 C5BE C5BD C491 C490
        FOR V.I = 1 TO V.LEN
@@ -2502,7 +2499,7 @@ subroutine.
 
 ### COMMAND SYNTAX
 
-    CALL {@}subroutine.name {(argument {, argument ... })}
+    CALL {@} subroutine.name {(argument{, argument ... })}
 
 ### SYNTAX ELEMENTS
 
@@ -2586,7 +2583,7 @@ Output:
     6
     6
      &lowast;&lowast; Error [ SUBROUTINE_PARM_ERROR ] &lowast;&lowast;
-    'SUBROUTINE NUM.INCR' called with incorrect arguments , Line     1 , Source test2.b
+    'SUBROUTINE NUM.INCR' called with incorrect arguments , Line 1 , Source test2.b
     Trap from an error message, error message name = SUBROUTINE_PARM_ERROR
     Source changed to .\test2.b
     jBASE debugger-></pre>
@@ -2653,8 +2650,8 @@ useful when using third party applications.
 
 ### COMMAND SYNTAX
 
-CALLdotNET NameSpaceAndClassName, methodName, param SETTING ret
-[ON ERROR errStatment]
+    CALLdotNET NameSpaceAndClassName, methodName, param SETTING ret ¨\
+               [ON ERROR errStatment]
 
 In order to use CALLdotNET, you need:
 
@@ -2743,43 +2740,46 @@ level by getting the SYSTEM(0) variable.
 
 This variable can have the following values:
 
-1. Not a Windows platform.
-2. Cannot load the dotNETWrapper
-3. Cannot get assembly
-4. Cannot get Class
-5. Cannot get Method
-6. Cannot Create Instance
-7. Unhandled Error in the .NET library
+|Code| Description                          |
+|----|--------------------------------------|
+| 1  | Not a Windows platform               |
+| 2  | Cannot load the dotNETWrapper        |
+| 3  | Cannot get assembly                  |
+| 4  | Cannot get Class                     |
+| 5  | Cannot get Method                    |
+| 6  | Cannot Create Instance               |
+| 7  | Unhandled Error in the .NET library  |
 
 ### EXAMPLE
 
 BASIC code using the ON ERROR would look like this:
 
     PROGRAM testCALLdotNET
-         ns.className = ''
-         methodName = ''
-         param = ''
-         CRT "Please enter NameSpace.ClassName : "
-         INPUT ns.className
-         CRT "Please enter a Method Name : "
-         INPUT methodName
-         CRT "Please enter a Parameter : "
-         INPUT param
-         CALLdotNET ns.className, methodName, param SETTING ret ON ERROR GOSUB errHandler
-         CRT "Received back from .NET : " : ret
-         STOP
-
+        ns.className = ''
+        methodName = ''
+        param = ''
+        CRT "Please enter NameSpace.ClassName : "
+        INPUT ns.className
+        CRT "Please enter a Method Name : "
+        INPUT methodName
+        CRT "Please enter a Parameter : "
+        INPUT param
+        CALLdotNET ns.className, methodName, param SETTING ret \
+            ON ERROR GOSUB errHandler
+        CRT "Received back from .NET : " : ret
+        STOP
+    *
     errHandler:
-         err = SYSTEM(0)
-         BEGIN CASE
-	       CASE err = 2
-		     CRT "Cannot find dotNETWrapper.dll"
-         CASE err = 3
-		     CRT "Class " : className : "doesn't exist !"
-	       CASE err = 5
-		     CRT "Method " : methodName : "doesn't exist !"
-         END CASE
-         RETURN
+        err = SYSTEM(0)
+        BEGIN CASE
+        CASE err = 2
+           CRT "Cannot find dotNETWrapper.dll"
+        CASE err = 3
+           CRT "Class " : className : "doesn't exist !"
+        CASE err = 5
+           CRT "Method " : methodName : "doesn't exist !"
+        END CASE
+        RETURN
 
 ## CALLJ
 
@@ -2789,7 +2789,8 @@ publish and subscribe, messaging, etc.)
 
 ### COMMAND SYNTAX
 
-    CALLJ packageAndClassName, [$]methodName, param SETTING ret [ON ERROR] errStatment
+    CALLJ packageAndClassName, [$]methodName, param SETTING ret  \
+          [ON ERROR] errStatment
 
 In order to use CALLJ, you need:
 
@@ -2835,8 +2836,8 @@ be used.
 **methodName** The name of the Java method in this class
 (e.g., “myMethod”)
 
-NOTE: If the method is static, you must append a ‘$’ before the name.
-This ‘$’ will be removed from the method name before calling it.
+NOTE: If the method is static, you must append a dollay symbol ( $ ) before the name.
+It will be removed from the method name before calling it.
 
 **Param** Any parameter (eg DynArray)
 
@@ -2900,7 +2901,7 @@ jBC code using the ON ERROR will look like this:
          CALLJ className,methodName, param SETTING ret ON ERROR GOTO errHandler
          CRT "Received batch from Java : " : ret
     RETURN
-
+    *
     errHandler:
          err = SYSTEM(0)
          IF err = 2 THEN
@@ -2911,7 +2912,7 @@ jBC code using the ON ERROR will look like this:
               CRT "Class " : className : "doesn't exist !"
               RETURN
          END
-
+    *
          IF err = 5 THEN
       	      CRT "Method " : methodName : "doesn't exist !"
               RETURN
@@ -3009,8 +3010,8 @@ Solaris: looking for 'libjvm.so'
 HP-UX 11: looking for 'libjvm.sl'
 
 <pre>
-   Add 2 directories to SHLIB_PATH.
-  /opt/java6/jre/lib/IA64W/server:/opt/java6/jre/lib/IA64W</pre>
+    Add 2 directories to SHLIB_PATH.
+   /opt/java6/jre/lib/IA64W/server:/opt/java6/jre/lib/IA64W</pre>
 
 ### OPTIONS
 
@@ -3037,11 +3038,13 @@ The source location for the default policy information is:
 
 **WINDOWS**
 
-    %TAFC_HOME%\config\policy.all
+<pre>
+    %TAFC_HOME%\config\policy.all</pre>
 
 **UNIX**
 
-    $TAFC_HOME/config/policy.all
+<pre>
+    $TAFC_HOME/config/policy.all</pre>
 
 e.g.  "export JBCJVMPOLICYFILE=/usr/jbase/mypolicy.all"
 
@@ -3107,11 +3110,13 @@ need to add libjvm.
 
 The symptom looks like this:
 
-    JVM: dl_error [Can't dlopen() a library containing Thread Local Storage: libjvm.sl]
+<pre>
+    JVM: dl_error [Can't dlopen a library containing Thread Local Storage: libjvm.sl]</pre>
 
 If the program is built with the required link as below then it works.
 
-    jbc –Jo callj.b -ljvm -L/opt/java6/jre/lib/IA64W/server
+<pre>
+    jbc –Jo callj.b -ljvm -L/opt/java6/jre/lib/IA64W/server</pre>
 
 If the CALLJ statement is inside a subroutine, then the program that
 calls the subroutine must be built as above.
@@ -3172,12 +3177,12 @@ expressions.
 
 ### COMMAND SYNTAX
 
-  BEGIN CASE
-  CASE expression statement(s)
-  CASE expression
-  statement(s)
-  . . .
-  END CASE
+        BEGIN CASE
+        CASE expression statement(s)
+        CASE expression
+        *statement(s)
+        *. . .
+        END CASE
 
 ### SYNTAX ELEMENTS
 
@@ -3387,17 +3392,17 @@ terminates.
 
 ### EXAMPLES
 
-    CHAIN "OFF" ;* exit via the OFF command
+        CHAIN "OFF" ;* exit via the OFF command
 
-    ! Prog1
-    COMMON A,B
-    A = 50; B = 100
-    CHAIN "NEWPROG (I"
+        ! Prog1
+        COMMON A,B
+        A = 50 ; B = 100
+        CHAIN "NEWPROG (I"
 
-    ! NEWPROG
-    COMMON I,J
-    ! I and J inherited
-    CRT I,J
+        ! NEWPROG
+        COMMON I,J
+        ! I and J inherited
+        CRT I,J
 
 <a name="CHANGE"/>
 
@@ -3468,7 +3473,8 @@ dynamic array.
 
 The format of the adjustment array is as follows:
 
-Years^Months^Weeks^Days^Hours^Minutes^Seconds^Milliseconds
+<pre>
+    Years^Months^Weeks^Days^Hours^Minutes^Seconds^Milliseconds</pre>
 
 <a name="CHAR"/>
 
@@ -3692,7 +3698,7 @@ opened with the OPEN statement.
 
 ### COMMAND SYNTAX
 
-    CLEARFILE {variable} { SETTING setvar } { ON ERROR statements }
+    CLEARFILE { variable } { SETTING setvar } { ON ERROR statements }
 
 ### SYNTAX ELEMENTS
 
@@ -3763,7 +3769,7 @@ Use the CLEARSELECT statement to clear active select lists.
 
 ### COMMAND SYNTAX
 
-    CLEARSELECT {ListName | ListNumber}
+    CLEARSELECT { ListName | ListNumber }
 
 ### SYNTAX ELEMENTS
 
@@ -3777,7 +3783,7 @@ are specified then it clears the default list (0).
     B = "night" : @AM : "day"
     SELECT A TO 3
     SELECT B TO blist
-    adone = 0; bdone = 0
+    adone = 0 ; bdone = 0
     //
     LOOP
      READNEXT Ael FROM 3 ELSE adone = 1
@@ -3799,7 +3805,7 @@ required.
 
 ### COMMAND SYNTAX
 
-    CLOSE variable{, variable ...}
+    CLOSE variable {, variable ... }
 
 ### SYNTAX ELEMENTS
 
@@ -3924,7 +3930,7 @@ including a default, unnamed common area.
 
 ### COMMAND SYNTAX
 
-    COMMON {/CommonName/} variable{, variable ... }
+    COMMON { /CommonName/ } variable {, variable ... }
 
 ### SYNTAX ELEMENTS
 
@@ -3969,7 +3975,7 @@ indicating whether or not they are equal.
 
 ### COMMAND SYNTAX
 
-    COMPARE(expression1, expression2{, justification})
+    COMPARE(expression1, expression2 {, justification } )
 
 ### SYNTAX ELEMENTS
 
@@ -4066,7 +4072,7 @@ expression1.
 
 **expression3** is the string to which the conversion will apply.
 
-See also: [CONVERT (STATEMENT)](#CONVERTSTATEMENT)
+See also: [CONVERT STATEMENT](#CONVERTSTATEMENT)
 
 ### EXAMPLES
 
@@ -4481,7 +4487,8 @@ now support the following cipher methods (Defined in JBC.h)
 |---------------------|--------------------------------------------|
 | JBASE_CRYPT_GENERAL |    General-purpose encryption scheme       |
 | JBASE_CRYPT_ROT13   |    Simple ROT13 algorithm. (Key not used)  |
-| JBASE_CRYPT_XOR11   |    XOR MOD11 algorithm. Uses the first character of a key as a seed value |
+| JBASE_CRYPT_XOR11   |    XOR MOD11 algorithm. Uses the first     |
+|                     |    character of a key as a seed value      |
 | JBASE_CRYPT_RC2     |    RC2 algorithm                           |
 | JBASE_CRYPT_DES     |    DES algorithm                           |
 | JBASE_CRYPT_3DES    |    Three Key, Triple DES algorithm         |
@@ -4984,7 +4991,7 @@ either dividend or divisor evaluates to null, it returns null.
 
 ### EXAMPLE
 
-    I=400;  K=200
+    I=400 ;  K=200
     J = DIV(I, K)
     PRINT J
 
@@ -5012,11 +5019,11 @@ returns null.
 
 ### EXAMPLE
 
-  A=10:@VM:15:@VM:9:@SM:4
-  B=2:@VM:5:@VM:9:@VM:2
-  PRINT DIVS(A,B)
+    A=10:@VM:15:@VM:9:@SM:4
+    B=2:@VM:5:@VM:9:@VM:2
+    PRINT DIVS(A,B)
 
-The output of this program is: 5]3]1\4]0
+The output of this program is: 5]3]1\4]0.
 
 <a name="DOWNCASE"/>
 
@@ -5231,8 +5238,8 @@ of the function is now the EBCDIC equivalent.
 
 ### EXAMPLE
 
-  READT AsciiBlock ELSE CRT "Tape failed!" ; STOP
-  EbcdicBlock = EBCDIC(AsciiBlock) ;* Convert to EBCDIC
+    READT AsciiBlock ELSE CRT "Tape failed!" ; STOP
+    EbcdicBlock = EBCDIC(AsciiBlock) ;* Convert to EBCDIC
 
 ## ECHO
 
@@ -5383,6 +5390,7 @@ The ENCRYPT function now supports SHA-2 hashing algorithms.
 See also: [DECRYPT](#DECRYPT).
 
 See also: <a href="http://en.wikipedia.org/wiki/SHA-2">Wiki</a>
+
 
 ## ENTER
 
@@ -5556,8 +5564,9 @@ including another jBC program or a TAFC command.
 
 ### COMMAND SYNTAX
 
-    EXECUTE | PERFORM expression { CAPTURING variable} { RETURNING | SETTING variable} \
-      { PASSLIST {expression}} { RTNLIST {variable}}{ PASSDATA variable} { RTNDATA variable}
+    EXECUTE | PERFORM expression { CAPTURING variable}  \
+        { RETURNING | SETTING variable} { PASSLIST {expression}}  \
+        { RTNLIST {variable}}{ PASSDATA variable} { RTNDATA variable}
 
 Executes external programs or OS commands;
 you can intercept screen output and error messages from any program.
@@ -6013,7 +6022,8 @@ jchmod +N filename {filename ...}
 
 Alternatively, like this when the file is originally created:
 
-CREATE-FILE filename 1,1 23,1 NETWORK=TRUE
+<pre>
+    CREATE-FILE filename 1,1 23,1 NETWORK=TRUE</pre>
 
 If the file continues to use the jBASE record locking, then the ON
 ERROR clause will be taken and the SYSTEM(0) and [STATUS](#STATUS)
@@ -6419,7 +6429,7 @@ attribute marks at positions defined by a length parameter.
     FOLD(expression1, expression2)
 
 ### SYNTAX ELEMENTS
-=
+
 **expression1** evaluates a string to be re-delimited.
 
 **expression2** evaluates to a positive integer that represents
@@ -6453,7 +6463,8 @@ Output:
 <pre>
     Hello^world</pre>
 
-    q = "Let this be a reminder to you all that this organization will not tolerate failure."
+    q = "Let this be a reminder to you all" \
+        : " that this organization will not tolerate failure."
     CRT OCONV( FOLD(q, 30), 'MCP')
 
 Output:
@@ -6525,7 +6536,8 @@ terminated early by expressions tested after every iteration.
 
 ### COMMAND SYNTAX
 
-    FOR var=expression1 TO expression2 { STEP expression3 } { WHILE | UNTIL expression4 }
+    FOR var=expression1 TO expression2 { STEP expression3 }  \
+       { WHILE | UNTIL expression4 }
     ...
     NEXT {var}
 
@@ -7385,7 +7397,7 @@ In some dialects the INMAT() function is also used to return the modulo
 of a file after the execution of an OPEN statement, which is
 inconsistent with its primary purpose and not implemented in jBASE. To
 achieve this functionality use the [IOCTL](#IOCTL) function with the
-[JIOCTL_COMMAND_FILESTATUS](#JIOCTL_COMMAND_FILESTATUS) command.
+JIOCTL_COMMAND_FILESTATUS command.
 
 ### EXAMPLE
 
@@ -7565,7 +7577,7 @@ the statement: INPUTNULL "
 
     INPUTNULL "&"
     INPUT @ (10,10):Answer,1
-    IF Answer = " THEN
+    IF Answer = '' THEN
        CRT "A NULL input was received"
     END
 
@@ -7613,8 +7625,9 @@ number currently existing.
 The output is (one line):
 
 <pre>
-    1^2^3^4^5^6^7]14]21]28]35]42]49]56]63]70]77]84^8^9^10^11^12^13^14^15^16^17^18^19^20^21^22^23^
-    24^25^26^27^28^29^30^31^32^33^34^35^36^37^38^39^40^41^42^43^44^45^46^47^48^49^50</pre>
+    1^2^3^4^5^6^7]14]21]28]35]42]49]56]63]70]77]84^8^9^10^11^12^13^14^15^16^
+    17^18^19^20^21^22^23^24^25^26^27^28^29^30^31^32^33^34^35^36^37^38^39^40^
+    41^42^43^44^45^46^47^48^49^50</pre>
 
 ## INSERT
 
@@ -7665,7 +7678,7 @@ Therefore, INT(9.001) and INT(9.999) will both return the value 9.
 
 ### EXAMPLES
 
-    CRT INT(22/7)
+    CRT INT(22 / 7)
 
 Displays the value 3
 
@@ -7734,7 +7747,7 @@ upon the command parameter, and will be described later for each
 command supported.
 
 The return value is 0 for failure, or 1 for success. A value of
--1 generally shows the command has not been recognized.
+"-1" generally shows the command has not been recognized.
 
 The remainder of this section will deal with the IOCTL commands
 that are supported by the provided jBASE database drivers, and the
@@ -8277,7 +8290,7 @@ This is the SLIPPER file content:
 This is the DICT SLIPPER content:
 
 <pre>
-&lowast;&lowast;SIZE&lowast;&lowast;
+    &lowast;&lowast;SIZE&lowast;&lowast;
     001 D
     002 1
     003
@@ -8333,21 +8346,31 @@ text file created to hold execution snapshot.
 
     rc = JBASECOREDUMP('SERVICE', 0)
 
-This will create the file with name structured as "JBASECOREDUMP.&lt;&lt;UUID&gt;&gt;.&lt;&lt;expression1&gt;&gt;",
-e.g. JBASECOREDUMP.a57d07cc-6539-470f-9959-24ed7c715f4f.SERVICE.
+This will create the file with name structured as:
+
+"JBASECOREDUMP.&lt;&lt;UUID&gt;&gt;.&lt;&lt;expression1&gt;&gt;",
+e.g.:
+
+<pre>
+    JBASECOREDUMP.a57d07cc-6539-470f-9959-24ed7c715f4f.SERVICE.</pre>
 
 If a null string is used:
 
     rc = JBASECOREDUMP('', 0)
 
-This will create the file with name structured as "JBASECOREDUMP.&lt;&lt;UUID&gt;&gt;,
-e.g. JBASECOREDUMP.a57d07cc-6539-470f-9959-24ed7c715f4f
+This will create the file with name structured as:
+
+"JBASECOREDUMP.&lt;&lt;UUID&gt;&gt;,
+e.g.:
+
+<pre>
+    JBASECOREDUMP.a57d07cc-6539-470f-9959-24ed7c715f4f</pre>
 
 **expression2** should evaluate to a numeric integer:
 
 <pre>
- 0, Add all varables to the external text file.
- 1, Suppess any UNASSIGNED varables saved to the external file.</pre>
+    0: Add all varables to the external text file.
+    1: Suppess any UNASSIGNED varables saved to the external file.</pre>
 
 ### NOTES
 
@@ -8459,7 +8482,7 @@ Locating entry in the logs using the UUID.
 The following lines may appear in the log file:
 
 <pre>
-    ---------- C:\R12\LOG\DEFAULT\EXAMPLE.HML0001.JBCUSER.LOG.ERROR.20120224-112110.3488
+    ---- C:\R12\LOG\DEFAULT\EXAMPLE.HML0001.JBCUSER.LOG.ERROR.20120224-112110.3488
     E0224 11:21:10.737900 5832 tafc_logger_c_api.cpp:33]
     Coredump file: JBASECOREDUMP.4d5a252a-c009-4aec-9e1f-73d3251c6b81.ERRORFILE
     E0224 11:21:10.739899 5832 tafc_logger_c_api.cpp:33]
@@ -8468,10 +8491,10 @@ The following lines may appear in the log file:
 Type the following command to display the log file:
 
 <pre>
-    CT %TAFC_HOME%\log\default\LOG\DEFAULT\EXAMPLE.HML0001.JBCUSER.LOG.ERROR.20120224-
+    CT %TAFC_HOME%\LOG\DEFAULT\EXAMPLE.HML0001.JBCUSER.LOG.ERROR.20120224-
        112110.3488</pre>
 
-The below log file will appear "example.HML0001.JBCUSER.LOG.ERROR.20120224-112110.3488"
+The below log file will appear "example.HML0001.JBCUSER.LOG.ERROR.20120224-112110.3488":
 
 <pre>
     001 Log file created at: 2012/02/24 11:21:10
@@ -8479,18 +8502,18 @@ The below log file will appear "example.HML0001.JBCUSER.LOG.ERROR.20120224-11211
     003 Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
     004 E0224 11:21:10.737900 5832 tafc_logger_c_api.cpp:33] Coredump file:
         JBASECOREDUMP.4d5a252a-c009-4aec-9e1f-73d3251c6b81.ERRORFILE
-    005 E0224 11:21:10.739899 5832 tafc_logger_c_api.cpp:33] jBASE Core dump created at
-        Fri Feb 24 11:21:10 2012
+    005 E0224 11:21:10.739899 5832 tafc_logger_c_api.cpp:33] jBASE Core dump created
+        at Fri Feb 24 11:21:10 2012
     006 E0224 11:21:10.739899 5832 tafc_logger_c_api.cpp:33] UUID:
         4d5a252a-c009-4aec-9e1f-73d3251c6b81
-    007 E0224 11:21:10.739899 5832 tafc_logger_c_api.cpp:33] Program example , port 87,
-        process id 3488
+    007 E0224 11:21:10.739899 5832 tafc_logger_c_api.cpp:33] Program example , port
+        87, process id 3488
     008 E0224 11:21:10.739899 5832 tafc_logger_c_api.cpp:33]
     009 E0224 11:21:10.739899 5832 tafc_logger_c_api.cpp:33] CALL/GOSUB stack
     010 E0224 11:21:10.739899 5832 tafc_logger_c_api.cpp:33]
     011 E0224 11:21:10.739899 5832 tafc_logger_c_api.cpp:33] Backtrace:
     012 E0224 11:21:10.739899 5832 tafc_logger_c_api.cpp:33] #0: jmainfunction.b:1219
-    013 E0224 11:21:10.739899 5832 tafc_logger_c_api.cpp:33] #1: example.b:1 -> Line 1,
+    013 E0224 11:21:10.739899 5832 tafc_logger_c_api.cpp:33] #1: example.b:1->Line 1,
         Source jmainfunction.b
     014 E0224 11:21:10.739899 5832 tafc_logger_c_api.cpp:33]
     015 E0224 11:21:10.739899 5832 tafc_logger_c_api.cpp:33] Backtrace log:
@@ -8617,10 +8640,14 @@ JQLCOMPILE (Statement, …)
 predefined set of items. For example - how it's used in jQL (note the "&gt;") prompt:
 
 <pre>
-    **SELECT PROGRAMMERS WITH IQ_IN_PTS > 250**
+    SELECT PROGRAMMERS WITH IQ_IN_PTS > 250
+    &nbsp;
     1 Item Selected
-    > **LIST PROGRAMMERS NAME**
+    &nbsp;
+    > LIST PROGRAMMERS NAME
+    &nbsp;
     PROGRAMMERS...    NAME
+    &nbsp;
     0123              COOPER, F B</pre>
 
 This function returns -1 in the event of a problem, such as an
@@ -9022,7 +9049,7 @@ constant ‘e’ as a number base.
 
 ### EXAMPLE
 
-    A = LN(22/7)
+    A = LN(22 / 7)
 
 ## LOCALDATE
 
@@ -9548,8 +9575,8 @@ elements of a dynamic array.
 
 ### COMMAND SYNTAX
 
-    MATPARSE array{, expression1{, expression2}} FROM variable1 { USING expression3}  \
-             SETTING variable2
+    MATPARSE array{, expression1{, expression2}} FROM variable1  \
+            { USING expression3} SETTING variable2
 
 ### SYNTAX ELEMENTS
 
@@ -9632,7 +9659,8 @@ be read and mapped directly into a dimensioned array.
 
 ### COMMAND SYNTAX
 
-    MATREAD array FROM {variable1,} expression { SETTING setvar } { ON ERROR statements } \
+    MATREAD array FROM {variable1,} expression { SETTING setvar } \
+            { ON ERROR statements } \
             { LOCKED statements} { THEN | ELSE statements}
 
 ### SYNTAX ELEMENTS
@@ -9701,7 +9729,7 @@ not
 
 ### EXAMPLES
 
-    MATREAD Xref FROM CFile, "XREF" ELSE MAT Xref = "
+    MATREAD Xref FROM CFile, "XREF" ELSE MAT Xref = ''
 
     MATREAD Ind FROM IFile, "INDEX" ELSE MAT Ind = 0
 
@@ -9725,7 +9753,8 @@ locked for update by the program.
 
 ### COMMAND SYNTAX
 
-    MATREADU array FROM {variable1,} expression { SETTING setvar } { ON ERROR statements } \
+    MATREADU array FROM {variable1,} expression { SETTING setvar } \
+            { ON ERROR statements } \
             { LOCKED statements } { THEN | ELSE statements }
 
 ### SYNTAX ELEMENTS
@@ -9770,7 +9799,7 @@ error 128.
 The record is mapped into the array using a predefined algorithm. The
 record is expected to consist of a number of Field separated records,
 which are then assigned one at a time to each successive element of the
-matrix. See the ###NOTES on matrix organization earlier in this
+matrix. See the NOTES on matrix organization earlier in this
 section for details of the layout of multi dimensional arrays.
 
 If there were more fields in the record than elements in the array,
@@ -9792,7 +9821,7 @@ not
 
     MATREADU Xref FROM CFile, "XREF" ELSE MAT Xref = ''
     MATREADU Ind FROM IFile, "INDEX" LOCKED
-       GOSUBInformUserLock ;* Say it is locked
+       GOSUB InformUserLock ;* Say it is locked
     END THEN
        GOSUB InformUserOk ;* Say we got it
     END ELSE
@@ -9800,7 +9829,7 @@ not
     END
 
     MATREADU record FROM filevar, id SETTING val ON ERROR
-       PRINT "Error number " :val: " occurred which prevented record from being read."
+       PRINT "Error number " :val: " occurred which prevented record from being read"
        STOP
     END LOCKED
        PRINT "Record is locked"
@@ -9820,7 +9849,8 @@ array to a specified record on disc.
 
 ### COMMAND SYNTAX
 
-    MATWRITE array TO | ON {variable,} expression { SETTING setvar } { ON ERROR statements }
+    MATWRITE array TO | ON {variable,} expression { SETTING setvar }  \
+           { ON ERROR statements }
 
 ### SYNTAX ELEMENTS
 
@@ -9861,7 +9891,7 @@ array before its use in the statement.
     MAT A = 99
     ....
     MATWRITE A ON "NewArray" SETTING ErrorCode ON ERROR
-    CRT "Error: " :ErrorCode: " Record could not be written."
+       CRT "Error: " :ErrorCode: " Record could not be written."
     END
     ...
     MATWRITE A ON RecFile, "OldArray"
@@ -9876,7 +9906,8 @@ MATWRITE statement. An existing record lock will be preserved.
 
 ### COMMAND SYNTAX
 
-    MATWRITEU array TO | ON {variable,} expression { SETTING setvar } { ON ERROR statements }
+    MATWRITEU array TO | ON {variable,} expression { SETTING setvar }  \
+            { ON ERROR statements }
 
 ### SYNTAX ELEMENTS
 
@@ -10594,7 +10625,8 @@ variable within jBC.
 
 ### COMMAND SYNTAX
 
-    OPEN {expression1,}expression2 TO {variable} { SETTING setvar } THEN | ELSE statements
+    OPEN {expression1,}expression2 TO {variable} { SETTING setvar } \
+         THEN | ELSE statements
 
 ### SYNTAX ELEMENTS
 
@@ -10817,7 +10849,8 @@ reading.
 
 ### COMMAND SYNTAX
 
-    OPENSEQ Path{,File} {READONLY} TO FileVar { LOCKED statements } THEN | ELSE statements
+    OPENSEQ Path{,File} {READONLY} TO FileVar { LOCKED statements }  \
+            THEN | ELSE statements
 
 ### SYNTAX ELEMENTS
 
@@ -10950,7 +10983,8 @@ the result back via the [GET](#GET)/[READSEQ](#READSEQ) statements.
                 WAITING WaitTime THEN
              CRT "Get Ok, Input " :Input: " Count " :Count: "TermChar" :TermChar
           END ELSE
-             CRT "Get Timed out Input " :Input: " Count " : Count: " TermChar" :TermChar
+             CRT "Get Timed out Input " :Input: " Count " : Count: " TermChar" \
+                :TermChar
           END
        WHILE Input NE "" DO
        REPEAT
@@ -10962,7 +10996,7 @@ corresponding elements of two dynamic arrays.
 
 ### COMMAND SYNTAX
 
-ORS (array1, array2)
+    ORS(array1, array2)
 
 Each element of the new dynamic array is the logical OR of the
 corresponding elements of **array1** and **array2**. If an element
@@ -10991,7 +11025,8 @@ variable.
 
 ### COMMAND SYNTAX
 
-    OSBREAD var FROM file.var [ AT byte.expr ] LENGTH length.expr [ ON ERROR statements ]
+    OSBREAD var FROM file.var [ AT byte.expr ] LENGTH length.expr  \
+            [ ON ERROR statements ]
 
 OSBREAD performs an operating system block read on a UNIX or
 Windows file.
@@ -11046,7 +11081,8 @@ specified byte location.
 
 ### COMMAND SYNTAX
 
-    OSBWRITE expr { ON | TO } file.var [ AT byte.expr ] [ NODELAY ] [ ON ERROR statements ]
+    OSBWRITE expr { ON | TO } file.var [ AT byte.expr ] [ NODELAY ]  \
+             [ ON ERROR statements ]
 
 OSBWRITE immediately writes a file segment out to the UNIX, Windows
 NT, or Windows 2000 file. There is no necessity to specify a length
@@ -11233,7 +11269,8 @@ OSREAD reads an OS file.
 
 ### COMMAND SYNTAX
 
-    OSREAD Variable FROM expression { ON ERROR Statements } { THEN | ELSE } Statements
+    OSREAD Variable FROM expression { ON ERROR Statements }  \
+          { THEN | ELSE } Statements
 
 ### SYNTAX ELEMENTS
 
@@ -11369,7 +11406,7 @@ specified and then sent directly to the output advice.
 
     EQUATE BELL TO OUT 7
     BELL ;* Sound terminal bell
-    FOR I = 32 TO 127; OUT I; NEXT I ;* Printable chars
+    FOR I = 32 TO 127 ; OUT I ; NEXT I ;* Printable chars
     BELL
 
 # jBC Functions and Statements (P - T)
@@ -11459,7 +11496,7 @@ precision to format the number.
 ### EXAMPLE
 
         PRECISION 6
-        CRT 2/3
+        CRT 2 / 3
 
 will print the value 0.666666 (note: truncation not rounding!).
 
@@ -11846,8 +11883,8 @@ opened file into a variable.
 
 ### COMMAND SYNTAX
 
-    READ variable1 FROM {variable2,} expression { SETTING setvar } { ON ERROR statements }  \
-         THEN | ELSE statements
+    READ variable1 FROM {variable2,} expression { SETTING setvar }  \
+         { ON ERROR statements } THEN | ELSE statements
 
 ### SYNTAX ELEMENTS
 
@@ -11909,8 +11946,8 @@ it to a variable.
 
 ### COMMAND SYNTAX
 
-    READBLK variable FROM file.variable, blocksize { THEN statements [ ELSE statements ]  \
-          | ELSE statements }
+    READBLK variable FROM file.variable, blocksize { THEN statements \
+            [ ELSE statements ] | ELSE statements }
 
 The READBLK statement reads a block of data beginning at the
 current position in the file and continuing for blocksize bytes
@@ -11993,7 +12030,8 @@ lock.
 
 ### COMMAND SYNTAX
 
-    READL variable1 FROM {variable2,} expression { SETTING setvar } { ON ERROR statements } \
+    READL variable1 FROM {variable2,} expression { SETTING setvar }  \
+          { ON ERROR statements } \
           { LOCKED statements } THEN | ELSE statements
 
 ### SYNTAX ELEMENTS
@@ -12484,8 +12522,9 @@ specified record for update.
 
 ### COMMAND SYNTAX
 
-    READU variable1 FROM {variable2,} expression { SETTING setvar } { WAIT timeout }  \
-          { ON ERROR statements } { LOCKED statements } THEN | ELSE statements
+    READU variable1 FROM {variable2,} expression { SETTING setvar }  \
+          { WAIT timeout } { ON ERROR statements } { LOCKED statements }  \
+          THEN | ELSE statements
 
 ### SYNTAX ELEMENTS
 
@@ -13281,8 +13320,8 @@ or the end of the file.
 
 ### COMMAND SYNTAX
 
-    SEEK file.variable [ , offset [ , relto] ] { THEN statements [ ELSE statements ]  \
-        | ELSE statements }
+    SEEK file.variable [ , offset [ , relto] ] { THEN statements  \
+       [ ELSE statements ] | ELSE statements }
 
 ### SYNTAX ELEMENTS
 
@@ -13627,7 +13666,7 @@ results in a run-time message, and the return of an empty string.
 
 ### INTERNATIONAL MODE
 
-The SEQ function will return numeric values beyond 255 for UTF-8 byte
+The SEQS function will return numeric values beyond 255 for UTF-8 byte
 sequences representing any Unicode values above 0x000000ff.
 
 ### EXAMPLE
@@ -13923,7 +13962,7 @@ SPOOLER function returns information from the jBASE spooler.
 
 ### COMMAND SYNTAX
 
-    SPOOLER(n{, Port|User})
+    SPOOLER(n{, Port | User})
 
 ### SYNTAX ELEMENTS
 
@@ -14235,24 +14274,24 @@ with an ON ERROR clause, the value returned is the error number.
 
 Returns 0 if successful else returns ERROR number
 
-*After an [OPEN](#OPEN), [OPENPATH](#OPENPATH), or [OPENSEQ](#OPENSEQ)
-statement:* The file type is returned if the file is opened
+*After an [OPEN](#OPEN), [OPENPATH](#OPENPATH), or [OPENSEQ](#OPENSEQ) statement:*
+The file type is returned if the file is opened
 successfully. If the file is not opened successfully, the following
 values may return:
 
 *After a [READ](#READ) statement:* If the file is a distributed file,
 the STATUS function returns the following:
 
-*After a [READL](#READL), [READU](#READU), [READVL](#READVL), or
-[READVU](#READVU) statement:* If the statement includes the LOCKED
+*After a [READL](#READL), [READU](#READU), [READVL](#READVL), or [READVU](#READVU) statement:*
+If the statement includes the LOCKED
 clause, the returned value is the terminal number, as returned by
 the
 WHO command, of the user who set the lock.
 
 *After a [READSEQ](#READSEQ) statement:*
 
-*After a [READT](#READT), [REWIND](#REWIND), [WEOF](#WEOF), or
-[WRITET](#WRITET) statement:* The returned value is
+*After a [READT](#READT), [REWIND](#REWIND), [WEOF](#WEOF), or [WRITET](#WRITET) statement:*
+The returned value is
 hardware-dependent (that is, it varies according to the
 characteristics of the specific tape drive unit).
 Consult the documentation that accompanied your tape drive
@@ -14949,7 +14988,7 @@ returned as an attribute delimited array of the time difference.
 The Mask is an integer from 0 to 7 and selects one of the following
 output formats:
 
-|Mask	 |		Array                                        |
+|Mask    |         Array                                             |
 |--------|-----------------------------------------------------------|
 |0       | Days^Hours^Minutes^Seconds^Milliseconds (Default)         |
 |1       | Weeks^Days^Hours^Minutes^Seconds^Milliseconds             |
@@ -15018,6 +15057,8 @@ of a second."
        CRT V.TS                     ;* e.g. 1352316687.1156
        CRT ( MAKETIMESTAMP( DATE(), TIME(), 'Europe/Amsterdam') - V.TS ) / 3600 ;* -1
        CRT ( MAKETIMESTAMP( DATE(), TIME(), 'Asia/Singapore') - V.TS ) / 3600   ;* -8
+
+<a name="TRANS"/>
 
 ## TRANS
 
@@ -15338,16 +15379,16 @@ of trim to perform.
 
 The trim types available for expression3 are:
 
-|Type |  Operation                                              |
+|Type | Operation                                               |
 |-----|---------------------------------------------------------|
-|L    |	removes leading characters only                         |
-|T    |	removes trailing characters only                        |
-|B    |	removes leading and trailing characters                 |
-|A    |	removes all occurrences of the character                |
-|R    |	removes leading, trailing and redundant characters      |
-|F    |	removes leading spaces and tabs                         |
-|E    |	removes trailing spaces and tabs                        |
-|D    |	removes leading, trailing and redundant spaces and tabs.|
+|L    | removes leading characters only                         |
+|T    | removes trailing characters only                        |
+|B    | removes leading and trailing characters                 |
+|A    | removes all occurrences of the character                |
+|R    | removes leading, trailing and redundant characters      |
+|F    | removes leading spaces and tabs                         |
+|E    | removes trailing spaces and tabs                        |
+|D    | removes leading, trailing and redundant spaces and tabs.|
 
 ### EXAMPLES
 
@@ -15471,6 +15512,8 @@ Sample output:
     41505741-4141-4445-7935727a6a37
     41505741-4141-4445-7935727a6a38
     41505741-4141-4445-7935727a6a39</pre>
+
+<a name="UNLOCK"/>
 
 ## UNLOCK
 
@@ -15688,7 +15731,7 @@ sequential processing.
 
 ### COMMAND SYNTAX
 
-    WRITEBLK expression ON | TO file.variable { THEN statements [ ELSE statements ]  \
+    WRITEBLK expression ON | TO file.variable { THEN statements [ ELSE statements ] \
            | ELSE statements}
 
 ### SYNTAX ELEMENTS
@@ -16000,7 +16043,7 @@ will be set to one of the following values:
 If the statement fails to write the record then any statements
 associated with the ON ERROR clause is executed.
 
-The lock maintained by the [WRITEU[(#WRITEU) statement will be
+The lock maintained by the [WRITEU](#WRITEU) statement will be
 released by any of the following events:
 
 The same program with [WRITE](#WRITE), [WRITEV](#WRITEV) or
@@ -16043,8 +16086,8 @@ of a record in a previously opened file.
 
 ### COMMAND SYNTAX
 
-    WRITEV variable1 ON | TO {variable2,} expression1, expression2 { SETTING setvar }  \
-           { ON ERROR statements }
+    WRITEV variable1 ON | TO {variable2,} expression1, expression2  \
+         { SETTING setvar } { ON ERROR statements }
 
 ### SYNTAX ELEMENTS
 
@@ -16100,8 +16143,8 @@ be preserved.
 
 ### COMMAND SYNTAX
 
-    WRITEVU variable1 ON | TO {variable2,} expression1, expression2 { SETTING setvar }  \
-            { ON ERROR statements }
+    WRITEVU variable1 ON | TO {variable2,} expression1, expression2  \
+          { SETTING setvar } { ON ERROR statements }
 
 ### SYNTAX ELEMENTS
 
@@ -16482,12 +16525,12 @@ PartEntry.b listing (Oracle)
     * Declare jBC vars to use in Embedded SQL statements ( A )
     *
     *
-    EXEC SQL BEGIN DECLARE SECTION;
-    INT PartNo;
-    STRING(20) PartName;
-    STRING(16) User;
-    STRING(16) Passwd;
-    EXEC SQL END DECLARE SECTION;
+    EXEC SQL BEGIN DECLARE SECTION ;
+    INT PartNo ;
+    STRING(20) PartName ;
+    STRING(16) User ;
+    STRING(16) Passwd ;
+    EXEC SQL END DECLARE SECTION ;
     *
     * Predetermine action on SQLERROR ( B )
     *
@@ -16496,7 +16539,7 @@ PartEntry.b listing (Oracle)
     * Connect to database supplying user and password ( C )
     *
     User = "demo" ; Passwd = "demo99"
-    EXEC SQL CONNECT :User IDENTIFIED BY :Passwd;
+    EXEC SQL CONNECT :User IDENTIFIED BY :Passwd ;
     *
     * Create Parts table ( D )
     *
@@ -16524,7 +16567,7 @@ PartEntry.b listing (Oracle)
     *
     * Add PartNo and PartName into Parts table ( E )
     *
-        EXEC SQL INSERT INTO Parts VALUES (:PartNo, :PartName );
+        EXEC SQL INSERT INTO Parts VALUES (:PartNo, :PartName ) ;
     REPEAT
     *
     *
@@ -16574,7 +16617,7 @@ Where
 |              |                                                          |
 |              |CALL Function - Ingres and Informix implementations.      |
 |              |                                                          |
-|              |GOTO proglab_Label – IBM DB2 and Microsoft SQL Server     |
+|              |GOTO proglab_Label - IBM DB2 and Microsoft SQL Server     |
 |              |implementations.                                          |
 |              |CONTINUE                                                  |
 |              |                                                          |
@@ -16644,12 +16687,12 @@ described below.
 
 |-Jq<type>  |  RDBMS                                 |
 |-----------|----------------------------------------|
-|**d**      |  IBM DB2                               |
-|**m**      |  Microsoft SQL Server (Windows only)   |
-|**o**      |  Oracle                                |
-|**I**      |  Ingres                                |
-|**S**      |  Sybase                                |
-|**X**      |  Informix                              |
+|  d        |  IBM DB2                               |
+|  m        |  Microsoft SQL Server (Windows only)   |
+|  o        |  Oracle                                |
+|  I        |  Ingres                                |
+|  S        |  Sybase                                |
+|  X        |  Informix                              |
 
 e.g. To compile the jBC example program PartEntry.b for an Oracle SQL
 implementation database.
