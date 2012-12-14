@@ -118,6 +118,7 @@
 <li><a href="callc.html">CALLC</a></li>
 <li><a href="calldotnet.html">CALLdotNET</a></li>
 <li><a href="callj.html">CALLJ</a></li>
+<li><a href="calljee.html">CALLJEE</a></li>
 <li><a href="callonexit.html">CALLONEXIT</a></li>
 <li><a href="case.html">CASE</a></li>
 <li><a href="catalog_command.html">CATALOG Command</a></li>
@@ -440,7 +441,8 @@
  locked for update by the program.
 </p>
 <h2>COMMAND SYNTAX</h2>
-<pre><span>    <span class="c-1com">MATREADU</span> array <span class="c-1com">FROM</span> {variable1,} expression { <span class="c-1com">SETTING</span> setvar } { <span class="c-1com">ON</span> <span class="c-1com">ERROR</span> statements } \
+<pre><span>    <span class="c-1com">MATREADU</span> array <span class="c-1com">FROM</span> {variable1,} expression { <span class="c-1com">SETTING</span> setvar } \
+</span><span>            { <span class="c-1com">ON</span> <span class="c-1com">ERROR</span> statements } \
 </span><span>            { <span class="c-1com">LOCKED</span> statements } { <span class="c-1com">THEN</span> | <span class="c-1com">ELSE</span> statements }
 </span></pre>
 <h2>SYNTAX ELEMENTS</h2>
@@ -476,7 +478,7 @@
 <p>The record is mapped into the array using a predefined algorithm. The
  record is expected to consist of a number of Field separated records,
  which are then assigned one at a time to each successive element of the
- matrix. See the ###NOTES on matrix organization earlier in this
+ matrix. See the NOTES on matrix organization earlier in this
  section for details of the layout of multi dimensional arrays.
 </p>
 <p>If there were more fields in the record than elements in the array,
@@ -497,7 +499,7 @@
 <h2>EXAMPLES</h2>
 <pre><span>    <span class="c-1com">MATREADU</span> Xref <span class="c-1com">FROM</span> CFile, <span class="c-4str">"XREF"</span> <span class="c-1com">ELSE</span> <span class="c-1com">MAT</span> Xref = <span class="c-4str">''</span>
 </span><span>    <span class="c-1com">MATREADU</span> Ind <span class="c-1com">FROM</span> <span class="c-1com">IF</span>ile, <span class="c-4str">"INDEX"</span> <span class="c-1com">LOCKED</span>
-</span><span>       <span class="c-1com">GOSUB</span>InformUserLock ;<span class="c-5com">* Say it is locked</span>
+</span><span>       <span class="c-1com">GOSUB</span> InformUserLock ;<span class="c-5com">* Say it is locked</span>
 </span><span>    <span class="c-1com">END</span> <span class="c-1com">THEN</span>
 </span><span>       <span class="c-1com">GOSUB</span> InformUserOk ;<span class="c-5com">* Say we got it</span>
 </span><span>    <span class="c-1com">END</span> <span class="c-1com">ELSE</span>
@@ -505,7 +507,7 @@
 </span><span>    <span class="c-1com">END</span>
 </span></pre>
 <pre><span>    <span class="c-1com">MATREADU</span> record <span class="c-1com">FROM</span> filevar, id <span class="c-1com">SETTING</span> val <span class="c-1com">ON</span> <span class="c-1com">ERROR</span>
-</span><span>       <span class="c-1com">PRINT</span> <span class="c-4str">"Error number "</span> :val: <span class="c-4str">" occurred which prevented record from being read."</span>
+</span><span>       <span class="c-1com">PRINT</span> <span class="c-4str">"Error number "</span> :val: <span class="c-4str">" occurred which prevented record from being read"</span>
 </span><span>       <span class="c-1com">STOP</span>
 </span><span>    <span class="c-1com">END</span> <span class="c-1com">LOCKED</span>
 </span><span>       <span class="c-1com">PRINT</span> <span class="c-4str">"Record is locked"</span>

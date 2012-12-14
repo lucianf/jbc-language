@@ -118,6 +118,7 @@
 <li><a href="callc.html">CALLC</a></li>
 <li><a href="calldotnet.html">CALLdotNET</a></li>
 <li><a href="callj.html">CALLJ</a></li>
+<li><a href="calljee.html">CALLJEE</a></li>
 <li><a href="callonexit.html">CALLONEXIT</a></li>
 <li><a href="case.html">CASE</a></li>
 <li><a href="catalog_command.html">CATALOG Command</a></li>
@@ -455,21 +456,31 @@
 </p>
 <pre><span>    rc = <span class="c-0fun">JBASECOREDUMP</span>(<span class="c-4str">'SERVICE'</span>, <span class="c-2num">0</span>)
 </span></pre>
-<p>This will create the file with name structured as "JBASECOREDUMP.&lt;&lt;UUID&gt;&gt;.&lt;&lt;expression1&gt;&gt;",
- e.g. JBASECOREDUMP.a57d07cc-6539-470f-9959-24ed7c715f4f.SERVICE.
+<p>This will create the file with name structured as:
+</p>
+<p>"JBASECOREDUMP.&lt;&lt;UUID&gt;&gt;.&lt;&lt;expression1&gt;&gt;",
+ e.g.:
+</p>
+<p><pre>
+     JBASECOREDUMP.a57d07cc-6539-470f-9959-24ed7c715f4f.SERVICE.</pre>
 </p>
 <p>If a null string is used:
 </p>
 <pre><span>    rc = <span class="c-0fun">JBASECOREDUMP</span>(<span class="c-4str">''</span>, <span class="c-2num">0</span>)
 </span></pre>
-<p>This will create the file with name structured as "JBASECOREDUMP.&lt;&lt;UUID&gt;&gt;,
- e.g. JBASECOREDUMP.a57d07cc-6539-470f-9959-24ed7c715f4f
+<p>This will create the file with name structured as:
+</p>
+<p>"JBASECOREDUMP.&lt;&lt;UUID&gt;&gt;,
+ e.g.:
+</p>
+<p><pre>
+     JBASECOREDUMP.a57d07cc-6539-470f-9959-24ed7c715f4f</pre>
 </p>
 <p><strong>expression2</strong> should evaluate to a numeric integer:
 </p>
 <p><pre>
-  0, Add all varables to the external text file.
-  1, Suppess any UNASSIGNED varables saved to the external file.</pre>
+     0: Add all varables to the external text file.
+     1: Suppess any UNASSIGNED varables saved to the external file.</pre>
 </p>
 <h2>NOTES</h2>
 <p>jBC functionality will be affected in the following areas:
@@ -579,7 +590,7 @@
 <p>The following lines may appear in the log file:
 </p>
 <p><pre>
-     ---------- C:\R12\LOG\DEFAULT\EXAMPLE.HML0001.JBCUSER.LOG.ERROR.20120224-112110.3488
+     ---- C:\R12\LOG\DEFAULT\EXAMPLE.HML0001.JBCUSER.LOG.ERROR.20120224-112110.3488
      E0224 11:21:10.737900 5832 tafc_logger_c_api.cpp:33]
      Coredump file: JBASECOREDUMP.4d5a252a-c009-4aec-9e1f-73d3251c6b81.ERRORFILE
      E0224 11:21:10.739899 5832 tafc_logger_c_api.cpp:33]
@@ -588,10 +599,10 @@
 <p>Type the following command to display the log file:
 </p>
 <p><pre>
-     CT %TAFC_HOME%\log\default\LOG\DEFAULT\EXAMPLE.HML0001.JBCUSER.LOG.ERROR.20120224-
+     CT %TAFC_HOME%\LOG\DEFAULT\EXAMPLE.HML0001.JBCUSER.LOG.ERROR.20120224-
         112110.3488</pre>
 </p>
-<p>The below log file will appear "example.HML0001.JBCUSER.LOG.ERROR.20120224-112110.3488"
+<p>The below log file will appear "example.HML0001.JBCUSER.LOG.ERROR.20120224-112110.3488":
 </p>
 <p><pre>
      001 Log file created at: 2012/02/24 11:21:10
@@ -599,18 +610,18 @@
      003 Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
      004 E0224 11:21:10.737900 5832 tafc_logger_c_api.cpp:33] Coredump file:
          JBASECOREDUMP.4d5a252a-c009-4aec-9e1f-73d3251c6b81.ERRORFILE
-     005 E0224 11:21:10.739899 5832 tafc_logger_c_api.cpp:33] jBASE Core dump created at
-         Fri Feb 24 11:21:10 2012
+     005 E0224 11:21:10.739899 5832 tafc_logger_c_api.cpp:33] jBASE Core dump created
+         at Fri Feb 24 11:21:10 2012
      006 E0224 11:21:10.739899 5832 tafc_logger_c_api.cpp:33] UUID:
          4d5a252a-c009-4aec-9e1f-73d3251c6b81
-     007 E0224 11:21:10.739899 5832 tafc_logger_c_api.cpp:33] Program example , port 87,
-         process id 3488
+     007 E0224 11:21:10.739899 5832 tafc_logger_c_api.cpp:33] Program example , port
+         87, process id 3488
      008 E0224 11:21:10.739899 5832 tafc_logger_c_api.cpp:33]
      009 E0224 11:21:10.739899 5832 tafc_logger_c_api.cpp:33] CALL/GOSUB stack
      010 E0224 11:21:10.739899 5832 tafc_logger_c_api.cpp:33]
      011 E0224 11:21:10.739899 5832 tafc_logger_c_api.cpp:33] Backtrace:
      012 E0224 11:21:10.739899 5832 tafc_logger_c_api.cpp:33] #0: jmainfunction.b:1219
-     013 E0224 11:21:10.739899 5832 tafc_logger_c_api.cpp:33] #1: example.b:1 -> Line 1,
+     013 E0224 11:21:10.739899 5832 tafc_logger_c_api.cpp:33] #1: example.b:1->Line 1,
          Source jmainfunction.b
      014 E0224 11:21:10.739899 5832 tafc_logger_c_api.cpp:33]
      015 E0224 11:21:10.739899 5832 tafc_logger_c_api.cpp:33] Backtrace log:

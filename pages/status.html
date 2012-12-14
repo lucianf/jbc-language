@@ -118,6 +118,7 @@
 <li><a href="callc.html">CALLC</a></li>
 <li><a href="calldotnet.html">CALLdotNET</a></li>
 <li><a href="callj.html">CALLJ</a></li>
+<li><a href="calljee.html">CALLJEE</a></li>
 <li><a href="callonexit.html">CALLONEXIT</a></li>
 <li><a href="case.html">CASE</a></li>
 <li><a href="catalog_command.html">CATALOG Command</a></li>
@@ -475,24 +476,24 @@
 </p>
 <p>Returns 0 if successful else returns ERROR number
 </p>
-<p>*After an <a href="open.html">OPEN</a>, <a href="openpath.html">OPENPATH</a>, or <a href="openseq.html">OPENSEQ</a>
- statement:* The file type is returned if the file is opened
+<p><em>After an <a href="open.html">OPEN</a>, <a href="openpath.html">OPENPATH</a>, or <a href="openseq.html">OPENSEQ</a> statement:</em>
+ The file type is returned if the file is opened
  successfully. If the file is not opened successfully, the following
  values may return:
 </p>
 <p><em>After a <a href="read.html">READ</a> statement:</em> If the file is a distributed file,
  the STATUS function returns the following:
 </p>
-<p>*After a <a href="readl.html">READL</a>, <a href="readu.html">READU</a>, <a href="readvl.html">READVL</a>, or
- <a href="readvu.html">READVU</a> statement:* If the statement includes the LOCKED
+<p><em>After a <a href="readl.html">READL</a>, <a href="readu.html">READU</a>, <a href="readvl.html">READVL</a>, or <a href="readvu.html">READVU</a> statement:</em>
+ If the statement includes the LOCKED
  clause, the returned value is the terminal number, as returned by
  the
  WHO command, of the user who set the lock.
 </p>
 <p><em>After a <a href="readseq.html">READSEQ</a> statement:</em>
 </p>
-<p>*After a <a href="readt.html">READT</a>, <a href="rewind.html">REWIND</a>, <a href="weof.html">WEOF</a>, or
- <a href="writet.html">WRITET</a> statement:* The returned value is
+<p><em>After a <a href="readt.html">READT</a>, <a href="rewind.html">REWIND</a>, <a href="weof.html">WEOF</a>, or <a href="writet.html">WRITET</a> statement:</em>
+ The returned value is
  hardware-dependent (that is, it varies according to the
  characteristics of the specific tape drive unit).
  Consult the documentation that accompanied your tape drive

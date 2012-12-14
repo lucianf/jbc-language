@@ -118,6 +118,7 @@
 <li><a href="callc.html">CALLC</a></li>
 <li><a href="calldotnet.html">CALLdotNET</a></li>
 <li><a href="callj.html">CALLJ</a></li>
+<li><a href="calljee.html">CALLJEE</a></li>
 <li><a href="callonexit.html">CALLONEXIT</a></li>
 <li><a href="case.html">CASE</a></li>
 <li><a href="catalog_command.html">CATALOG Command</a></li>
@@ -442,6 +443,8 @@
 <pre><span>    <span class="c-0fun">FOLD</span>(expression1, expression2)
 </span></pre>
 <h2>SYNTAX ELEMENTS</h2>
+<p><strong>expression1</strong> evaluates a string to be re-delimited.
+</p>
 <p><strong>expression2</strong> evaluates to a positive integer that represents
  the maximum number of characters between delimiters in the
  resultant string.
@@ -471,7 +474,8 @@
  <pre>
      Hello^world</pre>
 </p>
-<pre><span>    q = <span class="c-4str">"Let this be a reminder to you all that this organization will not tolerate failure."</span>
+<pre><span>    q = <span class="c-4str">"Let this be a reminder to you all"</span> \
+</span><span>        : <span class="c-4str">" that this organization will not tolerate failure."</span>
 </span><span>    <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>( <span class="c-0fun">FOLD</span>(q, <span class="c-2num">30</span>), <span class="c-4str">'MCP'</span>)
 </span></pre>
 <p>Output:

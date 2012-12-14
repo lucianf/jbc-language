@@ -118,6 +118,7 @@
 <li><a href="callc.html">CALLC</a></li>
 <li><a href="calldotnet.html">CALLdotNET</a></li>
 <li><a href="callj.html">CALLJ</a></li>
+<li><a href="calljee.html">CALLJEE</a></li>
 <li><a href="callonexit.html">CALLONEXIT</a></li>
 <li><a href="case.html">CASE</a></li>
 <li><a href="catalog_command.html">CATALOG Command</a></li>
@@ -439,7 +440,8 @@
  array to a specified record on disc.
 </p>
 <h2>COMMAND SYNTAX</h2>
-<pre><span>    <span class="c-1com">MATWRITE</span> array <span class="c-1com">TO</span> | <span class="c-1com">ON</span> {variable,} expression { <span class="c-1com">SETTING</span> setvar } { <span class="c-1com">ON</span> <span class="c-1com">ERROR</span> statements }
+<pre><span>    <span class="c-1com">MATWRITE</span> array <span class="c-1com">TO</span> | <span class="c-1com">ON</span> {variable,} expression { <span class="c-1com">SETTING</span> setvar }  \
+</span><span>           { <span class="c-1com">ON</span> <span class="c-1com">ERROR</span> statements }
 </span></pre>
 <h2>SYNTAX ELEMENTS</h2>
 <p><strong>array</strong> should be a previously dimensioned and initialized array. If
@@ -469,7 +471,7 @@
 </span><span>    <span class="c-1com">MAT</span> A = <span class="c-2num">99</span>
 </span><span>    ....
 </span><span>    <span class="c-1com">MATWRITE</span> A <span class="c-1com">ON</span> <span class="c-4str">"NewArray"</span> <span class="c-1com">SETTING</span> ErrorCode <span class="c-1com">ON</span> <span class="c-1com">ERROR</span>
-</span><span>    <span class="c-1com">CRT</span> <span class="c-4str">"Error: "</span> :ErrorCode: <span class="c-4str">" Record could not be written."</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-4str">"Error: "</span> :ErrorCode: <span class="c-4str">" Record could not be written."</span>
 </span><span>    <span class="c-1com">END</span>
 </span><span>    ...
 </span><span>    <span class="c-1com">MATWRITE</span> A <span class="c-1com">ON</span> RecFile, <span class="c-4str">"OldArray"</span>

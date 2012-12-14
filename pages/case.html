@@ -118,6 +118,7 @@
 <li><a href="callc.html">CALLC</a></li>
 <li><a href="calldotnet.html">CALLdotNET</a></li>
 <li><a href="callj.html">CALLJ</a></li>
+<li><a href="calljee.html">CALLJEE</a></li>
 <li><a href="callonexit.html">CALLONEXIT</a></li>
 <li><a href="case.html">CASE</a></li>
 <li><a href="catalog_command.html">CATALOG Command</a></li>
@@ -440,12 +441,12 @@
  expressions.
 </p>
 <h2>COMMAND SYNTAX</h2>
-<pre><span>  <span class="c-1com">BEGIN</span> <span class="c-1com">CASE</span>
-</span><span>  <span class="c-1com">CASE</span> expression statement(s)
-</span><span>  <span class="c-1com">CASE</span> expression
-</span><span>  statement(s)
-</span><span>  . . .
-</span><span>  <span class="c-1com">END</span> <span class="c-1com">CASE</span>
+<pre><span>        <span class="c-1com">BEGIN</span> <span class="c-1com">CASE</span>
+</span><span>        <span class="c-1com">CASE</span> expression statement(s)
+</span><span>        <span class="c-1com">CASE</span> expression
+</span><span>        <span class="c-5com">*statement(s)</span>
+</span><span>        <span class="c-5com">*. . .</span>
+</span><span>        <span class="c-1com">END</span> <span class="c-1com">CASE</span>
 </span></pre>
 <h2>SYNTAX ELEMENTS</h2>
 <p>The BEGIN CASE and END CASE statements bound the CASE structure. Within
@@ -457,8 +458,9 @@
  statements, execution will resume at the first statement following
  the END CASE.
 </p>
-<h2>NOTES: A default action (to trap error conditions for instance)</h2>
-<p>may be introduced by using an expression that is always TRUE, such as
+<h2>NOTES:</h2>
+<p>A default action (to trap error conditions for instance)
+ may be introduced by using an expression that is always TRUE, such as
  CASE one. This should always be the last expression in the CASE block.
 </p>
 <h2>EXAMPLE</h2>

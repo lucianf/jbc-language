@@ -118,6 +118,7 @@
 <li><a href="callc.html">CALLC</a></li>
 <li><a href="calldotnet.html">CALLdotNET</a></li>
 <li><a href="callj.html">CALLJ</a></li>
+<li><a href="calljee.html">CALLJEE</a></li>
 <li><a href="callonexit.html">CALLONEXIT</a></li>
 <li><a href="case.html">CASE</a></li>
 <li><a href="catalog_command.html">CATALOG Command</a></li>
@@ -439,7 +440,8 @@
  be read and mapped directly into a dimensioned array.
 </p>
 <h2>COMMAND SYNTAX</h2>
-<pre><span>    <span class="c-1com">MATREAD</span> array <span class="c-1com">FROM</span> {variable1,} expression { <span class="c-1com">SETTING</span> setvar } { <span class="c-1com">ON</span> <span class="c-1com">ERROR</span> statements } \
+<pre><span>    <span class="c-1com">MATREAD</span> array <span class="c-1com">FROM</span> {variable1,} expression { <span class="c-1com">SETTING</span> setvar } \
+</span><span>            { <span class="c-1com">ON</span> <span class="c-1com">ERROR</span> statements } \
 </span><span>            { <span class="c-1com">LOCKED</span> statements} { <span class="c-1com">THEN</span> | <span class="c-1com">ELSE</span> statements}
 </span></pre>
 <h2>SYNTAX ELEMENTS</h2>
@@ -498,7 +500,7 @@
 <pre><span>      Array(n)&lt;m&gt
 </span></pre>
 <h2>EXAMPLES</h2>
-<pre><span>    <span class="c-1com">MATREAD</span> Xref <span class="c-1com">FROM</span> CFile, <span class="c-4str">"XREF"</span> <span class="c-1com">ELSE</span> <span class="c-1com">MAT</span> Xref = "
+<pre><span>    <span class="c-1com">MATREAD</span> Xref <span class="c-1com">FROM</span> CFile, <span class="c-4str">"XREF"</span> <span class="c-1com">ELSE</span> <span class="c-1com">MAT</span> Xref = <span class="c-4str">''</span>
 </span></pre>
 <pre><span>    <span class="c-1com">MATREAD</span> Ind <span class="c-1com">FROM</span> <span class="c-1com">IF</span>ile, <span class="c-4str">"INDEX"</span> <span class="c-1com">ELSE</span> <span class="c-1com">MAT</span> Ind = <span class="c-2num">0</span>
 </span></pre>

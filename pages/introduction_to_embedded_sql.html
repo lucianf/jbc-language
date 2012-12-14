@@ -118,6 +118,7 @@
 <li><a href="callc.html">CALLC</a></li>
 <li><a href="calldotnet.html">CALLdotNET</a></li>
 <li><a href="callj.html">CALLJ</a></li>
+<li><a href="calljee.html">CALLJEE</a></li>
 <li><a href="callonexit.html">CALLONEXIT</a></li>
 <li><a href="case.html">CASE</a></li>
 <li><a href="catalog_command.html">CATALOG Command</a></li>
@@ -490,12 +491,12 @@
 </span><span>    <span class="c-5com">* Declare jBC vars to use in Embedded SQL statements ( A )</span>
 </span><span>    <span class="c-5com">*</span>
 </span><span>    <span class="c-5com">*</span>
-</span><span>    EXEC SQL <span class="c-1com">BEGIN</span> DECLARE SECTION;
-</span><span>    <span class="c-1com">INT</span> PartNo;
-</span><span>    STRING(<span class="c-2num">20</span>) PartName;
-</span><span>    STRING(<span class="c-2num">16</span>) User;
-</span><span>    STRING(<span class="c-2num">16</span>) Passwd;
-</span><span>    EXEC SQL <span class="c-1com">END</span> DECLARE SECTION;
+</span><span>    EXEC SQL <span class="c-1com">BEGIN</span> DECLARE SECTION ;
+</span><span>    <span class="c-1com">INT</span> PartNo ;
+</span><span>    STRING(<span class="c-2num">20</span>) PartName ;
+</span><span>    STRING(<span class="c-2num">16</span>) User ;
+</span><span>    STRING(<span class="c-2num">16</span>) Passwd ;
+</span><span>    EXEC SQL <span class="c-1com">END</span> DECLARE SECTION ;
 </span><span>    <span class="c-5com">*</span>
 </span><span>    <span class="c-5com">* Predetermine action on SQLERROR ( B )</span>
 </span><span>    <span class="c-5com">*</span>
@@ -504,7 +505,7 @@
 </span><span>    <span class="c-5com">* Connect to database supplying user and password ( C )</span>
 </span><span>    <span class="c-5com">*</span>
 </span><span>    User = <span class="c-4str">"demo"</span> ; Passwd = <span class="c-4str">"demo99"</span>
-</span><span>    EXEC SQL CONNECT :User IDENTIFIED <span class="c-1com">BY</span> :Passwd;
+</span><span>    EXEC SQL CONNECT :User IDENTIFIED <span class="c-1com">BY</span> :Passwd ;
 </span><span>    <span class="c-5com">*</span>
 </span><span>    <span class="c-5com">* Create Parts table ( D )</span>
 </span><span>    <span class="c-5com">*</span>
@@ -532,7 +533,7 @@
 </span><span>    <span class="c-5com">*</span>
 </span><span>    <span class="c-5com">* Add PartNo and PartName into Parts table ( E )</span>
 </span><span>    <span class="c-5com">*</span>
-</span><span>        EXEC SQL <span class="c-1com">INS</span>ERT <span class="c-1com">INT</span>O Parts VALUES (:PartNo, :PartName );
+</span><span>        EXEC SQL <span class="c-1com">INS</span>ERT <span class="c-1com">INT</span>O Parts VALUES (:PartNo, :PartName ) ;
 </span><span>    <span class="c-1com">REPEAT</span>
 </span><span>    <span class="c-5com">*</span>
 </span><span>    <span class="c-5com">*</span>
@@ -568,7 +569,7 @@
 </p>
 <p>Where
 </p>
-<table><tr><th>Value</th><th>Description</th></tr><tr><td>Condition</td><td>NOT FOUND</td></tr><tr><td></td><td>SQLERROR</td></tr><tr><td></td><td></td></tr><tr><td>Action</td><td>DO Function - Oracle implementation.</td></tr><tr><td></td><td></td></tr><tr><td></td><td>CALL Function - Ingres and Informix implementations.</td></tr><tr><td></td><td></td></tr><tr><td></td><td>GOTO proglab_Label  IBM DB2 and Microsoft SQL Server</td></tr><tr><td></td><td>implementations.</td></tr><tr><td></td><td>CONTINUE</td></tr><tr><td></td><td></td></tr><tr><td>Function</td><td>User defined function.</td></tr><tr><td></td><td></td></tr><tr><td></td><td>SQLERROR() - Display Embedded SQL error then return to</td></tr><tr><td></td><td>program.</td></tr><tr><td></td><td>SQLABORT() - Display Embedded SQL error then exit program.</td></tr><tr><td></td><td></td></tr><tr><td>Label</td><td>Label in executing program:</td></tr><tr><td></td><td></td></tr><tr><td></td><td>DOSQLERR:</td></tr><tr><td></td><td>DEFC INT SQL_ERROR</td></tr><tr><td></td><td>CALL SQL_ERROR</td></tr><tr><td></td><td>STOP</td></tr><tr><td></td><td></td></tr></table>
+<table><tr><th>Value</th><th>Description</th></tr><tr><td>Condition</td><td>NOT FOUND</td></tr><tr><td></td><td>SQLERROR</td></tr><tr><td></td><td></td></tr><tr><td>Action</td><td>DO Function - Oracle implementation.</td></tr><tr><td></td><td></td></tr><tr><td></td><td>CALL Function - Ingres and Informix implementations.</td></tr><tr><td></td><td></td></tr><tr><td></td><td>GOTO proglab_Label - IBM DB2 and Microsoft SQL Server</td></tr><tr><td></td><td>implementations.</td></tr><tr><td></td><td>CONTINUE</td></tr><tr><td></td><td></td></tr><tr><td>Function</td><td>User defined function.</td></tr><tr><td></td><td></td></tr><tr><td></td><td>SQLERROR() - Display Embedded SQL error then return to</td></tr><tr><td></td><td>program.</td></tr><tr><td></td><td>SQLABORT() - Display Embedded SQL error then exit program.</td></tr><tr><td></td><td></td></tr><tr><td>Label</td><td>Label in executing program:</td></tr><tr><td></td><td></td></tr><tr><td></td><td>DOSQLERR:</td></tr><tr><td></td><td>DEFC INT SQL_ERROR</td></tr><tr><td></td><td>CALL SQL_ERROR</td></tr><tr><td></td><td>STOP</td></tr><tr><td></td><td></td></tr></table>
 <p>( C ) Connect to database supplying user and password
  This section connects the specified user and password combination to
  the SQL database. This command can be Embedded SQL implementation

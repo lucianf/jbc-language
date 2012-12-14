@@ -118,6 +118,7 @@
 <li><a href="callc.html">CALLC</a></li>
 <li><a href="calldotnet.html">CALLdotNET</a></li>
 <li><a href="callj.html">CALLJ</a></li>
+<li><a href="calljee.html">CALLJEE</a></li>
 <li><a href="callonexit.html">CALLONEXIT</a></li>
 <li><a href="case.html">CASE</a></li>
 <li><a href="catalog_command.html">CATALOG Command</a></li>
@@ -438,7 +439,7 @@
 <p>Use the CLEARSELECT statement to clear active select lists.
 </p>
 <h2>COMMAND SYNTAX</h2>
-<pre><span>    <span class="c-1com">CLEARSELECT</span> {ListName | ListNumber}
+<pre><span>    <span class="c-1com">CLEARSELECT</span> { ListName | ListNumber }
 </span></pre>
 <h2>SYNTAX ELEMENTS</h2>
 <p>ListName must evaluate to a jBC list variable. ListNumber is one of the
@@ -450,7 +451,7 @@
 </span><span>    B = <span class="c-4str">"night"</span> : <span class="c-3typ">@AM</span> : <span class="c-4str">"day"</span>
 </span><span>    <span class="c-1com">SELECT</span> A <span class="c-1com">TO</span> <span class="c-2num">3</span>
 </span><span>    <span class="c-1com">SELECT</span> B <span class="c-1com">TO</span> blist
-</span><span>    adone = <span class="c-2num">0</span>; bdone = <span class="c-2num">0</span>
+</span><span>    adone = <span class="c-2num">0</span> ; bdone = <span class="c-2num">0</span>
 </span><span>    <span class="c-5com"><span class="c-5com">//</span></span>
 </span><span>    <span class="c-1com">LOOP</span>
 </span><span>     <span class="c-1com">READNEXT</span> Ael <span class="c-1com">FROM</span> <span class="c-2num">3</span> <span class="c-1com">ELSE</span> adone = <span class="c-2num">1</span>

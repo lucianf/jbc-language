@@ -118,6 +118,7 @@
 <li><a href="callc.html">CALLC</a></li>
 <li><a href="calldotnet.html">CALLdotNET</a></li>
 <li><a href="callj.html">CALLJ</a></li>
+<li><a href="calljee.html">CALLJEE</a></li>
 <li><a href="callonexit.html">CALLONEXIT</a></li>
 <li><a href="case.html">CASE</a></li>
 <li><a href="catalog_command.html">CATALOG Command</a></li>
@@ -440,7 +441,8 @@
  publish and subscribe, messaging, etc.)
 </p>
 <h2>COMMAND SYNTAX</h2>
-<pre><span>    <span class="c-1com">CALL</span>J packageAndClassName, [$]methodName, param <span class="c-1com">SETTING</span> ret [ON <span class="c-1com">ERROR</span>] errStatment
+<pre><span>    <span class="c-1com">CALLJ</span> packageAndClassName, [$]methodName, param <span class="c-1com">SETTING</span> ret  \
+</span><span>          [ON <span class="c-1com">ERROR</span>] errStatment
 </span></pre>
 <p>In order to use CALLJ, you need:
 </p>
@@ -483,8 +485,8 @@
 <p><strong>methodName</strong> The name of the Java method in this class
  (e.g., myMethod)
 </p>
-<p>NOTE: If the method is static, you must append a $ before the name.
- This $ will be removed from the method name before calling it.
+<p>NOTE: If the method is static, you must append a dollay symbol ( $ ) before the name.
+ It will be removed from the method name before calling it.
 </p>
 <p><strong>Param</strong> Any parameter (eg DynArray)
 </p>
@@ -511,9 +513,9 @@
 </p>
 <p>To call these methods from jBC:
 </p>
-<pre><span>    <span class="c-1com">CALL</span>J <span class="c-4str">'mypackage.mytestclass'</span>, <span class="c-4str">'mymethod'</span>, p <span class="c-1com">SETTING</span> ret
+<pre><span>    <span class="c-1com">CALLJ</span> <span class="c-4str">'mypackage.mytestclass'</span>, <span class="c-4str">'mymethod'</span>, p <span class="c-1com">SETTING</span> ret
 </span><span>    <span class="c-1com">CRT</span> ret
-</span><span>    <span class="c-1com">CALL</span>J <span class="c-4str">'mypackage/mytestclass'</span>, <span class="c-4str">'$mystaticmethod'</span>, p <span class="c-1com">SETTING</span> ret
+</span><span>    <span class="c-1com">CALLJ</span> <span class="c-4str">'mypackage/mytestclass'</span>, <span class="c-4str">'$mystaticmethod'</span>, p <span class="c-1com">SETTING</span> ret
 </span><span>    <span class="c-1com">CRT</span> ret
 </span></pre>
 <h2>ON ERROR</h2>
@@ -533,11 +535,11 @@
 </span><span>         <span class="c-1com">CRT</span> <span class="c-4str">"Please enter a Class Name "</span> :  ;   <span class="c-1com">INPUT</span> className
 </span><span>         <span class="c-1com">CRT</span> <span class="c-4str">"Please enter a Method Name "</span> :  ;  <span class="c-1com">INPUT</span> methodName
 </span><span>         <span class="c-1com">CRT</span> <span class="c-4str">"Please enter a Parameter : "</span>  ; <span class="c-1com">INPUT</span> param
-</span><span>         <span class="c-1com">CALL</span>J className,methodName, param <span class="c-1com">SETTING</span> ret <span class="c-1com">ON</span> <span class="c-1com">ERROR</span> <span class="c-1com">GOTO</span> errHandler
+</span><span>         <span class="c-1com">CALLJ</span> className,methodName, param <span class="c-1com">SETTING</span> ret <span class="c-1com">ON</span> <span class="c-1com">ERROR</span> <span class="c-1com">GOTO</span> errHandler
 </span><span>         <span class="c-1com">CRT</span> <span class="c-4str">"Received batch from Java : "</span> : ret
 </span><span>    <span class="c-1com">RETURN</span>
-</span></pre>
-<pre><span>    errHandler:
+</span><span>    <span class="c-5com">*</span>
+</span><span>    errHandler:
 </span><span>         err = <span class="c-0fun">SYSTEM</span>(<span class="c-2num">0</span>)
 </span><span>         <span class="c-1com">IF</span> err = <span class="c-2num">2</span> <span class="c-1com">THEN</span>
 </span><span>              <span class="c-1com">CRT</span> <span class="c-4str">"Cannot find the JVM.dll !"</span>
@@ -547,8 +549,8 @@
 </span><span>              <span class="c-1com">CRT</span> <span class="c-4str">"Class "</span> : className : <span class="c-4str">"doesn't exist !"</span>
 </span><span>              <span class="c-1com">RETURN</span>
 </span><span>         <span class="c-1com">END</span>
-</span></pre>
-<pre><span>         <span class="c-1com">IF</span> err = <span class="c-2num">5</span> <span class="c-1com">THEN</span>
+</span><span>    <span class="c-5com">*</span>
+</span><span>         <span class="c-1com">IF</span> err = <span class="c-2num">5</span> <span class="c-1com">THEN</span>
 </span><span>      	      <span class="c-1com">CRT</span> <span class="c-4str">"Method "</span> : methodName : <span class="c-4str">"doesn't exist !"</span>
 </span><span>              <span class="c-1com">RETURN</span>
 </span><span>         <span class="c-1com">END</span>
@@ -644,8 +646,8 @@
 <p>HP-UX 11: looking for 'libjvm.sl'
 </p>
 <p><pre>
-    Add 2 directories to SHLIB_PATH.
-   /opt/java6/jre/lib/IA64W/server:/opt/java6/jre/lib/IA64W</pre>
+     Add 2 directories to SHLIB_PATH.
+    /opt/java6/jre/lib/IA64W/server:/opt/java6/jre/lib/IA64W</pre>
 </p>
 <h2>OPTIONS</h2>
 <p><strong>JBCJVMLIB</strong>
@@ -671,12 +673,14 @@
 </p>
 <p><strong>WINDOWS</strong>
 </p>
-<pre><span>    %TAFC_HOME%\config\policy.all
-</span></pre>
+<p><pre>
+     %TAFC_HOME%\config\policy.all</pre>
+</p>
 <p><strong>UNIX</strong>
 </p>
-<pre><span>    $TAFC_HOME/config/policy.all
-</span></pre>
+<p><pre>
+     $TAFC_HOME/config/policy.all</pre>
+</p>
 <p>e.g.  "export JBCJVMPOLICYFILE=/usr/jbase/mypolicy.all"
 </p>
 <p><strong>JBCJVMENCODING</strong>
@@ -732,12 +736,14 @@
 </p>
 <p>The symptom looks like this:
 </p>
-<pre><span>    JVM: dl_error [Can't dlopen() a library containing Thread Local Storage: libjvm.sl]
-</span></pre>
+<p><pre>
+     JVM: dl_error [Can't dlopen a library containing Thread Local Storage: libjvm.sl]</pre>
+</p>
 <p>If the program is built with the required link as below then it works.
 </p>
-<pre><span>    jbc Jo callj.b -ljvm -L/opt/java6/jre/lib/IA64W/server
-</span></pre>
+<p><pre>
+     jbc Jo callj.b -ljvm -L/opt/java6/jre/lib/IA64W/server</pre>
+</p>
 <p>If the CALLJ statement is inside a subroutine, then the program that
  calls the subroutine must be built as above.
 </p></div>

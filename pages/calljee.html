@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>SUBS</title>
+<title>CALLJEE</title>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" type="text/css" href="../index.css">
 </head>
@@ -435,32 +435,30 @@
 </ul>
 </div>
 <div id="scrollable">
-<div id="content"><h1>SUBS</h1>
-<p>SUBS function returns a dynamic array, the content of which is
- derived by subtracting each element of the second dynamic array
- argument from the corresponding element of the first dynamic
- array argument.
+<div id="content"><h1>CALLJEE</h1>
+<p>The CALLJEE function will connect to the JRemote Inbound JCA (TOCF/EE)
+ if not already connected, send the request, and receive the response.
+ The first invocation of CALLJEE will attempt to open a connection to the
+ application server. The following environment variables are used during
+ the open connection phase of the first call:
 </p>
-<h2>COMMAND SYNTAX</h2>
-<pre><span>    <span class="c-0fun">SUBS</span>(DynArr1, DynArr2)
-</span></pre>
-<h2>SYNTAX ELEMENTS</h2>
-<p><strong>DynArr1</strong> and <strong>DynArr2</strong> represent dynamic arrays.
+<p><pre>
+     SET JREMOTE_INBOUND_HOST=127.0.0.1
+     SET JREMOTE_INBOUND_PORT=55006</pre>
 </p>
-<h2>NOTES</h2>
-<p>Null elements of argument arrays are treated as zero. Otherwise,
- a non-numeric element in an argument array will cause a run-time
- error.
+<p>Subsequent invocations of CALLJEE will use a connection previously opened
+ by CALLJEE.
 </p>
 <h2>EXAMPLE</h2>
-<pre><span>    X = <span class="c-2num">1</span> : <span class="c-3typ">@VM</span> : <span class="c-3typ">@VM</span> : <span class="c-2num">5</span> : <span class="c-3typ">@VM</span> : <span class="c-2num">8</span> : @SVM : <span class="c-2num">27</span> : <span class="c-3typ">@VM</span> : <span class="c-2num">4</span>
-</span><span>    Y = <span class="c-2num">1</span> : <span class="c-3typ">@VM</span> : <span class="c-2num">5</span> : <span class="c-3typ">@VM</span> : <span class="c-2num">8</span> : <span class="c-3typ">@VM</span> : <span class="c-2num">70</span>: <span class="c-3typ">@VM</span> : <span class="c-2num">19</span>
-</span><span>    S = <span class="c-0fun">SUBS</span>(X, Y)
+<pre><span>    <span class="c-1com">INCLUDE</span> JBC.h
+</span><span>    ACTIVATION = <span class="c-4str">"PRICE"</span>
+</span><span>    ADDINFO = <span class="c-4str">"PART.NUMBER=MC3815-3"</span>
+</span><span>    ERR.CODE = <span class="c-1com">CALLJEE</span>(ACTIVATION, ADDINFO)
+</span><span>    RESULT = ADDINFO
 </span></pre>
-<p>The variable S is assigned the value:
+<p>Error codes:
 </p>
-<pre><span>    <span class="c-2num">0</span> : <span class="c-3typ">@VM</span> : <span class="c-2num">-5</span> : <span class="c-3typ">@VM</span> : <span class="c-2num">-3</span> : <span class="c-3typ">@VM</span> : <span class="c-2num">-62</span> : @SVM : <span class="c-2num">27</span> : <span class="c-3typ">@VM</span> : <span class="c-2num">-15</span>
-</span></pre></div>
+<table><tr><th>Code</th><th>Description</th></tr><tr><td>0</td><td>Action completed successfully</td></tr><tr><td>1</td><td>Communication error, this connection is no longer valid</td></tr><tr><td>2</td><td>Transaction error, the transaction is no longer valid</td></tr><tr><td>101</td><td>Connect error, host not valid</td></tr><tr><td>102</td><td>Connect error, port not valid</td></tr></table></div>
 </div>
 <script type="text/javascript">
 
