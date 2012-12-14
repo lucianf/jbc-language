@@ -11,6 +11,8 @@ with the usage of standard C compiler.
 
 jBASE and the jBASE logo (dove) are registered trademarks of T-jBASE SA, a company of the TEMENOS Group, Copyright © 2012 T-jBASE SA.
 
+![jBASE logo](http://jbc.temenos.com/images/jbase-logo.jpg)
+
 ## What is TAFC
 
 TAFC stands for "Temenos application framework for C". This name was adopted to
@@ -3075,9 +3077,9 @@ for Linux.
 
 ### DEFAULT OPTIONS###
 
-|Platform       |   Parameter 			      |
+|Platform       |   Parameter                         |
 |---------------|-------------------------------------|
-|Win32:         |   -Xrs 			      |
+|Win32:         |   -Xrs                              |
 |Solaris:       |   -XX:+AllowUserSignalHandlers      |
 |Linux:         |   -Xrs -XX:+AllowUserSignalHandlers |
 |AIX 64 bits:   |   -Xrs -d64                         |
@@ -3120,6 +3122,40 @@ If the program is built with the required link as below then it works.
 
 If the CALLJ statement is inside a subroutine, then the program that
 calls the subroutine must be built as above.
+
+## CALLJEE
+
+The CALLJEE function will connect to the JRemote Inbound JCA (TOCF/EE)
+if not already connected, send the request, and receive the response.
+The first invocation of CALLJEE will attempt to open a connection to the
+application server. The following environment variables are used during
+the open connection phase of the first call:
+
+<pre>
+    SET JREMOTE_INBOUND_HOST=127.0.0.1
+    SET JREMOTE_INBOUND_PORT=55006</pre>
+
+Subsequent invocations of CALLJEE will use a connection previously opened
+by CALLJEE.
+
+### EXAMPLE
+
+    INCLUDE JBC.h
+    ACTIVATION = "PRICE"
+    ADDINFO = "PART.NUMBER=MC3815-3"
+    ERR.CODE = CALLJEE(ACTIVATION, ADDINFO)
+    RESULT = ADDINFO
+
+Error codes:
+
+| Code | Description                                             |
+|------|---------------------------------------------------------|
+| 0    | Action completed successfully                           |
+| 1    | Communication error, this connection is no longer valid |
+| 2    | Transaction error, the transaction is no longer valid   |
+| 101  | Connect error, host not valid                           |
+| 102  | Connect error, port not valid                           |
+
 
 ## CALLONEXIT
 
@@ -3195,8 +3231,9 @@ it then executes the statements below. On completion of the associated
 statements, execution will resume at the first statement following
 the END CASE.
 
-### NOTES: A default action (to trap error conditions for instance)
+### NOTES:
 
+A default action (to trap error conditions for instance)
 may be introduced by using an expression that is always TRUE, such as
 CASE one. This should always be the last expression in the CASE block.
 
@@ -3250,10 +3287,10 @@ jLibDefinition file are described below:
 
 |Entry         |  Description                                    |
 |--------------|-------------------------------------------------|
-|**libname**   |  naming convention for shared object files.     |
-|**exportname**|  export list of shared objects. Used as cross   |
+| libname      |  naming convention for shared object files.     |
+| exportname   |  export list of shared objects. Used as cross   |
 |              |  reference to find subroutine functions.        |
-|**maxsize**   |  maximum size of a shared object library before |
+| maxsize      |  maximum size of a shared object library before |
 |              |  creating another.                              |
 
 When the maximum size of a shared library object is reached then a new
