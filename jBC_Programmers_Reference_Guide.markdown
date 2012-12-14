@@ -11,7 +11,7 @@ with the usage of standard C compiler.
 
 jBASE and the jBASE logo (dove) are registered trademarks of T-jBASE SA, a company of the TEMENOS Group, Copyright © 2012 T-jBASE SA.
 
-![jBASE logo](http://jbc.temenos.com/images/jbase-logo.jpg)
+![jBASE logo](https://raw.github.com/temenos/jbc-language/master/images/jbase-logo.jpg)
 
 ## What is TAFC
 
@@ -2712,7 +2712,7 @@ Note: Create the .NET project as a ‘Class Library’.
 If using the visual studio IDE, this option is on selected when
 creating a new project:
 
-![.Net Project Creation](https://raw.github.com/begoon/temenos-documentation/master/images/dotnet-project-creation.png)
+![.Net Project Creation](https://raw.github.com/temenos/jbc-language/master/images/dotnet-project-creation.png)
 
 If using .NET SDK (instead of the IDE) to compile class libraries
 into a ‘DLL’ file, the  ‘csc’ (C# Compiler) or ‘vbc’ (Visual Basic
@@ -2728,7 +2728,7 @@ the application. (i.e. the same directory as the jBC executable that
 will call the class) This is a requirement of the .NET paradigm and
 not TAFC. The directory should also be in the PATH environment variable.
 
-![DLL Creation](https://raw.github.com/begoon/temenos-documentation/master/images/dotnet-dll-creation.png)
+![DLL Creation](https://raw.github.com/temenos/jbc-language/master/images/dotnet-dll-creation.png)
 
 *To call these methods from Basic*:
 
