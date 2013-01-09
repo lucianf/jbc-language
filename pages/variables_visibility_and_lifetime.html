@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>GROUP</title>
+<title>Variables visibility and lifetime</title>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" type="text/css" href="../index.css">
 </head>
@@ -436,40 +436,15 @@
 </ul>
 </div>
 <div id="scrollable">
-<div id="content"><h1>GROUP</h1>
-<p><a name="GROUP"/>
+<div id="content"><h1>Variables visibility and lifetime</h1>
+<p>Variable is visible throughout the program or its subroutine (i.e. in
+ the bounds of particular source code file). To share a variable between
+ different programs/subroutines pass them as parameters in <a href="call.html">CALL</a>
+ statement or use a named or unnamed <a href="common.html">COMMON</a>.
 </p>
-<p>The GROUP function is equivalent to the FIELD function.
+<p>All variables (except ones in COMMON areas) are reset (i.e. become unassigned) upon program end.
 </p>
-<h2>COMMAND SYNTAX</h2>
-<pre><span>    <span class="c-0fun">GROUP</span>(Expression1, Expression2, Expression3, Expression4)
-</span></pre>
-<h2>SYNTAX ELEMENTS</h2>
-<p><strong>Expression1</strong> evaluates to the string containing fields to be
- extracted.
-</p>
-<p><strong>Expression2</strong> evaluates to the character(s) delimiting each field
- within Expression1.
-</p>
-<p><strong>Expression3</strong> should evaluate to a numeric value specifying the
- number of the first field to extract from Expression1.
-</p>
-<p><strong>Expression4</strong> evaluates to a numeric value specifying the number
- of fields to extract as a group.
-</p>
-<h2>NOTES</h2>
-<p>Expression2 may evaluate to more than a single character allowing
- fields to be delimited with complex expressions.
-</p>
-<h2>EXAMPLES</h2>
-<pre><span>    A = <span class="c-4str">"123:-456:-789:-987:-"</span>
-</span><span>    <span class="c-1com">CRT</span> <span class="c-0fun">GROUP</span>(A, <span class="c-4str">':-'</span>, <span class="c-2num">2</span>, <span class="c-2num">2</span>)
-</span></pre>
-<p>This example displays the following on the terminal (being the second and
- third fields and their delimiter within variable A):
-</p>
-<p><pre>
-     456:-789</pre>
+<p>See also: <a href="subroutine.html">SUBROUTINE</a>, <a href="assigned.html">ASSIGNED</a>, <a href="unassigned.html">UNASSIGNED</a>.
 </p></div>
 </div>
 <script type="text/javascript">

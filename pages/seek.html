@@ -21,6 +21,7 @@
 <h2>Introduction to some jBC syntax features</h2>
 <ul><li><a href="note.html">Note</a></li>
 <li><a href="note_2.html">Note 2</a></li>
+<li><a href="variables_visibility_and_lifetime.html">Variables visibility and lifetime</a></li>
 <li><a href="to_wrap_a_long_line.html">To wrap a long line</a></li>
 <li><a href="several_statements_on_the_same_line.html">Several statements on the same line</a></li>
 <li><a href="comments.html">Comments</a></li>
@@ -512,9 +513,7 @@
 </span><span>       <span class="c-1com">OSREAD</span> V.ALL <span class="c-1com">FROM</span> V.FILE.OUT <span class="c-1com">ELSE</span> <span class="c-1com">CRT</span> <span class="c-4str">'Read error'</span>  ;  <span class="c-1com">STOP</span>
 </span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">FMT</span>( <span class="c-0fun">FMT</span>( <span class="c-0fun">OCONV</span>(V.ALL, <span class="c-4str">'MX'</span>), <span class="c-4str">'2L'</span>), <span class="c-4str">'MCP '</span>)
 </span><span>    <span class="c-5com">* <span class="c-2num">31</span> <span class="c-2num">32</span> <span class="c-2num">33</span> <span class="c-2num">34</span> <span class="c-2num">35</span> <span class="c-2num">36</span> <span class="c-2num">37</span> <span class="c-2num">38</span> <span class="c-2num">39</span> <span class="c-2num">30</span> <span class="c-2num">41</span> <span class="c-2num">42</span> <span class="c-2num">43</span> <span class="c-2num">44</span> <span class="c-2num">45</span> <span class="c-2num">46</span> FE <span class="c-2num">00</span> <span class="c-2num">00</span> <span class="c-2num">00</span> <span class="c-2num">56</span> <span class="c-2num">57</span> <span class="c-2num">58</span> <span class="c-2num">59</span> 5A</span>
-</span></pre>
-<p><a name="SELECT"/>
-</p></div>
+</span></pre></div>
 </div>
 <script type="text/javascript">
 
@@ -563,10 +562,10 @@ js.store("scroll", this.scrollTop);
 }, false)
 sidebar.scrollTop = js.store("scroll") ? js.store("scroll") : 0;
 this.links = sidebar.getElementsByTagName("a");
-var h1 = document.getElementById("scrollable").getElementsByTagName("h1")[0].innerText;
+var h1 = document.getElementById("scrollable").getElementsByTagName("h1")[0].innerHTML;
 this.headers = sidebar.getElementsByTagName("h2");
 for (var a = js.search.links.length; a--;) {
-if (js.search.links[a].innerText == h1) {
+if (js.search.links[a].innerHTML == h1) {
 js.search.links[a].parentNode.className = "current";
 }
 }
@@ -584,7 +583,7 @@ for (var h = js.search.headers.length; h--;) {
 js.search.headers[h].style.display = "none";
 }
 }
-if (js.search.links[a].innerText.toLowerCase().indexOf(this.value.toLowerCase()) != -1 || this.value == "") {
+if (js.search.links[a].innerHTML.toLowerCase().indexOf(this.value.toLowerCase()) != -1 || this.value == "") {
 js.search.links[a].parentNode.style.display = "list-item";
 } else {
 js.search.links[a].parentNode.style.display = "none";

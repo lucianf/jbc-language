@@ -21,6 +21,7 @@
 <h2>Introduction to some jBC syntax features</h2>
 <ul><li><a href="note.html">Note</a></li>
 <li><a href="note_2.html">Note 2</a></li>
+<li><a href="variables_visibility_and_lifetime.html">Variables visibility and lifetime</a></li>
 <li><a href="to_wrap_a_long_line.html">To wrap a long line</a></li>
 <li><a href="several_statements_on_the_same_line.html">Several statements on the same line</a></li>
 <li><a href="comments.html">Comments</a></li>
@@ -474,7 +475,7 @@
 <p>The above program creates 3 dynamic arrays. v represents a value mark.
  s represents a sub-value mark.
 </p>
-<table><tr><th>r1</th><th><1>AA</th></tr><tr><td></td><td><2>BB v CC s DD</td></tr><tr><td></td><td></td></tr><tr><td></td><td><3>EE v s</td></tr><tr><td></td><td></td></tr><tr><td>r2</td><td><1>AA</td></tr><tr><td></td><td></td></tr><tr><td></td><td><#>BB v CC s</td></tr><tr><td></td><td></td></tr><tr><td></td><td><3>EE v s</td></tr><tr><td></td><td></td></tr><tr><td>r3</td><td><1>A</td></tr><tr><td></td><td></td></tr><tr><td></td><td><2>B v C s D</td></tr><tr><td></td><td></td></tr><tr><td></td><td><3>E v s</td></tr></table></div>
+<table><tr><th>Array</th><th>Contents</th></tr><tr><td>r1</td><td><1>AA</td></tr><tr><td></td><td><2>BB v CC s DD</td></tr><tr><td></td><td></td></tr><tr><td></td><td><3>EE v s</td></tr><tr><td></td><td></td></tr><tr><td>r2</td><td><1>AA</td></tr><tr><td></td><td></td></tr><tr><td></td><td><#>BB v CC s</td></tr><tr><td></td><td></td></tr><tr><td></td><td><3>EE v s</td></tr><tr><td></td><td></td></tr><tr><td>r3</td><td><1>A</td></tr><tr><td></td><td></td></tr><tr><td></td><td><2>B v C s D</td></tr><tr><td></td><td></td></tr><tr><td></td><td><3>E v s</td></tr></table></div>
 </div>
 <script type="text/javascript">
 
@@ -523,10 +524,10 @@ js.store("scroll", this.scrollTop);
 }, false)
 sidebar.scrollTop = js.store("scroll") ? js.store("scroll") : 0;
 this.links = sidebar.getElementsByTagName("a");
-var h1 = document.getElementById("scrollable").getElementsByTagName("h1")[0].innerText;
+var h1 = document.getElementById("scrollable").getElementsByTagName("h1")[0].innerHTML;
 this.headers = sidebar.getElementsByTagName("h2");
 for (var a = js.search.links.length; a--;) {
-if (js.search.links[a].innerText == h1) {
+if (js.search.links[a].innerHTML == h1) {
 js.search.links[a].parentNode.className = "current";
 }
 }
@@ -544,7 +545,7 @@ for (var h = js.search.headers.length; h--;) {
 js.search.headers[h].style.display = "none";
 }
 }
-if (js.search.links[a].innerText.toLowerCase().indexOf(this.value.toLowerCase()) != -1 || this.value == "") {
+if (js.search.links[a].innerHTML.toLowerCase().indexOf(this.value.toLowerCase()) != -1 || this.value == "") {
 js.search.links[a].parentNode.style.display = "list-item";
 } else {
 js.search.links[a].parentNode.style.display = "none";

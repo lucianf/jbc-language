@@ -21,6 +21,7 @@
 <h2>Introduction to some jBC syntax features</h2>
 <ul><li><a href="note.html">Note</a></li>
 <li><a href="note_2.html">Note 2</a></li>
+<li><a href="variables_visibility_and_lifetime.html">Variables visibility and lifetime</a></li>
 <li><a href="to_wrap_a_long_line.html">To wrap a long line</a></li>
 <li><a href="several_statements_on_the_same_line.html">Several statements on the same line</a></li>
 <li><a href="comments.html">Comments</a></li>
@@ -436,6 +437,8 @@
 </div>
 <div id="scrollable">
 <div id="content"><h1>SUBROUTINE</h1>
+<p><a name="SUBROUTINE"/>
+</p>
 <p>SUBROUTINE statement is used at the start of any program that will be
  called externally by the <a href="call.html">CALL</a> statement. It also declares any
  parameters to the compiler.
@@ -458,27 +461,27 @@
 <h2>NOTES</h2>
 <p>The SUBROUTINE statement must be the first code line in a subroutine.
 </p>
-<p>A subroutine will inherit all the variables declared using the
- [COMMON](#COMMON) statement providing an equivalent [COMMON](#COMMON)
- area is declared within the [SUBROUTINE](#SUBROUTINE) source file.
+<p>All the variables declared using the <a href="common.html">COMMON</a>
+ statement will be inherited providing an equivalent common
+ area is declared within the subroutine source file.
  The program will fail to compile if the number of common variables
  used in each common area exceeds the number defined in the equivalent
  area in the main program.
 </p>
 <p>Subroutines can only be called via the jBC <a href="call.html">CALL</a> statement.
 </p>
-<p>A subroutine can redefine [PRECISION](#PRECISION) but the new precision
+<p><a href="precision.html">PRECISION</a> can be redefined but the new setting
  will not persist when the subroutine returns to the calling program.
 </p>
-<p>A subroutine will return to the CALLing program if it reaches the
- logical end of the program or a [RETURN](#RETURN) is executed with
- no outstanding [GOSUB](#GOSUB) statement.
+<p>The control will be returned to the CALLing program if the subroutine reaches the
+ logical end of the program or a <a href="return.html">RETURN</a> is executed with
+ no outstanding <a href="gosub.html">GOSUB</a> statement.
 </p>
-<p>A [SUBROUTINE](#SUBROUTINE) will not return to the calling program
- if a [STOP](#STOP) or [ABORT](#ABORT) statement is executed.
+<p>The control will not be returned to the calling program
+ if a <a href="stop.html">STOP</a> or <a href="abort.html">ABORT</a> statement is executed.
 </p>
 <p>See also: <a href="call.html">CALL</a>, <a href="catalog.html">CATALOG</a>, <a href="common.html">COMMON</a>,
- <a href="return.html">RETURN</a>
+ <a href="return.html">RETURN</a>.
 </p>
 <h2>EXAMPLES</h2>
 <pre><span>    <span class="c-1com">SUBROUTINE</span> DialUp(Number, <span class="c-1com">MAT</span> Results)
@@ -533,10 +536,10 @@ js.store("scroll", this.scrollTop);
 }, false)
 sidebar.scrollTop = js.store("scroll") ? js.store("scroll") : 0;
 this.links = sidebar.getElementsByTagName("a");
-var h1 = document.getElementById("scrollable").getElementsByTagName("h1")[0].innerText;
+var h1 = document.getElementById("scrollable").getElementsByTagName("h1")[0].innerHTML;
 this.headers = sidebar.getElementsByTagName("h2");
 for (var a = js.search.links.length; a--;) {
-if (js.search.links[a].innerText == h1) {
+if (js.search.links[a].innerHTML == h1) {
 js.search.links[a].parentNode.className = "current";
 }
 }
@@ -554,7 +557,7 @@ for (var h = js.search.headers.length; h--;) {
 js.search.headers[h].style.display = "none";
 }
 }
-if (js.search.links[a].innerText.toLowerCase().indexOf(this.value.toLowerCase()) != -1 || this.value == "") {
+if (js.search.links[a].innerHTML.toLowerCase().indexOf(this.value.toLowerCase()) != -1 || this.value == "") {
 js.search.links[a].parentNode.style.display = "list-item";
 } else {
 js.search.links[a].parentNode.style.display = "none";

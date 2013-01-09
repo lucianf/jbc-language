@@ -21,6 +21,7 @@
 <h2>Introduction to some jBC syntax features</h2>
 <ul><li><a href="note.html">Note</a></li>
 <li><a href="note_2.html">Note 2</a></li>
+<li><a href="variables_visibility_and_lifetime.html">Variables visibility and lifetime</a></li>
 <li><a href="to_wrap_a_long_line.html">To wrap a long line</a></li>
 <li><a href="several_statements_on_the_same_line.html">Several statements on the same line</a></li>
 <li><a href="comments.html">Comments</a></li>
@@ -436,6 +437,8 @@
 </div>
 <div id="scrollable">
 <div id="content"><h1>CASE</h1>
+<p><a name="CASE"/>
+</p>
 <p>The CASE statement allows the programmer to execute a particular
  sequence of instructions based upon the results of a series of test
  expressions.
@@ -461,22 +464,36 @@
 <h2>NOTES:</h2>
 <p>A default action (to trap error conditions for instance)
  may be introduced by using an expression that is always TRUE, such as
- CASE one. This should always be the last expression in the CASE block.
+ "CASE 1". This should always be the last expression in the CASE block.
 </p>
 <h2>EXAMPLE</h2>
-<pre><span>    <span class="c-1com">BEGIN</span> <span class="c-1com">CASE</span>
-</span><span>    <span class="c-1com">CASE</span> A = <span class="c-2num">1</span>
-</span><span>        <span class="c-1com">CRT</span> <span class="c-4str">"You won!"</span>
-</span><span>    <span class="c-1com">CASE</span> <span class="c-2num">1</span>
-</span><span>        <span class="c-1com">CRT</span> <span class="c-4str">"You came nowhere"</span>
-</span><span>    <span class="c-1com">END</span> <span class="c-1com">CASE</span>
+<pre><span>       V.STRING = <span class="c-4str">'B'</span>
+</span><span>       <span class="c-1com">GOSUB</span> CHK.IT
+</span><span>       V.STRING = <span class="c-4str">'ABC'</span>
+</span><span>       <span class="c-1com">GOSUB</span> CHK.IT
+</span><span>       <span class="c-1com">STOP</span>
+</span><span>    <span class="c-5com">*</span>
+</span><span>    CHK.IT:
+</span><span>    <span class="c-5com">*</span>
+</span><span>       <span class="c-1com">BEGIN</span> <span class="c-1com">CASE</span>
+</span><span>       <span class="c-1com">CASE</span> V.STRING <span class="c-1com">EQ</span> <span class="c-4str">'A'</span>
+</span><span>          <span class="c-1com">CRT</span> <span class="c-4str">'an A'</span>
+</span><span>       <span class="c-1com">CASE</span>  V.STRING <span class="c-1com">EQ</span> <span class="c-4str">'B'</span>
+</span><span>          <span class="c-1com">CRT</span> <span class="c-4str">'a B'</span>
+</span><span>       <span class="c-1com">CASE</span> V.STRING <span class="c-1com">EQ</span> <span class="c-4str">'C'</span>
+</span><span>          <span class="c-1com">CRT</span> <span class="c-4str">'a C'</span>
+</span><span>       <span class="c-1com">CASE</span> <span class="c-2num">1</span>
+</span><span>          <span class="c-1com">CRT</span> <span class="c-4str">'neither A nor B nor C'</span>
+</span><span>       <span class="c-1com">END</span> <span class="c-1com">CASE</span>
+</span><span>       <span class="c-1com">RETURN</span>
+</span><span>    <span class="c-1com">END</span>
 </span></pre>
-<p>A single comment is printed depending on the value of A.
+<p>Output:
 </p>
-<p>NOTE: that if A is not 1 then the default CASE 1 rule will be executed
- as a "catch all".
-</p>
-<p><a name="CATALOG"/>
+<p><pre>
+     a B
+     neither A nor B nor C
+      </pre>
 </p></div>
 </div>
 <script type="text/javascript">
@@ -526,10 +543,10 @@ js.store("scroll", this.scrollTop);
 }, false)
 sidebar.scrollTop = js.store("scroll") ? js.store("scroll") : 0;
 this.links = sidebar.getElementsByTagName("a");
-var h1 = document.getElementById("scrollable").getElementsByTagName("h1")[0].innerText;
+var h1 = document.getElementById("scrollable").getElementsByTagName("h1")[0].innerHTML;
 this.headers = sidebar.getElementsByTagName("h2");
 for (var a = js.search.links.length; a--;) {
-if (js.search.links[a].innerText == h1) {
+if (js.search.links[a].innerHTML == h1) {
 js.search.links[a].parentNode.className = "current";
 }
 }
@@ -547,7 +564,7 @@ for (var h = js.search.headers.length; h--;) {
 js.search.headers[h].style.display = "none";
 }
 }
-if (js.search.links[a].innerText.toLowerCase().indexOf(this.value.toLowerCase()) != -1 || this.value == "") {
+if (js.search.links[a].innerHTML.toLowerCase().indexOf(this.value.toLowerCase()) != -1 || this.value == "") {
 js.search.links[a].parentNode.style.display = "list-item";
 } else {
 js.search.links[a].parentNode.style.display = "none";

@@ -21,6 +21,7 @@
 <h2>Introduction to some jBC syntax features</h2>
 <ul><li><a href="note.html">Note</a></li>
 <li><a href="note_2.html">Note 2</a></li>
+<li><a href="variables_visibility_and_lifetime.html">Variables visibility and lifetime</a></li>
 <li><a href="to_wrap_a_long_line.html">To wrap a long line</a></li>
 <li><a href="several_statements_on_the_same_line.html">Several statements on the same line</a></li>
 <li><a href="comments.html">Comments</a></li>
@@ -436,6 +437,8 @@
 </div>
 <div id="scrollable">
 <div id="content"><h1>LOCATE</h1>
+<p><a name="LOCATE"/>
+</p>
 <p>LOCATE statement finds the position of an element within a specified
  dimension of a dynamic array.
 </p>
@@ -498,9 +501,7 @@
 </span><span>       <span class="c-1com">NEXT</span> V.I
 </span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">MINIMUM</span>(V.ARR), <span class="c-0fun">MAXIMUM</span>(V.ARR)  ;<span class="c-5com">* e.g. <span class="c-4str">"0       998"</span></span>
 </span><span>       <span class="c-1com">CRT</span> V.SORTED&lt;<span class="c-2num">1</span>&gt, V.SORTED&lt;<span class="c-2num">1000</span>&gt     ;<span class="c-5com">* numbers should be the same as above</span>
-</span></pre>
-<p><a name="LOCK"/>
-</p></div>
+</span></pre></div>
 </div>
 <script type="text/javascript">
 
@@ -549,10 +550,10 @@ js.store("scroll", this.scrollTop);
 }, false)
 sidebar.scrollTop = js.store("scroll") ? js.store("scroll") : 0;
 this.links = sidebar.getElementsByTagName("a");
-var h1 = document.getElementById("scrollable").getElementsByTagName("h1")[0].innerText;
+var h1 = document.getElementById("scrollable").getElementsByTagName("h1")[0].innerHTML;
 this.headers = sidebar.getElementsByTagName("h2");
 for (var a = js.search.links.length; a--;) {
-if (js.search.links[a].innerText == h1) {
+if (js.search.links[a].innerHTML == h1) {
 js.search.links[a].parentNode.className = "current";
 }
 }
@@ -570,7 +571,7 @@ for (var h = js.search.headers.length; h--;) {
 js.search.headers[h].style.display = "none";
 }
 }
-if (js.search.links[a].innerText.toLowerCase().indexOf(this.value.toLowerCase()) != -1 || this.value == "") {
+if (js.search.links[a].innerHTML.toLowerCase().indexOf(this.value.toLowerCase()) != -1 || this.value == "") {
 js.search.links[a].parentNode.style.display = "list-item";
 } else {
 js.search.links[a].parentNode.style.display = "none";

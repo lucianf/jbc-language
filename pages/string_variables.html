@@ -21,6 +21,7 @@
 <h2>Introduction to some jBC syntax features</h2>
 <ul><li><a href="note.html">Note</a></li>
 <li><a href="note_2.html">Note 2</a></li>
+<li><a href="variables_visibility_and_lifetime.html">Variables visibility and lifetime</a></li>
 <li><a href="to_wrap_a_long_line.html">To wrap a long line</a></li>
 <li><a href="several_statements_on_the_same_line.html">Several statements on the same line</a></li>
 <li><a href="comments.html">Comments</a></li>
@@ -467,6 +468,14 @@
 </span><span>       <span class="c-1com">CRT</span> V.STRING                 ;<span class="c-5com">* AQC</span>
 </span><span>       V.STRING[<span class="c-2num">2</span>,<span class="c-2num">1</span>] = <span class="c-4str">'WER'</span>
 </span><span>       <span class="c-1com">CRT</span> V.STRING                 ;<span class="c-5com">* AWERC</span>
+</span></pre>
+<p>Strings comparison is done from left to right:
+</p>
+<pre><span>       V.STRING = <span class="c-4str">'ABC'</span>
+</span><span>       V.CHAR.A = <span class="c-4str">'A'</span>
+</span><span>       V.CHAR.B = <span class="c-4str">'B'</span>
+</span><span>       <span class="c-1com">CRT</span> V.STRING <span class="c-1com">GT</span> V.CHAR.A       ;<span class="c-5com">* <span class="c-2num">1</span></span>
+</span><span>       <span class="c-1com">CRT</span> V.STRING <span class="c-1com">GT</span> V.CHAR.B       ;<span class="c-5com">* <span class="c-2num">0</span></span>
 </span></pre></div>
 </div>
 <script type="text/javascript">
@@ -516,10 +525,10 @@ js.store("scroll", this.scrollTop);
 }, false)
 sidebar.scrollTop = js.store("scroll") ? js.store("scroll") : 0;
 this.links = sidebar.getElementsByTagName("a");
-var h1 = document.getElementById("scrollable").getElementsByTagName("h1")[0].innerText;
+var h1 = document.getElementById("scrollable").getElementsByTagName("h1")[0].innerHTML;
 this.headers = sidebar.getElementsByTagName("h2");
 for (var a = js.search.links.length; a--;) {
-if (js.search.links[a].innerText == h1) {
+if (js.search.links[a].innerHTML == h1) {
 js.search.links[a].parentNode.className = "current";
 }
 }
@@ -537,7 +546,7 @@ for (var h = js.search.headers.length; h--;) {
 js.search.headers[h].style.display = "none";
 }
 }
-if (js.search.links[a].innerText.toLowerCase().indexOf(this.value.toLowerCase()) != -1 || this.value == "") {
+if (js.search.links[a].innerHTML.toLowerCase().indexOf(this.value.toLowerCase()) != -1 || this.value == "") {
 js.search.links[a].parentNode.style.display = "list-item";
 } else {
 js.search.links[a].parentNode.style.display = "none";

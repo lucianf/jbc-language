@@ -21,6 +21,7 @@
 <h2>Introduction to some jBC syntax features</h2>
 <ul><li><a href="note.html">Note</a></li>
 <li><a href="note_2.html">Note 2</a></li>
+<li><a href="variables_visibility_and_lifetime.html">Variables visibility and lifetime</a></li>
 <li><a href="to_wrap_a_long_line.html">To wrap a long line</a></li>
 <li><a href="several_statements_on_the_same_line.html">Several statements on the same line</a></li>
 <li><a href="comments.html">Comments</a></li>
@@ -436,6 +437,8 @@
 </div>
 <div id="scrollable">
 <div id="content"><h1>MINIMUM</h1>
+<p><a name="MINIMUM"/>
+</p>
 <p>MINIMUM function is used to return the element of a dynamic array
  with the lowest numerical value.
 </p>
@@ -455,7 +458,7 @@
 <h2>EXAMPLES</h2>
 <p>If EResults is a variable containing the dynamic array:
 </p>
-<pre><span>    <span class="c-2num">1</span>.<span class="c-2num">45032</span>:<span class="c-3typ">@AM</span>:<span class="c-2num">-3</span>.<span class="c-2num">60851</span>:<span class="c-3typ">@VM</span>:<span class="c-2num">4</span>.<span class="c-2num">29445</span>:<span class="c-3typ">@AM</span>:<span class="c-2num">2</span>.<span class="c-2num">07042</span>:@SVM:<span class="c-2num">-3</span>.<span class="c-2num">90258</span>
+<pre><span>    <span class="c-2num">1</span>.<span class="c-2num">45032</span>:<span class="c-3typ">@AM</span>:<span class="c-2num">-3</span>.<span class="c-2num">60851</span>:<span class="c-3typ">@VM</span>:<span class="c-2num">4</span>.<span class="c-2num">29445</span>:<span class="c-3typ">@AM</span>:<span class="c-2num">2</span>.<span class="c-2num">07042</span>:<span class="c-3typ">@SM</span>:<span class="c-2num">-3</span>.<span class="c-2num">90258</span>
 </span></pre>
 <p>the code:
 </p>
@@ -512,10 +515,10 @@ js.store("scroll", this.scrollTop);
 }, false)
 sidebar.scrollTop = js.store("scroll") ? js.store("scroll") : 0;
 this.links = sidebar.getElementsByTagName("a");
-var h1 = document.getElementById("scrollable").getElementsByTagName("h1")[0].innerText;
+var h1 = document.getElementById("scrollable").getElementsByTagName("h1")[0].innerHTML;
 this.headers = sidebar.getElementsByTagName("h2");
 for (var a = js.search.links.length; a--;) {
-if (js.search.links[a].innerText == h1) {
+if (js.search.links[a].innerHTML == h1) {
 js.search.links[a].parentNode.className = "current";
 }
 }
@@ -533,7 +536,7 @@ for (var h = js.search.headers.length; h--;) {
 js.search.headers[h].style.display = "none";
 }
 }
-if (js.search.links[a].innerText.toLowerCase().indexOf(this.value.toLowerCase()) != -1 || this.value == "") {
+if (js.search.links[a].innerHTML.toLowerCase().indexOf(this.value.toLowerCase()) != -1 || this.value == "") {
 js.search.links[a].parentNode.style.display = "list-item";
 } else {
 js.search.links[a].parentNode.style.display = "none";
