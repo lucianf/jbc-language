@@ -77,7 +77,7 @@ extensions can be developed in (but not limited to) jBC.
 - Transactions support.
 - Transparent access to jBASE data and dictionary files converted to Oracle, DB2 or MS SQL.
 - Possibility to call C or Java code.
-- Possibility to [EXECUTE](#EXECUTE) any jBASE, system or database enquiry command.
+- Possibility to execute any jBASE, system or database enquiry command.
 - Source code editor - JED (also capable of editing data files).
 - Debugger.
 
@@ -99,6 +99,17 @@ to convert FM, VM and SM delimiters to a printable form, e.g.:
 
 Where possible, the output is shown in a comment (as it is in the example above).
 
+## Variables visibility and lifetime
+
+Variable is visible throughout the program or its subroutine (i.e. in
+the bounds of particular source code file). To share a variable between
+different programs/subroutines pass them as parameters in [CALL](#CALL)
+statement or use a named or unnamed [COMMON](#COMMON).
+
+All variables (except ones in COMMON areas) are reset (i.e. become unassigned) upon program end.
+
+See also: [SUBROUTINE](#SUBROUTINE), [ASSIGNED](#ASSIGNED), [UNASSIGNED](#UNASSIGNED).
+
 ## To wrap a long line
 
 Use a backslash:
@@ -116,6 +127,8 @@ Or - if line ends with a comma - that's not necessary:
 Use semicolon:
 
        V.VAR = 1  ;  V.VAR++  ;  CRT V.VAR
+       V.VAR-- ;* comment goes to the end of line so no "1" in the output ; CRT V.VAR
+       V.VAR-- ; CRT V.VAR  ;* 0 will be displayed
 
 ## Comments
 
@@ -162,6 +175,14 @@ It's possible to reassign parts of a string using that notation:
        CRT V.STRING                 ;* AQC
        V.STRING[2,1] = 'WER'
        CRT V.STRING                 ;* AWERC
+
+Strings comparison is done from left to right:
+
+       V.STRING = 'ABC'
+       V.CHAR.A = 'A'
+       V.CHAR.B = 'B'
+       CRT V.STRING GT V.CHAR.A       ;* 1
+       CRT V.STRING GT V.CHAR.B       ;* 0
 
 ## Numeric variables
 
@@ -226,7 +247,7 @@ Output:
 ## Dynamic arrays
 
 To assign or extract a field/value/subvalue from a dynamic array,
-use angle brackets:
+use string concatenation method (**:**) or angle brackets:
 
        V.ARRAY = 1 :@FM: 2 :@FM: 3 :@FM: 4 :@VM: 5 :@VM: 6 :@SM: 7
        CRT V.ARRAY<2>               ;* 2
@@ -259,6 +280,13 @@ though it's possible to use "EQ" in the latter case:
        V.STRING = 'ABC'
        IF V.STRING = 'ABC' THEN CRT 'YES'
        IF V.STRING EQ 'ABC' THEN CRT 'YES AGAIN'
+
+"Non-equal" can either be "#", "!" or "NE":
+
+       V.STRING = 'ABC'
+       IF V.STRING #  'A' THEN CRT 'Not an A'
+       IF V.STRING NE 'B' THEN CRT 'Not a B'
+       IF V.STRING ! 'C' THEN CRT 'Not even a C'
 
 IF...ELSE construct can be used without THEN:
 
@@ -1270,9 +1298,9 @@ have spawned.
 
 # jBC Functions and Statements (@ - E)
 
-<a name="@"/>
-
 ## @
+
+<a name="@"/>
 
 Use the @ function to position the cursor to a specific point on the
 terminal screen
@@ -1400,9 +1428,9 @@ To turn off all effects use -128.
        CRT @(-1):@(30):@(52):'jBASE Heading':@(-128):
        CRT @(5,5):@(-4):'Prompt: ': ; INPUT Answer
 
-<a name="ABORT"/>
-
 ## ABORT
+
+<a name="ABORT"/>
 
 The ABORT statement terminates the current running program and the
 program that called it.
@@ -1455,9 +1483,9 @@ Sample program output:
      &lowast;&lowast;&lowast; Error [ 201 ] &lowast;&lowast;
     Unable to open file XCICLJPH</pre>
 
-<a name="ABS"/>
-
 ## ABS
+
+<a name="ABS"/>
 
 ABS function returns the absolute value of a number or an expression that
 evaluates to a number.
@@ -1484,6 +1512,8 @@ Assigns the value 100 to the variable PositiveVar.
 
 ## ABSS
 
+<a name="ABSS"/>
+
 Use the ABSS function to return the absolute values of all the elements
 in a dynamic array. If an element in the dynamic array is null, it
 returns null for that element.
@@ -1499,6 +1529,8 @@ returns null for that element.
        CRT OCONV( ABSS(V.AFTER), 'MCP' )        ;*  200]100]0\100\200
 
 ## ADDS
+
+<a name="ADDS"/>
 
 Use ADDS function to create a dynamic array of the element-by-element addition
 of two dynamic arrays. Added to each element of array1 is the
@@ -1518,9 +1550,9 @@ returns null for the sum of the corresponding elements.
        Array2 = 1 :@VM: 2: @VM: 3 :@VM: 4
        PRINT OCONV( ADDS(Array1, Array2), 'MCP' )   ;*  3]6]9\10]4
 
-<a name="ALPHA"/>
-
 ## ALPHA
+
+<a name="ALPHA"/>
 
 The ALPHA function is used to check if the expression consists entirely of
 alphabetic characters.
@@ -1553,6 +1585,8 @@ or not.
 
 ## ANDS
 
+<a name="ANDS"/>
+
 Use the ANDS function to create a dynamic array of the logical AND of
 corresponding elements of two dynamic arrays.
 
@@ -1577,6 +1611,8 @@ is zero or an empty string, it returns false for those elements.
 
 ## ASCII
 
+<a name="ASCII"/>
+
 The ASCII function converts all the characters in the expression from
 the EBCDIC character set to the ASCII character set.
 
@@ -1597,9 +1633,9 @@ equivalent.
         READT EbcdicBlock ELSE CRT "Tape failed!" ; STOP
         AsciiBlock = ASCII(EbcdicBlock) ;* convert to ASCII
 
-<a name="ASSIGNED"/>
-
 ## ASSIGNED
+
+<a name="ASSIGNED"/>
 
 The ASSIGNED function is used to determine whether a variable has an
 assigned value or not.
@@ -1633,6 +1669,8 @@ See also: [UNASSIGNED](#UNASSIGNED)
        V.VAR2 = 'NO'
 
 ## BITAND
+
+<a name="BITAND"/>
 
 Use the BITAND function to perform the bitwise AND comparison of two
 integers specified by numeric expressions.
@@ -1670,6 +1708,8 @@ This results in 0100, and the following output is displayed:
     4</pre>
 
 ## BITCHANGE
+
+<a name="BITCHANGE"/>
 
 BITCHANGE toggles the state of a specified bit in the local bit table,
 and returns the original value of the bit.
@@ -1712,6 +1752,8 @@ the reverse will apply if set to one.
 
 ## BITCHECK
 
+<a name="BITCHECK"/>
+
 BITCHECK returns the current value of a specified bit from the local
 bit table.
 
@@ -1730,6 +1772,8 @@ to 128) and treats each bit in the table as a two-state flag - the
 value returned will always be zero or one.
 
 ## BITLOAD
+
+<a name="BITLOAD"/>
 
 BITLOAD assigns all values in the local bit table, or retrieves all the
 values.
@@ -1785,7 +1829,9 @@ After assignment, the contents of the bit table is:
 
 Loads variable TABLE.VALUE with the hexadecimal values of the bit table
 
-## BITNOT##
+## BITNOT
+
+<a name="BITNOT"/>
 
 Use the BITNOT function to return the bitwise negation of an integer
 specified by any numeric expression.
@@ -1824,6 +1870,8 @@ This is the program output:
 
 ## BITOR
 
+<a name="BITOR"/>
+
 Use the BITOR function to perform the bitwise OR comparison of two
 integers specified by numeric expressions.
 
@@ -1858,9 +1906,9 @@ This results in 1110, and the following output is displayed:
 <pre>
     14</pre>
 
-<a name="BITRESET"/>
-
 ## BITRESET
+
+<a name="BITRESET"/>
 
 BITRESET resets the value of a specified bit in the local bit table to
 zero and returns the previous value of the bit.
@@ -1904,9 +1952,9 @@ If table entry 112 is one, it returns a value of one, resets bit 112
 to 0, and prints one. If table entry 112 is zero, returns a value of
 0, and prints 0.
 
-<a name="BITSET"/>
-
 ## BITSET
+
+<a name="BITSET"/>
 
 BITSET sets the value of a specified bit in the bit table to one and
 returns the value of the bit before it was changed.
@@ -1951,6 +1999,8 @@ one, and prints one.
 
 ## BITTEST
 
+<a name="BITTEST"/>
+
 Use the BITTEST function to test the bit number of the integer
 specified by expression.
 
@@ -1981,6 +2031,8 @@ This is the program output:
     1 1 0 1</pre>
 
 ## BITXOR
+
+<a name="BITXOR"/>
 
 Use the BITXOR function to perform the bitwise XOR comparison of two
 integers specified by numeric expressions. The bitwise XOR operation
@@ -2014,9 +2066,9 @@ This results in 1010, and the following output is displayed:
 <pre>
     10</pre>
 
-<a name="BREAK"/>
-
 ## BREAK
+
+<a name="BREAK"/>
 
 Terminate the currently
 executing loop. The EXIT statement is functionally equivalent to
@@ -2086,9 +2138,9 @@ Output (user is to try to press Ctrl-C at both prompts):
     0009    MSLEEP(5000)
     jBASE debugger-></pre>
 
-<a name="BYTELEN"/>
-
 ## BYTELEN
+
+<a name="BYTELEN"/>
 
 The BYTELEN function will return the length of the expression as the
 number of bytes rather than the number of characters.
@@ -2126,6 +2178,8 @@ when processing in International Mode.
 
 ## CacheBucketList
 
+<a name="CacheBucketList"/>
+
 The CacheBucketList function will return a list of all buckets in the
 cache. The list is represented as a string containg the bucket names
 joined together via a given delimiter.
@@ -2155,6 +2209,8 @@ This function does not affect the bucket statistics.
 
 ## CacheClear
 
+<a name="CacheClear"/>
+
 The CacheClear function will delete all items in a bucket of the cache.
 
 ### COMMAND SYNTAX
@@ -2181,6 +2237,8 @@ The CacheClear() function also resets the statistics of a bucket.
 
 ## CacheClearAll
 
+<a name="CacheClearAll"/>
+
 The CacheClearAll function will clean all buckets in the cache.
 
 ### COMMAND SYNTAX
@@ -2205,7 +2263,9 @@ The output is:
 
 The CacheClearAll() function also resets the statistics of all buckets.
 
-## CacheClearStats##
+## CacheClearStats
+
+<a name="CacheClearStats"/>
 
 The CacheClearStats function will reset statistics of the specified
 bucket in the cache.
@@ -2224,6 +2284,8 @@ bucket in the cache.
 This function does change items in the bucket.
 
 ## CacheDelete
+
+<a name="CacheDelete"/>
 
 The CacheBucketList function will delete an item from a bucket in
 the cache.
@@ -2252,6 +2314,8 @@ The output is:
 This function does not affect statistics of the bucket.
 
 ## CacheExists
+
+<a name="CacheExists"/>
 
 The CacheExists function will return “1” if a item exists in the
 bucket or “0” otherwise.
@@ -2283,6 +2347,8 @@ statistics of the bucket.
 
 ## CacheGet
 
+<a name="CacheGet"/>
+
 The CacheExists function will return a value of an item from the
 specified bucket of the cache. If an item is not in existance it
 returns an empty string.
@@ -2311,6 +2377,8 @@ If an item exists in the bucket the function increments CACHE_HITS
 counter of this bucket.
 
 ## CacheGetOption
+
+<a name="CacheGetOption"/>
 
 The CacheGetOption function will return an option of the bucket.
 
@@ -2355,6 +2423,8 @@ This function does not affect statistics of the bucket.
 
 ## CacheKeyList
 
+<a name="CacheKeyList"/>
+
 The CacheKeyList function will return a list of all item names in the
 specified bucket in the cache. The list is represented as a string
 containing the item names joined together via a given delimiter.
@@ -2384,6 +2454,8 @@ This function does not affect statistics of the bucket.
 
 ## CachePut
 
+<a name="CachePut"/>
+
 The CacheExists function will put an item to the specified bucket of
 the cache.
 
@@ -2407,6 +2479,8 @@ The output is:
 This function increments CACHE_PUTS statistics counter of the bucket.
 
 ## CacheSetOption
+
+<a name="CacheSetOption"/>
 
 The CacheSetOption function will set an option of the bucket.
 
@@ -2440,6 +2514,8 @@ outdated data will be purged from the bucket to reduce its size.
 This function does not affect statistics of the bucket.
 
 ## CacheStats
+
+<a name="CacheStats"/>
 
 The CacheStats function will return a statistics counter of the
 specified bucket in the cache.
@@ -2492,9 +2568,9 @@ the bucket which have a String.
 
 This function does not affect statistics of the bucket.
 
-<a name="CALL"/>
-
 ## CALL
+
+<a name="CALL"/>
 
 The CALL statement transfers program execution to an external
 subroutine.
@@ -2593,6 +2669,8 @@ Output:
 
 ## CALLC
 
+<a name="CALLC"/>
+
 The CALLC command transfers program control to an external function
 (c.sub.name). The second form of the syntax calls a function whose name
 is stored in a jBC variable (@var). The program could pass back return
@@ -2646,6 +2724,8 @@ value of the subroutine PROG.STATUS in the variable RESULT:
     RESULT = CALLC PROG.STATUS
 
 ## CALLdotNET
+
+<a name="CALLdotNET"/>
 
 The CALLdotNET command allows BASIC to call any .NET assembly and is
 useful when using third party applications.
@@ -2784,6 +2864,8 @@ BASIC code using the ON ERROR would look like this:
         RETURN
 
 ## CALLJ
+
+<a name="CALLJ"/>
 
 The CALLJ command allows BASIC to call a Java method. CALLJ is useful
 when using third party applications offering a Java API (for example,
@@ -3125,6 +3207,8 @@ calls the subroutine must be built as above.
 
 ## CALLJEE
 
+<a name="CALLJEE"/>
+
 The CALLJEE function will connect to the JRemote Inbound JCA (TOCF/EE)
 if not already connected, send the request, and receive the response.
 The first invocation of CALLJEE will attempt to open a connection to the
@@ -3158,6 +3242,8 @@ Error codes:
 
 
 ## CALLONEXIT
+
+<a name="CALLONEXIT"/>
 
 The CALLONEXIT function call allows you to specify the name of a
 SUBROUTINE to call when the program terminates.
@@ -3207,6 +3293,8 @@ depends upon how badly the memory error has corrupted the memory.
 
 ## CASE
 
+<a name="CASE"/>
+
 The CASE statement allows the programmer to execute a particular
 sequence of instructions based upon the results of a series of test
 expressions.
@@ -3235,25 +3323,41 @@ the END CASE.
 
 A default action (to trap error conditions for instance)
 may be introduced by using an expression that is always TRUE, such as
-CASE one. This should always be the last expression in the CASE block.
+"CASE 1". This should always be the last expression in the CASE block.
 
 ### EXAMPLE
 
-    BEGIN CASE
-    CASE A = 1
-        CRT "You won!"
-    CASE 1
-        CRT "You came nowhere"
-    END CASE
+       V.STRING = 'B'
+       GOSUB CHK.IT
+       V.STRING = 'ABC'
+       GOSUB CHK.IT
+       STOP
+    *
+    CHK.IT:
+    *
+       BEGIN CASE
+       CASE V.STRING EQ 'A'
+          CRT 'an A'
+       CASE  V.STRING EQ 'B'
+          CRT 'a B'
+       CASE V.STRING EQ 'C'
+          CRT 'a C'
+       CASE 1
+          CRT 'neither A nor B nor C'
+       END CASE
+       RETURN
+    END
 
-A single comment is printed depending on the value of A.
+Output:
 
-NOTE: that if A is not 1 then the default CASE 1 rule will be executed
-as a "catch all".
-
-<a name="CATALOG"/>
+<pre>
+    a B
+    neither A nor B nor C
+     </pre>
 
 ## CATALOG Command
+
+<a name="CATALOG"/>
 
 **Cataloging and Running your Programs**
 
@@ -3364,6 +3468,8 @@ ib directories by using the DECATALOG command.
 
 ## CATS
 
+<a name="CATS"/>
+
 The CATS function concatenates the corresponding elements in two dynamic
 arrays.
 
@@ -3398,6 +3504,8 @@ The assigned value to variable C is:
     ax : @SM : b : @VM : cy : @SM : z : @VM : d
 
 ## CHAIN
+
+<a name="CHAIN"/>
 
 The CHAIN statement exits the current program and transfers process
 control to the program defined by the expression. Process control will
@@ -3441,9 +3549,9 @@ terminates.
         ! I and J inherited
         CRT I,J
 
-<a name="CHANGE"/>
-
 ## CHANGE
+
+<a name="CHANGE"/>
 
 The CHANGE statement operates on a variable and replaces all
 occurrences of one string with another.
@@ -3495,6 +3603,8 @@ older systems.
 
 ## CHANGETIMESTAMP
 
+<a name="CHANGETIMESTAMP"/>
+
 Use CHANGETIMESTAMP to adjust existing timestamp to return new
 timestamp value.
 
@@ -3513,9 +3623,9 @@ The format of the adjustment array is as follows:
 <pre>
     Years^Months^Weeks^Days^Hours^Minutes^Seconds^Milliseconds</pre>
 
-<a name="CHAR"/>
-
 ## CHAR
+
+<a name="CHAR"/>
 
 The CHAR function returns the ASCII character specified by the
 expression.
@@ -3567,9 +3677,9 @@ See also: [CHARS](#CHARS)
        CRT OCONV( CHAR(353), 'MX' )   ;* C5A1
        CRT CHAR(7)                    ;* rings a bell
 
-<a name="CHARS"/>
-
 ## CHARS
+
+<a name="CHARS"/>
 
 The CHARS function accepts a dynamic array of numeric expressions and
 returns a dynamic array of the corresponding ASCII characters.
@@ -3598,9 +3708,9 @@ See also: [CHAR](#CHAR)
 
 This code displays: ;-)
 
-<a name="CHDIR"/>
-
 ## CHDIR
+
+<a name="CHDIR"/>
 
 The CHDIR function allows the current working directory, as seen by the
 process environment, to be changed.
@@ -3630,6 +3740,8 @@ succeeded and a Boolean FALSE result if it failed.
 
 ## CHECKSUM
 
+<a name="CHECKSUM"/>
+
 The CHECKSUM function returns a simple numeric checksum of a character
 string.
 
@@ -3657,9 +3769,9 @@ ASCII value of each character and its position within the string.
     ELSE
     ......
 
-<a name="CLEAR"/>
-
 ## CLEAR
+
+<a name="CLEAR"/>
 
 The CLEAR statement will initialize all the variables to numeric 0.
 
@@ -3679,6 +3791,8 @@ Use CLEAR at any time during the execution of the program.
        CRT V.VAR                                    ;* 0
 
 ## CLEARCOMMON
+
+<a name="CLEARCOMMON"/>
 
 The CLEARCOMMON statement initializes all unnamed common variables to
 a value of zero.
@@ -3704,9 +3818,9 @@ Calling program:
        CALL TEST.SUB
        CRT V.VAR.ONE, V.VAR.TWO          ;* 0  0
 
-<a name="CLEARDATA"/>
-
 ## CLEARDATA
+
+<a name="CLEARDATA"/>
 
 The CLEARDATA statement clears data stacked by the DATA statement.
 
@@ -3729,6 +3843,8 @@ None
 
 
 ## CLEARFILE
+
+<a name="CLEARFILE"/>
 
 Use the CLEARFILE statement to clear all the data from a file previously
 opened with the OPEN statement.
@@ -3779,9 +3895,9 @@ setvar to one of the following values:
           OPEN 'F.TEMP' TO F.TEMP ELSE ABORT 201, 'F.TEMP'
        END
 
-<a name="CLEARINPUT"/>
-
 ## CLEARINPUT
+
+<a name="CLEARINPUT"/>
 
 The CLEARINPUT command clears the terminal type-ahead buffer to allow
 the next INPUT statement to force a response from the user.
@@ -3837,6 +3953,8 @@ This program displays:
 
 ## CLOSE
 
+<a name="CLOSE"/>
+
 Use the CLOSE statement to CLOSE an opened file, which is no longer
 required.
 
@@ -3870,6 +3988,8 @@ which you have constant access.
        CRT ASSIGNED(F.TEMP)        ;* 0
 
 ## CLOSESEQ
+
+<a name="CLOSESEQ"/>
 
 CLOSESEQ closes the file previously opened for sequential access.
 
@@ -3915,9 +4035,9 @@ field located. Use them to manipulate the string.
        CRT COL1()                          ;* 4
        CRT COL2()                          ;* 12
 
-<a name="COLLECTDATA"/>
-
 ## COLLECTDATA
+
+<a name="COLLECTDATA"/>
 
 Use the COLLECTDATA statement to retrieve data passed from the
 PASSDATA clause of an EXECUTE statement.
@@ -3957,9 +4077,9 @@ will pass the string "Handover" in the PASSDATA clause. Program 2
 retrieves the string to a variable PassedMessage and prints the string
 on the Terminal screen.
 
-<a name="COMMON"/>
-
 ## COMMON
+
+<a name="COMMON"/>
 
 The COMMON statement declares a list of variables and matrices that
 can be shared among various programs. There can be many common areas
@@ -4007,6 +4127,8 @@ statement.
 
 ## COMPARE
 
+<a name="COMPARE"/>
+
 The COMPARE function compares two strings and returns a value
 indicating whether or not they are equal.
 
@@ -4050,9 +4172,9 @@ When using the COMPARE function in International Mode, the function will
 use the currently configured locale to determine the rules by which each
 string is considered less than or greater than the other will.
 
-<a name="CONTINUE"/>
-
 ## CONTINUE
+
+<a name="CONTINUE"/>
 
 The CONTINUE statement is the complimentary statement to the BREAK statement
 without arguments.
@@ -4079,9 +4201,9 @@ The above example will execute the loop 30 times but will only call the
 subroutine ProcessText when the current array element of Pattern is not
 a numeric value or null.
 
-<a name="CONVERT"/>
-
 ## CONVERT
+
+<a name="CONVERT"/>
 
 The CONVERT function is the function form of the CONVERT statement. It
 performs exactly the same function but may also operate on an expression
@@ -4111,15 +4233,14 @@ expression1.
 
 See also: [CONVERT STATEMENT](#CONVERTSTATEMENT)
 
-### EXAMPLES
+### EXAMPLE (prime emulation)
 
-    Value = CONVERT(Value, '#.,', '$,.')
-    Value = CONVERT(PartCode, 'abc', 'ABC')
-    Value = CONVERT(Code, '1234567890', '0987654321')
-
-<a name="CONVERTSTATEMENT"/>
+       CRT CONVERT('axbxcx', 'abc', 'ABC')   ;* ABC - incorrect for PRIME emulation
+       CRT CONVERT('abc', 'ABC', 'axbxcx')   ;* AxBxCx - correct
 
 ## CONVERT (STATEMENT)
+
+<a name="CONVERTSTATEMENT"/>
 
 The CONVERT statement converts one or more characters in a string to
 their corresponding replacement characters.
@@ -4184,9 +4305,9 @@ Assumes the value returned by expression is in degrees.
          CRT COS(I) ;* print cos i for 1 to 360 degrees
     NEXT I
 
-<a name="COUNT"/>
-
 ## COUNT
+
+<a name="COUNT"/>
 
 The COUNT function returns the number of times that one string occurs
 in another.
@@ -4288,9 +4409,9 @@ it to the file variable FILE.
     WEOFSEQ FILE
     WRITESEQ 'SOME DATA' TO FILE ELSE STOP
 
-<a name="CRT"/>
-
 ## CRT
+
+<a name="CRT"/>
 
 The CRT statement sends data directly to the terminal, even if a
 PRINTER ON statement is currently active.
@@ -4428,9 +4549,9 @@ See also: [TIMEDATE](#TIMEDATE)
 
 Displays today's date in the form: 14 JUL 64
 
-<a name="DCOUNT"/>
-
 ## DCOUNT
+
+<a name="DCOUNT"/>
 
 The DCOUNT() function counts the number of field elements in a string
 that are separated by a specified delimiter.
@@ -4497,9 +4618,9 @@ run-time versions of  cataloged jBC programs.
 <pre>
     DECATALOG ProgramName</pre>
 
-<a name="DECRYPT"/>
-
 ## DECRYPT##
+
+<a name="DECRYPT"/>
 
 The DECRYPT function decrypts strings.
 
@@ -4584,9 +4705,9 @@ Displays as output:
     Encrypted: xuy6DXxUkD32spyfsKEvUtXrsjP7mC+R
     Decrypted: String to encrypt</pre>
 
-<a name="DEFC"/>
-
 ## DEFC
+
+<a name="DEFC"/>
 
 Use the DEFC statement to declare an external C function to the jBC
 compiler, define its arguments, and return types. The DEFC statement
@@ -4792,9 +4913,9 @@ intact.
        NEXT I
        CRT CHANGE(Numbers, @FM, '>')  ;* 2>4>6>8>10>12>14>16>18>20
 
-<a name="DELETE"/>
-
 ## DELETE
+
+<a name="DELETE"/>
 
 Use the DELETE statement to delete a record from a jBASE file.
 
@@ -4858,9 +4979,9 @@ Output:
     REC3
      2 Records Listed</pre>
 
-<a name="DELETELIST"/>
-
 ## DELETELIST
+
+<a name="DELETELIST"/>
 
 The DELETELIST statement will delete the previously stored list
 named by expression.
@@ -4911,9 +5032,9 @@ sequential file.
 
 **Statements** conditional jBC statements
 
-<a name="DELETEU"/>
-
 ## DELETEU
+
+<a name="DELETEU"/>
 
 Use the DELETEU statement to delete a record without releasing the
 update record lock set by a previous [READU](#READU) statement
@@ -4928,9 +5049,9 @@ applies to the default file.
 
 See also: [OPEN](#OPEN) statement for a description of the default file.
 
-<a name="DIM"/>
-
 ## DIMENSION
+
+<a name="DIM"/>
 
 Use the DIM statement to declare arrays to the compiler before
 referencing.
@@ -5013,7 +5134,7 @@ of a file. This function returns a dynamic array with four attributes.
 
 ## DIV
 
-See also: Floating point Operations
+<a name="DIV"/>
 
 Use the DIV function to calculate the value of the quotient after
 division of the dividend by the divisor.
@@ -5036,7 +5157,7 @@ either dividend or divisor evaluates to null, it returns null.
 
 ## DIVS
 
-See also: Floating point Operations
+<a name="DIVS"/>
 
 Use the DIVS function to create a dynamic array containing the result
 of the element-by-element division of two dynamic arrays.
@@ -5062,9 +5183,9 @@ returns null.
 
 The output of this program is: 5]3]1\4]0.
 
-<a name="DOWNCASE"/>
-
 ## DOWNCASE
+
+<a name="DOWNCASE"/>
 
 DOWNCASE converts all uppercase characters in an expression to lowercase
 characters.
@@ -5094,7 +5215,7 @@ It ignores Non-alphabetic characters.
 
 ## DROUND
 
-See also: Floating point Operations
+<a name="DROUND"/>
 
 The DROUND function performs double-precision rounding on a value.
 Double-precision rounding uses two words to store a number,
@@ -5150,9 +5271,9 @@ Output:
     3.1415926535897932385
     3.14159265358979323846</pre>
 
-<a name="DTX"/>
-
 ## DTX
+
+<a name="DTX"/>
 
 The DTX function will return the hexadecimal representation of a numeric
 expression.
@@ -5177,9 +5298,9 @@ See also: [XTD](#XTD).
 
 displays FE
 
-<a name="DYNTOXML"/>
-
 ## DYNTOXML
+
+<a name="DYNTOXML"/>
 
 ### COMMAND SYNTAX
 
@@ -5317,9 +5438,9 @@ FALSE if disabled.
 
 This will disable the character input echoing while typing in a password.
 
-<a name="ENCRYPT"/>
-
 ## ENCRYPT
+
+<a name="ENCRYPT"/>
 
 The ENCRYPT function encrypts strings.
 
@@ -5589,11 +5710,9 @@ The output of this program is:
     ZZZAAABBBCCCDDDBBB
     AAACCCDDD</pre>
 
-<a name="EXECUTE"/>
-
 ## EXECUTE
 
-See also: Floating point Operations
+<a name="EXECUTE"/>
 
 The EXECUTE or [PERFORM](#PERFORM) statement allows the currently
 executing program to pause and execute any other UNIX/NT program,
@@ -5704,9 +5823,9 @@ Sample output of the last example:
     [/dev/hd1         128.00    121.68    5%      185     1% /home]
     [/proc                 -         -    -         -     -  /proc]</pre>
 
-<a name="EXIT"/>
-
 ## EXIT
+
+<a name="EXIT"/>
 
 The EXIT statement halts the execution of a program and returns a
 numeric exit code to the parent process. For compatibility with older
@@ -5808,9 +5927,9 @@ Will display the value "1".
 
 # jBC Functions and Statements (F - J)
 
-<a name="FADD"/>
-
 ## FADD
+
+<a name="FADD"/>
 
 The FADD function performs floating point addition of two numeric
 values.
@@ -5836,9 +5955,9 @@ If either of the arguments evaluates to null then a run time
 
 displays 24.2334002
 
-<a name="FDIV"/>
-
 ## FDIV
+
+<a name="FDIV"/>
 
 The FDIV function performs floating point division on two numeric
 values.
@@ -5977,9 +6096,9 @@ s - represents a sub-value mark.
 |     | <3>aaa: v s                                      |
 |     | <4>aaaa:                                         |
 
-<a name="FILEINFO"/>
-
 ## FILEINFO
+
+<a name="FILEINFO"/>
 
 Use the FILEINFO function to return information about the specified file
 variable.
@@ -6115,9 +6234,9 @@ variable FILE.
     FILELOCK FILEVAR
     FILEUNLOCK FILEVAR
 
-<a name="FIND"/>
-
 ## FIND
+
+<a name="FIND"/>
 
 The FIND statement determines if a specified string fully matches to an
 element in a dynamic array.
@@ -6157,28 +6276,28 @@ See also: [LOCATE](#LOCATE), [FINDSTR](#FINDSTR)
            :@FM: 'DEF' :@VM: '123' :@VM: 'XYZ' :@VM: '456' \
            :@FM: '789' \
            :@FM: '---' : @SM: 'XYZ'
-       GOSUB INIT
+       GOSUB RESET.IT
        FIND 'XYZ' IN V.ARRAY SETTING V.FLD, V.VAL ELSE NULL
        CRT V.FLD, V.VAL            ;*   2       3
-       GOSUB INIT
+       GOSUB RESET.IT
        FIND 'XYYYZ' IN V.ARRAY SETTING V.FLD, V.VAL ELSE NULL
        CRT V.FLD, V.VAL            ;*   0       0
-       GOSUB INIT
+       GOSUB RESET.IT
        FIND 'XYZ' IN V.ARRAY, 2 SETTING V.FLD, V.VAL, V.SVAL ELSE NULL
        CRT V.FLD, V.VAL, V.SVAL    ;*   4       1       2
-       GOSUB INIT
+       GOSUB RESET.IT
     * Full match is required
        FIND 'XY' IN V.ARRAY SETTING V.FLD, V.VAL ELSE NULL
        CRT V.FLD, V.VAL            ;*   0       0
-       GOSUB INIT
+       GOSUB RESET.IT
        STOP
-    INIT:
+    RESET.IT:
        V.FLD = 0  ; V.VAL = 0  ;  V.SVAL = 0
        RETURN
 
-<a name="FINDSTR"/>
-
 ## FINDSTR
+
+<a name="FINDSTR"/>
 
 The FINDSTR statement locates a string as a substring of a dynamic
 array element. It is similar in operation to the FIND statement, except that
@@ -6223,9 +6342,9 @@ clauses if required.
        FINDSTR 'XY' IN V.ARRAY SETTING V.FLD, V.VAL ELSE NULL
        CRT V.FLD, V.VAL            ;*   2       3
 
-<a name="FORMLIST"/>
-
 ## FORMLIST
+
+<a name="FORMLIST"/>
 
 The FORMLIST statement creates an active select list from a
 dynamic array.
@@ -6296,9 +6415,9 @@ statements.
     CLOSESEQ FILE
     END
 
-<a name="FMT"/>
-
 ## FMT
+
+<a name="FMT"/>
 
 Format data according to mask definition.
 
@@ -6415,9 +6534,9 @@ See also: [OCONV](#OCONV) for date/time/numeric masks and [FMTS](#FMTS).
        CRT FMT(X, 'MX')                        ;* 414243444546
        CRT FMT(@FM, 'MX')                      ;* FE
 
-<a name="FMTS"/>
-
 ## FMTS
+
+<a name="FMTS"/>
 
 Use the FMTS function to format elements of dynamic array for output.
 Each element of the array is independently acted upon and returned as
@@ -6454,9 +6573,9 @@ Output:
 <pre>
     &lowast;&lowast;&lowast;&lowast;&lowast;1234.56^&lowast;&lowast;&lowast;123456.78^&lowast;&lowast;-123456.78^234567890.00</pre>
 
-<a name="FOLD"/>
+## FOLD
 
-## FOLD##
+<a name="FOLD"/>
 
 The FOLD function re-delimits a string by replacing spaces with
 attribute marks at positions defined by a length parameter.
@@ -6516,9 +6635,9 @@ Output:
 <pre>
     t^h^e^e^n^d</pre>
 
-<a name="FOOTING"/>
-
 ## FOOTING
+
+<a name="FOOTING"/>
 
 The FOOTING statement halts all subsequent output to the terminal at
 the end of each output page. The statement allows the evaluation and
@@ -6563,9 +6682,9 @@ output is to the terminal then all output is paged.
 
     FOOTING 'Programming staff by weight Page "P"'
 
-<a name="FOR"/>
-
 ## FOR
+
+<a name="FOR"/>
 
 The FOR statement allows the construction of looping constructs within
 the program, which is controlled by a counting variable; this can be
@@ -6630,9 +6749,9 @@ See also: [BREAK](#BREAK), [CONTINUE](#CONTINUE).
        CRT V.ARRAY<6>                          ;* Element #9
        CRT V.ARRAY<3>                          ;* Element #3
 
-<a name="FSUB"/>
-
 ## FSUB
+
+<a name="FSUB"/>
 
 The FSUB function performs floating-point subtraction on two numeric
 values.
@@ -6738,9 +6857,9 @@ continues.
 If either element of a corresponding pair is null, it returns null for
 that element.
 
-<a name="GET"/>
-
 ## GET
+
+<a name="GET"/>
 
 The GET statement reads a block of data directly from a device.
 
@@ -6815,9 +6934,9 @@ concept of the current working directory.
        CRT "Could not determine CWD!"
     END
 
-<a name="GETENV"/>
-
 ## GETENV
+
+<a name="GETENV"/>
 
 All processes have an environment associated with them that contains a
 number of variables indicating the state of various parameters. The
@@ -6846,9 +6965,9 @@ See: [PUTENV](#PUTENV)
         CRT "Execution path is not set up"
     END
 
-<a name="GETLIST"/>
+## GETLIST
 
-## GETLIST##
+<a name="GETLIST"/>
 
 GETLIST allows the program to retrieve a previously stored list
 (perhaps created with the SAVE-LIST command), into a jBC
@@ -6924,9 +7043,9 @@ In the next example, the program statement assigns the user group for
 
     X = GETUSERGROUP(1023)
 
-<a name="GETX"/>
-
 ## GETX
+
+<a name="GETX"/>
 
 The GETX statement reads a block of data (in ASCII hexadecimal format)
 directly from a device.
@@ -6978,9 +7097,9 @@ GETX will convert all input into ASCII hexadecimal format after input.
 
 See also: [GET](#GET)
 
-<a name="GOSUB"/>
-
 ## GOSUB
+
+<a name="GOSUB"/>
 
 The GOSUB statement causes execution of a local subroutine, after which
 execution will continue with the next line of code.
@@ -7042,9 +7161,9 @@ will cause the program to terminate.
     ....
     STOP
 
-<a name="GROUP"/>
-
 ## GROUP
+
+<a name="GROUP"/>
 
 The GROUP function is equivalent to the FIELD function.
 
@@ -7208,9 +7327,9 @@ unless the emulation option iconv_nonnumeric_return_null is set.
        CRT OCONV( ICONV('20111231', 'D4'), 'DJ' )    ;*  365
        CRT OCONV( ICONV('20121231', 'D4'), 'DJ' )    ;*  366
 
-<a name="ICONVS"/>
-
 ## ICONVS
+
+<a name="ICONVS"/>
 
 Use ICONVS to convert each element of dynamic.array to a specified
 internal storage format.
@@ -7323,9 +7442,9 @@ from **false.array**. If there is no corresponding element in the
 correct response array, it returns an empty string for that
 element. If an element is null, that element evaluates to false.
 
-<a name="IN"/>
-
 ## IN
+
+<a name="IN"/>
 
 The IN statement allows the program to receive raw data from the
 input device, which is normally the terminal keyboard, one character
@@ -7448,9 +7567,9 @@ JIOCTL_COMMAND_FILESTATUS command.
                                    ; * to the variable CUSTREC.ELEMENTS
     END
 
-<a name="INPUT"/>
-
 ## INPUT
+
+<a name="INPUT"/>
 
 The INPUT statement allows the program to collect data from the current
 input device, which will normally be the terminal keyboard but may be
@@ -7583,9 +7702,9 @@ The INPUTCLEAR statement is synonymous with [CLEARINPUT](#CLEARINPUT).
     CRT "year end processing not started"
     END
 
-<a name="INPUTNULL"/>
-
 ## INPUTNULL
+
+<a name="INPUTNULL"/>
 
 The INPUTNULL statement allows the definition of a character that
 will allow a null input to be seen by the INPUT@ statement.
@@ -7619,6 +7738,8 @@ the statement: INPUTNULL "
     END
 
 ## INS
+
+<a name="INS"/>
 
 The INS statement allows the insertion of elements into a dynamic
 array.
@@ -7668,6 +7789,8 @@ The output is (one line):
 
 ## INSERT
 
+<a name="INSERT"/>
+
 INSERT is the function form of the INS statement, with preference
 given to the use of INS.
 
@@ -7695,6 +7818,8 @@ expression1.
 
 ## INT
 
+<a name="INT"/>
+
 The INT function truncates a numeric value into its nearest integer
 form.
 
@@ -7719,9 +7844,9 @@ Therefore, INT(9.001) and INT(9.999) will both return the value 9.
 
 Displays the value 3
 
-<a name="IOCTL"/>
-
 ## IOCTL
+
+<a name="IOCTL"/>
 
 The jBC language provides an intrinsic function called IOCTL that
 behaves in a similar manner to the C function ioctl(). Its purpose
@@ -8285,9 +8410,9 @@ contains any characters, which are not upper case characters.
 When the ISUPPER function is used in International Mode the properties
 of each character is determined according to the Unicode Standard.
 
-<a name="ITYPE"/>
-
 ## ITYPE
+
+<a name="ITYPE"/>
 
 ITYPE function is used to return the value resulting from the
 evaluation of an I-type expression in a jBASE file dictionary.
@@ -8901,9 +9026,9 @@ default format when executing in International Mode.
 This function is used to convert UTF-8 data into binary or the latin1
 code page for external devices like Tape devices.
 
-<a name="LEFT"/>
-
 ## LEFT
+
+<a name="LEFT"/>
 
 The LEFT function extracts a sub-string of a specified length from the
 beginning of a string.
@@ -9118,9 +9243,9 @@ The LOCALTIME function uses the specified timestamp and adjusts the
 value by the specified time zone to return the time value in internal
 time format.
 
-<a name="LOCATE"/>
-
 ## LOCATE
+
+<a name="LOCATE"/>
 
 LOCATE statement finds the position of an element within a specified
 dimension of a dynamic array.
@@ -9179,7 +9304,7 @@ will.
 
 ### NOTES
 
-See also: [FIND](#FIND), [FINDSTR](#FIND)
+See also: [FIND](#FIND), [FINDSTR](#FINDSTR)
 
 ### EXAMPLE
 
@@ -9198,9 +9323,9 @@ Using LOCATE to sort an array.
        CRT MINIMUM(V.ARR), MAXIMUM(V.ARR)  ;* e.g. "0       998"
        CRT V.SORTED<1>, V.SORTED<1000>     ;* numbers should be the same as above
 
-<a name="LOCK"/>
-
 ## LOCK
+
+<a name="LOCK"/>
 
 LOCK statement is used to set an execution lock thus preventing any
 other jBC program to wait until this program has released it.
@@ -9278,6 +9403,8 @@ guide for more details.
 
 ## LOOP
 
+<a name="LOOP"/>
+
 LOOP allows the programmer to specify loops with multiple exit
 conditions.
 
@@ -9343,7 +9470,9 @@ The loop used in this example can also be defined this way:
        REPEAT
 
 
-## LOWER##
+## LOWER
+
+<a name="LOWER"/>
 
 This function lowers system delimiters in a string to the next lowest
 delimiter.
@@ -9375,6 +9504,8 @@ follows:
 
 ## MAKETIMESTAMP
 
+<a name="MAKETIMESTAMP"/>
+
 MAKETIMESTAMP generates a timestamp using combination of internal date,
 time and timezone.
 
@@ -9392,7 +9523,9 @@ time zone specification to return a UTC timestamp in decimal seconds.
        CRT MAKETIMESTAMP( DATE(), TIME(), 'Europe/London')   ;* e.g. 1352113823.755
        CRT MAKETIMESTAMP( DATE(), TIME(), 'Europe/Belgrade') ;* e.g. 1352110223.755
 
-## MAT##
+## MAT
+
+<a name="MAT"/>
 
 This command is used to assign a single value for every element in a
 specified array or to assign the entire contents of one array to another.
@@ -9423,6 +9556,8 @@ statement MAT Array2 = " after the DIM statement.
        CRT DQUOTE(A(45))                    ;* "Array value"
 
 ## MATBUILD
+
+<a name="MATBUILD"/>
 
 This statement is used to create a dynamic array out of a dimensioned
 array.
@@ -9469,13 +9604,11 @@ detailed instructions on calculating element numbers.
  "MATBUILD Dynamic FROM A" builds a field mark separated dynamic array
 from   every element contained in the matrix A.
 
-<a name="MATCH"/>
+## MATCHES
 
 <a name="MATCHES"/>
 
-## MATCHES
-
-MATCH or MATCHES function applies pattern matching to an expression.
+MATCH or MATCHES clause applies pattern matching to an expression.
 
 ### COMMAND SYNTAX
 
@@ -9552,6 +9685,8 @@ match any number of characters of the specified type.
 
 ## MATCHFIELD
 
+<a name="MATCHFIELD"/>
+
 This function is used to check a string against a match pattern.
 
 ### COMMAND SYNTAX
@@ -9603,9 +9738,9 @@ matching.
         ABC = MATCHFIELD('1234AB', '4N1A', 2)
         PRINT 'ABC= ', ABC                          ;*  ABC=
 
-<a name="MATPARSE"/>
-
 ## MATPARSE
+
+<a name="MATPARSE"/>
 
 MATPARSE statement is used to assign the elements of a matrix from the
 elements of a dynamic array.
@@ -9687,9 +9822,9 @@ section for detailed instructions on calculating element numbers.
        CRT V.TWODIM.ARRAY(50,2)                ;* 100
        CRT DQUOTE(V.TWODIM.ARRAY(100,1))       ;* ""
 
-<a name="MATREAD"/>
-
 ## MATREAD
+
+<a name="MATREAD"/>
 
 The MATREAD statement allows a record stored in a jBASE file to
 be read and mapped directly into a dimensioned array.
@@ -9780,9 +9915,9 @@ not
     END
     PRINT "Number of attributes in record = " : val
 
-<a name="MATREADU"/>
-
 ## MATREADU
+
+<a name="MATREADU"/>
 
 MATREADU statement allows a record stored in a jBASE file to be read
 and mapped directly into a dimensioned array. The record will also be
@@ -9877,9 +10012,9 @@ not
     END
     PRINT "Number of attributes in record = " : val
 
-<a name="MATWRITE"/>
-
 ## MATWRITE
+
+<a name="MATWRITE"/>
 
 The MATWRITE statement transfers the entire contents of a dimensioned
 array to a specified record on disc.
@@ -9933,9 +10068,9 @@ array before its use in the statement.
     ...
     MATWRITE A ON RecFile, "OldArray"
 
-<a name="MATWRITEU"/>
-
 ## MATWRITEU
+
+<a name="MATWRITEU"/>
 
 MATWRITEU statement transfers the entire contents of a dimensioned
 array to a specified record on file, in the same manner as the
@@ -9986,9 +10121,9 @@ dimensioned array before its use in the statement.
     ....
     MATWRITEU A ON "NewArray"
 
-<a name="MAXIMUM"/>
-
 ## MAXIMUM
+
+<a name="MAXIMUM"/>
 
 MAXIMUM function is used to return the element of a dynamic array with
 the highest numerical value.
@@ -10022,9 +10157,9 @@ the code:
 
 displays 4.29445
 
-<a name="MINIMUM"/>
-
 ## MINIMUM
+
+<a name="MINIMUM"/>
 
 MINIMUM function is used to return the element of a dynamic array
 with the lowest numerical value.
@@ -10049,7 +10184,7 @@ See also: [MAXIMUM](#MAXIMUM).
 
 If EResults is a variable containing the dynamic array:
 
-    1.45032:@AM:-3.60851:@VM:4.29445:@AM:2.07042:@SVM:-3.90258
+    1.45032:@AM:-3.60851:@VM:4.29445:@AM:2.07042:@SM:-3.90258
 
 the code:
 
@@ -10059,6 +10194,8 @@ the code:
 displays -3.903
 
 ## MOD
+
+<a name="MOD"/>
 
 MOD function returns the arithmetic modulo of two numeric expressions.
 
@@ -10114,9 +10251,9 @@ elements is null, null is returned for that element.
        B = 2: @SM: 7 :@VM: 4
        PRINT OCONV( MODS(A, B), 'MCP' )       ;*  1\0]3
 
-<a name="MSLEEP"/>
-
 ## MSLEEP
+
+<a name="MSLEEP"/>
 
 MSLEEP allows the program to pause execution for a specified number of
 milliseconds.
@@ -10169,10 +10306,6 @@ of a new dynamic array. If an element of one dynamic array has no
 corresponding element in the other dynamic array, 0 is returned. If
 either of a corresponding pair of elements is null, null is returned
 for that element.
-
-### NOTES
-
-See also: Floating point Operations
 
 ### EXAMPLE
 
@@ -10449,9 +10582,9 @@ See the OBjEX documentation for more information.
     * this routine was not called from ObjEX
     END
 
-<a name="OCONV"/>
-
 ## OCONV
+
+<a name="OCONV"/>
 
 OCONV statement converts internal representations of data to their
 external form.
@@ -10558,9 +10691,9 @@ expression2. Shown below are valid conversion codes:
     * Example of a "user exit":
        CRT OCONV('', 'U50BB')        ;* port number and user name
 
-<a name="OCONVS"/>
-
 ## OCONVS
+
+<a name="OCONVS"/>
 
 OCONVS function converts the elements of dynamic.array to a specified
 format for external output.
@@ -10653,9 +10786,9 @@ execution and a warning message will be issued.
     INPUT Ans,1_
     ON SEQ(Ans) - SEQ(A) + 1 GOSUB RoutineA, RoutineB...
 
-<a name="OPEN"/>
-
 ## OPEN
+
+<a name="OPEN"/>
 
 OPEN statement is used to open a file or device to a descriptor
 variable within jBC.
@@ -10771,7 +10904,7 @@ processing.
 For more information on sequential processing, see [READSEQ](#READSEQ),
 [WRITESEQ](#WRITESEQ) the sequential processing example.
 
-## OPENINDEX##
+## OPENINDEX
 
 OPENINDEX statement is used to open a particular index definition for
 a particular file. This index file variable can later be used with
@@ -10815,6 +10948,8 @@ set to one of the following values:
     END
 
 ## OPENPATH
+
+<a name="OPENPATH"/>
 
 OPENPATH statement is used to open a file (given an absolute or
 relative path) to a descriptor variable within jBC.
@@ -10877,9 +11012,9 @@ descriptor F.Customers
 Opens the CUSTOMERS file (located in F:\Users\data) to the default
 file variable.
 
-<a name="OPENSEQ"/>
-
 ## OPENSEQ
+
+<a name="OPENSEQ"/>
 
 OPENSEQ is used to open a file for sequential writing and/or
 reading.
@@ -10966,9 +11101,9 @@ Output will look like:
     [3]One more line
     ...</pre>
 
-<a name="OPENSER"/>
-
 ## OPENSER
+
+<a name="OPENSER"/>
 
 OPENSER statement is used to handle the Serial IO.
 
@@ -11052,9 +11187,9 @@ or an empty string, it returns true.
        B = 0 :@SM: 1-1 :@VM :2
        PRINT OCONV( ORS(A, B), 'MCP')         ;*   1\0]1\1
 
-<a name="OSBREAD"/>
-
 ## OSBREAD
+
+<a name="OSBREAD"/>
 
 OSBREAD command reads data from a file starting at a specified byte
 location for a certain length of bytes, and assigns the data to a
@@ -11109,9 +11244,9 @@ contents to the screen:
        OSBREAD Data FROM MYFILE AT 0 LENGTH 10000
        CRT Data
 
-<a name="OSBWRITE"/>
-
 ## OSBWRITE
+
+<a name="OSBWRITE"/>
 
 OSBWRITE command writes an expression to a sequential file starting at a
 specified byte location.
@@ -11176,6 +11311,8 @@ to the opened file starting from the beginning of the file:
 
 ## OSCLOSE
 
+<a name="OSCLOSE"/>
+
 OSCLOSE command closes a sequential file that you have opened with the
 OSOPEN or OPENSEQ command.
 
@@ -11213,6 +11350,8 @@ to MYPIPE file variable.
 
 ## OSDELETE
 
+<a name="OSDELETE"/>
+
 OSDELETE command deletes a NT or UNIX file.
 
 ### COMMAND SYNTAX
@@ -11249,9 +11388,9 @@ In the following example, the program statement deletes the file
 
     OSDELETE "MYPIPE"
 
-<a name="OSOPEN"/>
-
 ## OSOPEN
+
+<a name="OSOPEN"/>
 
 OSOPEN command opens a sequential file that does not use CHAR (10) as
 the line delimiter.
@@ -11298,9 +11437,9 @@ In the following example, the program statement opens the file
 
     OSOPEN 'MYSLIPPERS' TO SLIPPERS ELSE STOP
 
-<a name="OSREAD"/>
-
 ## OSREAD
+
+<a name="OSREAD"/>
 
 OSREAD reads an OS file.
 
@@ -11380,9 +11519,9 @@ Output:
     9999
     "...................."</pre>
 
-<a name="OSWRITE"/>
-
 ## OSWRITE
+
+<a name="OSWRITE"/>
 
 The OSWRITE command writes the contents of an expression to a
 sequential file.
@@ -11496,15 +11635,15 @@ If a [WAKE](#WAKE) statement is executed before a PAUSE statement, then
 the PAUSE will be ignored and processing will continue until a subsequent
 PAUSE statement.
 
-<a name="PERFORM"/>
-
 ## PERFORM
+
+<a name="PERFORM"/>
 
 PERFORM is synonymous with [EXECUTE](#EXECUTE)
 
-<a name="PRECISION"/>
-
 ## PRECISION##
+
+<a name="PRECISION"/>
 
 PRECISION statement informs the number of digits of precision used after
 the decimal point.
@@ -11666,9 +11805,9 @@ Output:
      &lowast;&lowast; Error [ 201 ] &lowast;&lowast;
     Unable to open file CUSTOMERS</pre>
 
-<a name="PROCREAD"/>
-
 ## PROCREAD
+
+<a name="PROCREAD"/>
 
 PROCREAD statement is used to retrieve data passed to programs from a
 jCL program.
@@ -11767,9 +11906,9 @@ The default prompt character is the question mark "?" character.
     PROMPT "Next answer : "
     INPUT Answer
 
-<a name="PUTENV"/>
-
 ## PUTENV
+
+<a name="PUTENV"/>
 
 PUTENV is used to set environment variables for the current process.
 
@@ -11841,8 +11980,6 @@ If expression1 is negative and expression2 is not an integer then a
 maths library error is displayed and the function returns the value
 0. The resulting output is "0.0nan".
 
-pow: DOMAIN error
-
 All calculations are performed at the maximum precision supported on
 the host machine and truncated to the compiled precision on completion.
 
@@ -11911,9 +12048,9 @@ which are raised as follows:
        CRT OCONV( V.ARRAY, 'MCP' )                      ;*  1.2\3]4
        CRT OCONV( RAISE(V.ARRAY), 'MCP' )               ;*  1\2]3^4
 
-<a name="READ"/>
-
 ## READ
+
+<a name="READ"/>
 
 READ statement allows a program to read a record from a previously
 opened file into a variable.
@@ -11973,9 +12110,9 @@ Program output:
     &lowast;&lowast; Error [ ARRAY_ILLEGAL_SIZE ] &lowast;&lowast; ^NEWLINE^^DEBUGQUIT^Attempt to DIMension
     a variable with 0 or fewer elements , Line ^LINENO^ , Source ^SOURCENAME^</pre>
 
-<a name="READBLK"/>
-
 ## READBLK
+
+<a name="READBLK"/>
 
 READBLK statement is used to read a block of data of a specified
 length from a file opened for sequential processing and assign
@@ -12055,9 +12192,9 @@ single line of data.
        CRT V.TEXT[1, INDEX(V.TEXT, CHAR(10), 1)]   ;* 1st line, e.g.:
                                                    ;* jBase Release : R11.0.0.0
 
-<a name="READL"/>
-
 ## READL
+
+<a name="READL"/>
 
 READL statement allows a process to read a record from a previously
 opened file into a variable and takes a read-only shared lock on the
@@ -12170,9 +12307,9 @@ so the locks remain intact.
 See also: [WRITE](#WRITE), [WRITEU](#WRITEU), [MATWRITE](#MATWRITE),
 [MATWRITEU](#MATWRITEU), [RELEASE](#RELEASE), and [DELETE](#DELETE)
 
-<a name="READLIST"/>
-
 ## READLIST
+
+<a name="READLIST"/>
 
 READLIST allows the program to retrieve a previously stored list
 (perhaps created with the SAVE-LIST command), into a jBC variable.
@@ -12213,9 +12350,9 @@ Find the list first
     ......
     REPEAT
 
-<a name="READNEXT"/>
-
 ## READNEXT
+
+<a name="READNEXT"/>
 
 READNEXT retrieves the next element in a list variable.
 
@@ -12282,9 +12419,9 @@ See also: [SELECT](#SELECT), extensions for secondary indexes.
        READNEXT V.ID FROM 9 ELSE CRT 'READNEXT 2 FAILED'
        CRT 'NEXT:' : V.ID                                   ;* NEXT:REC2
 
-<a name="READPREV"/>
-
 ## READPREV
+
+<a name="READPREV"/>
 
 This statement is syntactically similar to the [READNEXT](#READNEXT)
 but it works in reverse order. There are some considerations when
@@ -12362,9 +12499,9 @@ The difference to the example above starts with the first READPREV:
 
 See also: [READLIST](#READLIST)
 
-<a name="READSEQ"/>
-
 ## READSEQ
+
+<a name="READSEQ"/>
 
 READSEQ reads data from a file opened for sequential access.
 
@@ -12497,9 +12634,9 @@ Line ends in this file are shown here (JED, Ctrl-E to go to line end):
           CRT V.LINE[-20,20]                   ;*  ------1090------1100
        REPEAT
 
-<a name="READT"/>
-
 ## READT
+
+<a name="READT"/>
 
 READT statement is used to read a range of tape devices 0-9.
 
@@ -12549,9 +12686,9 @@ has been allocated by the T-ATT command.
     	  END
     REPEAT
 
-<a name="READU"/>
-
 ## READU
+
+<a name="READU"/>
 
 READU statement allows a program to read a record from previously
 opened file into variable. It respects record locking and locks the
@@ -12651,9 +12788,9 @@ See also: [WRITE](#WRITE), [WRITEU](#WRITEU), [MATWRITE](#MATWRITE),
        V.REC<-1> = 'A field'
        WRITE V.REC TO F.TEMP, 'REC1'
 
-<a name="READV"/>
-
 ## READV
+
+<a name="READV"/>
 
 READV statement allows a program to read a specific field from a
 record in a previously opened file into a variable.
@@ -12718,9 +12855,9 @@ shared lock on the field, use [READVL](#READVL).
     	    ABORT 202, "Xref"
     END
 
-<a name="READVL"/>
-
 ## READVL
+
+<a name="READVL"/>
 
 READVL statement is used to acquire a shared record lock and then
 read a field from the record.
@@ -12728,9 +12865,9 @@ read a field from the record.
 The READVL statement conforms to all the specifications of the
 [READL](#READL) and [READV](#READV) statements.
 
-<a name="READVU"/>
-
 ## READVU
+
+<a name="READVU"/>
 
 READVU statement allows a program to read a specific field in a
 record in a previously opened file into a variable. It also respects
@@ -12830,9 +12967,9 @@ See also: [WRITE](#WRITE), [WRITEU](#WRITEU), [MATWRITE](#MATWRITE),
        END
     REPEAT
 
-<a name="READXML"/>
-
 ## READXML
+
+<a name="READXML"/>
 
 READXML rec FROM file, id ELSE STOP 202,id
 
@@ -12860,6 +12997,8 @@ Screen output:
     &lt;address&gt;999 LETSBE AVENUE&lt;/address&gt;</pre>
 
 ## RECORDLOCKED
+
+<a name="RECORDLOCKED"/>
 
 RECORDLOCKED function is called to ascertain the status of a record
 lock.
@@ -12919,6 +13058,8 @@ message, then run it in another session:
 
 ## REGEXP
 
+<a name="REGEXP"/>
+
 REGEXP function is a powerful function that allows pattern matching
 using UNIX regular expressions. REGEXP is not supported on Windows.
 
@@ -12964,9 +13105,9 @@ was invalid then the function returns -1.
     * negative lookahead assertion isn't supported ("all not containing 'bar'")
        CRT REGEXP('bar', '"^(?!.*?bar).*"')                                 ;* -1
 
-<a name="RELEASE"/>
-
 ## RELEASE
+
+<a name="RELEASE"/>
 
 RELEASE statement enables a program to explicitly release record locks
 without updating the records using [WRITE](#WRITE).
@@ -13110,9 +13251,9 @@ case the jBC compiler will optimize the assignment.
        CRT FMT(X, 'MCP')                    ;*  jBASE]is]great^!
        CRT FMT(Y, 'MCP')                    ;*  jBASE]is really]great^!
 
-<a name="RETURN"/>
-
 ## RETURN
+
+<a name="RETURN"/>
 
 RETURN statement transfers program execution to the caller of a
 subroutine/function or to a specific label in the program.
@@ -13149,9 +13290,9 @@ The second form of the RETURN statement is used to return a value from a
 user-written function. This form can only be used in a user-written
 function.
 
-<a name="REWIND"/>
-
 ## REWIND
+
+<a name="REWIND"/>
 
 REWIND statement issueS a rewind command to the device attached to the
 specified channel.
@@ -13181,9 +13322,9 @@ via the value of SYSTEM(0) as follows:
 |1     | There is no media attached to the channel |
 |2     | There is an end for file mark             |
 
-<a name="RIGHT"/>
-
 ## RIGHT
+
+<a name="RIGHT"/>
 
 RIGHT function returns a sub-string composed of the last n characters
 of a specified string.
@@ -13281,8 +13422,6 @@ The data will be discarded if the program is not executed by an
 
 ## SADD
 
-See also: Floating point Operations
-
 SADD function performs string addition of two base 10-string numbers.
 
 ### COMMAND SYNTAX
@@ -13314,8 +13453,6 @@ Displays 4000000000000000000000000000007 to the screen
 Displays 6.13333333333333333 to the screen
 
 ## SDIV
-
-See also: Floating point Operations
 
 SDIV function performs a string division of two base 10-string numbers
 and rounds the result to 14 decimal places.
@@ -13437,9 +13574,9 @@ For more information about sequential file processing, See also:
        CRT FMT( FMT( OCONV(V.ALL, 'MX'), '2L'), 'MCP ')
     * 31 32 33 34 35 36 37 38 39 30 41 42 43 44 45 46 FE 00 00 00 56 57 58 59 5A
 
-<a name="SELECT"/>
-
 ## SELECT
+
+<a name="SELECT"/>
 
 SELECT statement creates a select list of elements in a specified
 variable.
@@ -13535,9 +13672,9 @@ select list number 0 is used to hold the list. However, the CLEAR
 statement also initializes Listvar2 to zero, so the second SELECT
 overwrites the first list.
 
-<a name="SEND"/>
-
 ## SEND
+
+<a name="SEND"/>
 
 SEND statement sends a block of data directly to a device.
 
@@ -13570,9 +13707,9 @@ See also: [SENDX](#SENDX)
 
 See also: Sequential File Processing.
 
-<a name="SENDX"/>
-
 ## SENDX
+
+<a name="SENDX"/>
 
 SENDX statement sends a block of data (in hexidecimal) directly to a
 device.
@@ -13745,9 +13882,9 @@ truncate the value according to the PRECISION of the program.
        CRT @(I,12 + INT( SIN(360/80*(I+1))*10)) : "*" :
     NEXT I
 
-<a name="SLEEP"/>
-
 ## SLEEP
+
+<a name="SLEEP"/>
 
 SLEEP function allows the program to pause execution for a specified
 period.
@@ -13800,8 +13937,6 @@ computers:
 
 ## SMUL
 
-See also: Floating Point Operations
-
 SMUL function performs string multiplication of two base 10-string
 numbers.
 
@@ -13832,8 +13967,6 @@ Displays 915948445704681866720 to the screen
     CRT SMUL(0.0000000000000475,3.61)
 
 Displays 0.0000000000001714 to the screen
-
-See also: Floating point Operations.
 
 ## SORT
 
@@ -13925,6 +14058,8 @@ foolproof should not be the sole method of identifying a word.
 
 ## SPACE
 
+<a name="SPACE"/>
+
 SPACE function generates a specific number of ASCII space characters.
 
 ### COMMAND SYNTAX
@@ -13947,6 +14082,8 @@ inefficient, accomplish this by using the [@](#@).
 
 ## SPACES
 
+<a name="SPACES"/>
+
 SPACES function is used to return a dynamic array with elements
 composed of blank spaces.
 
@@ -13961,6 +14098,8 @@ dynamic.array or any element of dynamic.array evaluates to null, the
 SPACES function will enter the debugger.
 
 ## SPLICE
+
+<a name="SPLICE"/>
 
 SPLICE function is used to create a dynamic array of the
 element-by-element concatenation of two dynamic arrays, separating
@@ -13994,6 +14133,8 @@ The output of this program is:
     A-D\-E]B-F\C-</pre>
 
 ## SPOOLER
+
+<a name="SPOOLER"/>
 
 SPOOLER function returns information from the jBASE spooler.
 
@@ -14100,6 +14241,8 @@ The values for Job Status are:
 
 ## SQRT
 
+<a name="SQRT"/>
+
 SQRT function returns the mathematical square root of a value.
 
 ### COMMAND SYNTAX
@@ -14112,23 +14255,21 @@ SQRT function returns the mathematical square root of a value.
 the authors do not want to introduce a complex number type
 within the language. Negative values will cause a math error.
 
-### NOTES
+### NOTE
 
 The function calculates the result at the highest precision
 available and then truncates the answer to the required
 PRECISION.
 
-See also: Floating point Operations
-
-### EXAMPLES
+### EXAMPLE
 
     FOR I = 1 TO 1000000
         J = SQRT(I)
     NEXT I
 
-<a name="SSELECT"/>
-
 ## SSELECT
+
+<a name="SSELECT"/>
 
 SSELECT statement is used to create:
 
@@ -14258,8 +14399,6 @@ standard arithmetic operators.
 The [PRECISION])(#PRECISION) declaration has no effect on the value
 returned by SSUB.
 
-See also: Floating Point Operations
-
 ### EXAMPLES
 
     A = 2.3000000123456789
@@ -14268,9 +14407,9 @@ See also: Floating Point Operations
 
 Displays -2.69999998765432 to the screen.
 
-<a name="STATUS"/>
-
 ## STATUS
+
+<a name="STATUS"/>
 
 STATUS function after an OPENPATH statement to find the cause of a file
 open failure (that is, for an  tatement in which the ELSE clause is
@@ -14412,9 +14551,9 @@ executed; any THEN statements are ignored.
        CRT V.INFO.L<20>      ;*  full path to file
        CRT V.INFO.L<21>      ;*  file type, e.g. J4, JR, XMLDB2, SEQ
 
-<a name="STOP"/>
-
 ## STOP
+
+<a name="STOP"/>
 
 STOP statement is virtually identical in function to the
 [ABORT](#ABORT) statement except that it does not terminate a
@@ -14474,6 +14613,8 @@ The output of this program is:
 
 ## SUBROUTINE
 
+<a name="SUBROUTINE"/>
+
 SUBROUTINE statement is used at the start of any program that will be
 called externally by the [CALL](#CALL) statement. It also declares any
 parameters to the compiler.
@@ -14499,27 +14640,27 @@ the values passed to the subroutine by a CALL statement.
 
 The SUBROUTINE statement must be the first code line in a subroutine.
 
-A subroutine will inherit all the variables declared using the
-[COMMON](#COMMON) statement providing an equivalent [COMMON](#COMMON)
-area is declared within the [SUBROUTINE](#SUBROUTINE) source file.
+All the variables declared using the [COMMON](#COMMON)
+statement will be inherited providing an equivalent common
+area is declared within the subroutine source file.
 The program will fail to compile if the number of common variables
 used in each common area exceeds the number defined in the equivalent
 area in the main program.
 
 Subroutines can only be called via the jBC [CALL](#CALL) statement.
 
-A subroutine can redefine [PRECISION](#PRECISION) but the new precision
+[PRECISION](#PRECISION) can be redefined but the new setting
 will not persist when the subroutine returns to the calling program.
 
-A subroutine will return to the CALLing program if it reaches the
+The control will be returned to the CALLing program if the subroutine reaches the
 logical end of the program or a [RETURN](#RETURN) is executed with
 no outstanding [GOSUB](#GOSUB) statement.
 
-A [SUBROUTINE](#SUBROUTINE) will not return to the calling program
+The control will not be returned to the calling program
 if a [STOP](#STOP) or [ABORT](#ABORT) statement is executed.
 
 See also: [CALL](#CALL), [CATALOG](#CATALOG), [COMMON](#COMMON),
-[RETURN](#RETURN)
+[RETURN](#RETURN).
 
 ### EXAMPLES
 
@@ -14550,13 +14691,13 @@ error.
 
 ### EXAMPLE
 
-    X = 1 : @VM : @VM : 5 : @VM : 8 : @SVM : 27 : @VM : 4
+    X = 1 : @VM : @VM : 5 : @VM : 8 : @SM : 27 : @VM : 4
     Y = 1 : @VM : 5 : @VM : 8 : @VM : 70: @VM : 19
     S = SUBS(X, Y)
 
 The variable S is assigned the value:
 
-    0 : @VM : -5 : @VM : -3 : @VM : -62 : @SVM : 27 : @VM : -15
+    0 : @VM : -5 : @VM : -3 : @VM : -62 : @SM : 27 : @VM : -15
 
 ## SUBSTRINGS
 
@@ -14898,8 +15039,7 @@ The following system functions are supported by TAFC:
 |              |                                                                          |
 |              |                   status = "Program blocked on record LOCK"              |
 |              |                                                                          |
-|              |                   status = "Program performing                           |
-|              |                  [EXECUTE](#EXECUTE)/[PERFORM](#PERFORM)"                |
+|              |                   status = "Program is doing EXECUTE/PERFORM"            |
 |              |                                                                          |
 |              |                   status = "Error!! Status unknown"                      |
 |              |<47> Status as an integer  <threadnext >                                  |
@@ -14994,9 +15134,9 @@ Returns the time as the number of seconds past midnight
 
     CRT "Time is " : OCONV( TIME(), "MTS" )
 
-<a name="TIMEDATE"/>
-
 ## TIMEDATE
+
+<a name="TIMEDATE"/>
 
 TIMEDATE() function returns the current time and date as a printable
 string.
@@ -15102,9 +15242,9 @@ of a second."
        CRT ( MAKETIMESTAMP( DATE(), TIME(), 'Europe/Amsterdam') - V.TS ) / 3600 ;* -1
        CRT ( MAKETIMESTAMP( DATE(), TIME(), 'Asia/Singapore') - V.TS ) / 3600   ;* -8
 
-<a name="TRANS"/>
-
 ## TRANS
+
+<a name="TRANS"/>
 
 TRANS function returns the data value of a field, given the name
 of the file, the record key, the field number, and an action code.
@@ -15203,9 +15343,9 @@ will display
 <pre>
     A]1]Vendor Name]]]]]L]30</pre>
 
-<a name="TRANSABORT"/>
-
 ## TRANSABORT
+
+<a name="TRANSABORT"/>
 
 TRANSABORT statement is used to abort the current transaction and
 reverse any updates to the database.
@@ -15228,9 +15368,9 @@ clause will be executed if the transaction abort fails for any reason.
 Any record locks set during the transaction will be released upon
 successful completion.
 
-<a name="TRANSEND"/>
-
 ## TRANSEND
+
+<a name="TRANSEND"/>
 
 TRANSEND statement is used to mark the end of a successfully
 completed transaction.
@@ -15273,9 +15413,9 @@ not yet been processed.
 By default, all hashed files are marked for inclusion in a transaction
 however this can be modified by the jchmod utility.
 
-<a name="TRANSTART"/>
-
 ## TRANSTART
+
+<a name="TRANSTART"/>
 
 In transaction processing, TRANSTART statement is used to mark the
 beginning of a transaction.
@@ -15398,9 +15538,9 @@ Output:
     &nbsp;
      2 Records Listed</pre>
 
-<a name="TRIM"/>
-
 ## TRIM
+
+<a name="TRIM"/>
 
 TRIM statement allows characters to be removed from a string in a
 number of ways.
@@ -15490,9 +15630,9 @@ element of dynamic.array is null, it returns null for that value.
 
 # jBC Functions and Statements (U - X)
 
-<a name="UNASSIGNED"/>
-
 ## UNASSIGNED
+
+<a name="UNASSIGNED"/>
 
 UNASSIGNED function allows a program to determine whether a variable
 has been assigned a value.
@@ -15557,9 +15697,9 @@ Sample output:
     41505741-4141-4445-7935727a6a38
     41505741-4141-4445-7935727a6a39</pre>
 
-<a name="UNLOCK"/>
-
 ## UNLOCK
+
+<a name="UNLOCK"/>
 
 UNLOCK statement releases a previously LOCKed execution lock.
 
@@ -15592,15 +15732,15 @@ See also: [LOCK](#LOCK)
 
 See also: [EXECUTE](#EXECUTE)
 
-<a name="UPCASE"/>
-
 ## UPCASE
+
+<a name="UPCASE"/>
 
 See: [DOWNCASE](#DOWNCASE)
 
-<a name="UTF8"/>
-
 ## UTF8
+
+<a name="UTF8"/>
 
 UTF8 function converts a latin1 or binary string into the UTF-8
 equivalent byte sequence.
@@ -15620,9 +15760,9 @@ used to represent the Unicode values for each byte in the expression.
 This function is useful for converting binary or latin1 code
 page data into internal format in International Mode.
 
-<a name="WAKE"/>
-
 ## WAKE
+
+<a name="WAKE"/>
 
 WAKE statement is used to wake a suspended process, which has
 executed a PAUSE statement.
@@ -15712,9 +15852,9 @@ nothing is actually 'written' to the sequential file.
        WRITESEQ 'TEST' TO F.FILE.OUT ELSE NULL
        CLOSESEQ F.FILE.OUT
 
-<a name="WRITE"/>
-
 ## WRITE
+
+<a name="WRITE"/>
 
 WRITE statement allows a program to write a record into a previously
 opened file.
@@ -15766,9 +15906,9 @@ explicitly with the [WRITEU](#WRITEU) statement.
        WRITE V.REC.INIT TO F.TEMP, 'REC1'
        CLOSE F.TEMP
 
-<a name="WRITEBLK"/>
-
 ## WRITEBLK
+
+<a name="WRITEBLK"/>
 
 WRITEBLK statement writes a block of data to a file opened for
 sequential processing.
@@ -15846,9 +15986,9 @@ WRITESEQ, for example, under *prime* emulation).
        STOP
     END
 
-<a name="WRITELIST"/>
-
 ## WRITELIST
+
+<a name="WRITELIST"/>
 
 WRITELIST allows the program to store a list held in a jBC variable to
 the global list file.
@@ -15888,9 +16028,9 @@ See also: [DELETELIST](#DELETELIST), [READLIST](#READLIST),
        GETLIST 'SOME-FILES' TO V.FILES.L ELSE NULL
        CRT OCONV( V.FILES.L, 'MCP' )  ;* e.g. &COMO&^&COMO&]D^&ED&^&ED&]D^&PH&
 
-<a name="WRITESEQ"/>
-
 ## WRITESEQ
+
+<a name="WRITESEQ"/>
 
 WRITESEQ writes data to a file opened for sequential access.
 
@@ -15944,6 +16084,8 @@ Append data to file:
 
 ## WRITESEQF
 
+<a name="WRITESEQF"/>
+
 WRITESEQF statement is used to write new lines to a file opened for
 sequential processing, and to ensure that data is physically written to
 disk (that is, not buffered) before the next statement in the program is
@@ -15967,7 +16109,7 @@ the buffer contents to be written to disk; the program does not
 execute the statement following the WRITESEQF statement
 until the buffer is successfully written to disk.
 
-A WRITESEQF statement following several [WRITESEQ](#WRITESEQ)
+A WRITESEQF statement following several WRITESEQ
 statements ensures that all buffered records are written to disk.
 WRITESEQF is intended for logging applications and should not
 be used for general programming. It increases the disk I/O of
@@ -15992,9 +16134,9 @@ lets you specify an alternative for program termination when a
 fatal error is encountered while the WRITESEQF statement is being
 processed.
 
-<a name="WRITET"/>
-
 ## WRITET
+
+<a name="WRITET"/>
 
 WRITET statement enables data to be written to a range of tape
 devices between 0-9.
@@ -16046,9 +16188,9 @@ tape devices for instance).
        END
     REPEAT
 
-<a name="WRITEU"/>
-
 ## WRITEU
+
+<a name="WRITEU"/>
 
 WRITEU statement allows a program to write a record into a
 previously opened file. An existing record lock will be
@@ -16121,9 +16263,9 @@ See also: [READU](#READU), [MATREADU](#MATREADU),
        RELEASE F.TEMP, 'REC1'
        CRT RECORDLOCKED(F.TEMP, 'REC1')  ;* 0 - not locked
 
-<a name="WRITEV"/>
-
 ## WRITEV
+
+<a name="WRITEV"/>
 
 WRITEV statement allows a program to write a specific field
 of a record in a previously opened file.
@@ -16177,9 +16319,9 @@ record, do so explicitly with the WRITEVU statement.
        ABORT
     END
 
-<a name="WRITEVU"/>
-
 ## WRITEVU
+
+<a name="WRITEVU"/>
 
 WRITEVU statement allows a program to write a specific field on a
 record in a previously opened file. An existing record lock will
@@ -16247,9 +16389,9 @@ See also: [MATWRITEU](#MATWRITEU), [RELEASE](#RELEASE),
        ABORT
     END
 
-<a name="WRITEXML"/>
+## WRITEXML
 
-## WRITEXML##
+<a name="WRITEXML"/>
 
 Use WRITEXML to write an XML record to a hashed file.
 
@@ -16267,9 +16409,9 @@ The transform takes place using the style sheet in DICT (record @WRITEXML).
 
     WRITEXML rec ON file,id ON ERROR CRT "Broken! " : rec
 
-<a name="XLATE"/>
-
 ## XLATE
+
+<a name="XLATE"/>
 
 The XLATE function will return the data value of a field, given the
 name of the file, the record key, the field number, and an action code.
@@ -16366,9 +16508,9 @@ will display
 <pre>
     A]1]Vendor Name]]]]]L]30</pre>
 
-<a name="XMLTODYN"/>
-
 ## XMLTODYN##
+
+<a name="XMLTODYN"/>
 
 XMLTODYN converts the XML to a dynamic array using the optional XSL.
 
@@ -16435,9 +16577,9 @@ to give a different format of the array.
     &lt;/xsl:template&gt;
     Etc</pre>
 
-<a name="XMLTOXML"/>
-
 ## XMLTOXML
+
+<a name="XMLTOXML"/>
 
 XMLTOXML transforms the XML using the XSL.
 
@@ -16484,9 +16626,9 @@ If result=1, newxml will hold an error message.
 <pre>
     &lt;p&gt;Bob&lt;/p&gt;&lt;p&gt;Amy&lt;/p&gt;</pre>
 
-<a name="XTD"/>
-
 ## XTD
+
+<a name="XTD"/>
 
 XTD function converts hexadecimal numbers into its decimal equivalent.
 
