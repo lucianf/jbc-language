@@ -132,3 +132,12 @@ white-space: pre-wrap;
 #content pre > span{
 display: block;
 }
+#timestamp {
+border-top: 1px dashed #CCCCCC;
+color: #CCCCCC;
+line-height: 26px;
+}
+#timestamp:hover {
+border-top: 1px solid #302F2D;
+color: #302F2D;
+}
