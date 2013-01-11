@@ -455,18 +455,15 @@
 </p>
 <p>See also: <a href="minimum.html">MINIMUM</a>
 </p>
-<h2>EXAMPLE</h2>
-<p>If EResults is a variable containing the dynamic array:
-</p>
-<pre><span>    <span class="c-2num">1</span>.<span class="c-2num">45032</span>:<span class="c-3typ">@AM</span>:<span class="c-2num">-3</span>.<span class="c-2num">60441</span>:<span class="c-3typ">@VM</span>:<span class="c-2num">4</span>.<span class="c-2num">29445</span>:<span class="c-3typ">@AM</span>:<span class="c-2num">2</span>.<span class="c-2num">00042</span>:<span class="c-3typ">@SM</span>:<span class="c-2num">-3</span>.<span class="c-2num">90228</span>
-</span></pre>
-<p>the code:
-</p>
-<pre><span>    <span class="c-1com">PRECISION</span> <span class="c-2num">5</span>
-</span><span>    <span class="c-1com">CRT</span> <span class="c-0fun">MAXIMUM</span>(EResults)
-</span></pre>
-<p>displays 4.29445
-</p></div>
+<h2>EXAMPLES</h2>
+<pre><span>       <span class="c-1com">PRECISION</span> <span class="c-2num">5</span>
+</span><span>    <span class="c-5com">*</span>
+</span><span>       V.ARR = <span class="c-2num">1</span>.<span class="c-2num">45032</span>:<span class="c-3typ">@AM</span>:<span class="c-2num">-3</span>.<span class="c-2num">60441</span>:<span class="c-3typ">@VM</span>:<span class="c-2num">4</span>.<span class="c-2num">29445</span>:<span class="c-3typ">@AM</span>:<span class="c-2num">2</span>.<span class="c-2num">00042</span>:<span class="c-3typ">@SM</span>:<span class="c-2num">-3</span>.<span class="c-2num">90228</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">MAXIMUM</span>(V.ARR)      ;<span class="c-5com">* <span class="c-2num">4</span>.<span class="c-2num">29445</span></span>
+</span><span>    <span class="c-5com">*</span>
+</span><span>       V.ARR = <span class="c-2num">1</span>.<span class="c-2num">45032</span>:<span class="c-3typ">@AM</span>:<span class="c-2num">-3</span>.<span class="c-2num">60441</span>:<span class="c-3typ">@VM</span>:<span class="c-2num">4</span>.<span class="c-2num">29445</span>:<span class="c-3typ">@FM</span>:<span class="c-4str">'1,000'</span>:<span class="c-3typ">@AM</span>:<span class="c-2num">2</span>.<span class="c-2num">00042</span>:<span class="c-3typ">@SM</span>:<span class="c-2num">-3</span>.<span class="c-2num">90228</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">MAXIMUM</span>(V.ARR)      ;<span class="c-5com">* still <span class="c-2num">4</span>.<span class="c-2num">29445</span></span>
+</span></pre><div id="timestamp">Last update: Fri, 11 Jan 2013 10:16 CET</div></div>
 </div>
 <script type="text/javascript">
 
