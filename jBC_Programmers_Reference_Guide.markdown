@@ -4203,16 +4203,14 @@ See also: [BREAK](#BREAK), [EXIT](#EXIT)
 The compiler will issue a warning message and ignore the statement if it is
 found outside an iterative loop such as FOR...NEXT, LOOP...REPEAT.
 
-### EXAMPLES
+### EXAMPLE
 
-    FOR I = 1 TO 30
-        IF Pattern(I) MATCHES "0N" THEN CONTINUE
-        GOSUB ProcessText
-    NEXT I
-
-The above example will execute the loop 30 times but will only call the
-subroutine ProcessText when the current array element of Pattern is not
-a numeric value or null.
+       num_array = ''
+       FOR i = 1 TO 10
+          IF i EQ 3 THEN CONTINUE
+          num_array<-1> = i
+       NEXT i
+       CRT FMT(num_array, 'MCP')    ;* 1^2^4^5^6^7^8^9^10
 
 ## CONVERT
 
@@ -7490,16 +7488,28 @@ clause is executed (if present).
 
 See also: [INPUT](#INPUT), [INPUTNULL](#INPUTNULL).
 
-### EXAMPLES
+### EXAMPLE
 
-    Char2 = "
-    IN Char
-    IF Char = 27 THEN ;* ESC seen
-        IN Char2 FOR 20 THEN ;* Function Key?
-            Char2 = CHAR(Char2) ;* ASCII value
-        END
-    END
-    Char = CHAR(Char):Char2 ;* Return key sequence
+       LOOP
+          IN in_key
+          IF in_key EQ 27 THEN ;* ESC seen
+             IN in_key_2 FOR 2 THEN ;* Function Key?
+                IN in_key_3 FOR 2 THEN
+                   CRT ''
+                   BEGIN CASE
+                   CASE in_key_2 EQ 79 AND in_key_3 EQ 80
+                      CRT 'F1 detected'
+                   CASE in_key_2 EQ 79 AND in_key_3 EQ 81
+                      CRT 'F2 detected'
+                   END CASE
+                END
+             END ELSE
+                CRT ''
+                CRT 'ESC pressed, exiting'
+                STOP
+             END
+          END
+       REPEAT
 
 ## INDEX
 
