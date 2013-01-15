@@ -466,44 +466,63 @@
 <p>NOTE: Set the @FILENAME to the name of the file before ITYPE execution.
 </p>
 <h2>EXAMPLE</h2>
-<p>This is the SLIPPER file content:
-</p>
-<table><tr><th>JIM</th><th>GREG</th><th>ALAN</th></tr><tr><td>001 8</td><td>001 10</td><td>001 5</td></tr></table>
-<p>This is the DICT SLIPPER content:
-</p>
-<p><pre>
-     &lowast;&lowast;SIZE&lowast;&lowast;
-     001 D
-     002 1
-     003
-     004
-     005 10L
-     006 L</pre>
-</p>
-<p>This is the program source code:
-</p>
-<pre><span>    <span class="c-1com">OPEN</span> <span class="c-4str">'SLIPPERS'</span> <span class="c-1com">TO</span> FILE <span class="c-1com">ELSE</span> <span class="c-1com">STOP</span>
-</span><span>    <span class="c-1com">OPEN</span> <span class="c-4str">'DICT'</span>,<span class="c-4str">'SLIPPERS'</span> <span class="c-1com">TO</span> D.FILE <span class="c-1com">ELSE</span> <span class="c-1com">STOP</span>
-</span><span>    <span class="c-1com">READ</span> ITYPEDESC <span class="c-1com">FROM</span> D.FILE, <span class="c-4str">'SIZE'</span> <span class="c-1com">ELSE</span> <span class="c-1com">STOP</span>
+<pre><span>    <span class="c-5com">* Data preparation</span>
 </span><span>    <span class="c-5com">*</span>
-</span><span>    <span class="c-1com">EXECUTE</span> <span class="c-4str">'SELECT SLIPPERS'</span>
-</span><span>    <span class="c-3typ">@FILENAME</span> = <span class="c-4str">'SLIPPERS'</span>
-</span><span>    <span class="c-1com">LOOP</span>
-</span><span>       <span class="c-1com">READNEXT</span> <span class="c-3typ">@ID</span> <span class="c-1com">DO</span>
+</span><span>       V.FILE = <span class="c-4str">'F.TEMP'</span>
+</span><span>       <span class="c-1com">EXECUTE</span> <span class="c-4str">'DELETE-FILE '</span> : V.FILE
+</span><span>       <span class="c-1com">EXECUTE</span> <span class="c-4str">'CREATE-FILE '</span> : V.FILE : <span class="c-4str">' 1 101 TYPE=J4'</span>
+</span><span>       <span class="c-1com">OPEN</span> V.FILE <span class="c-1com">TO</span> F.TEMP <span class="c-1com">ELSE</span> <span class="c-1com">ABORT</span> <span class="c-2num">201</span>, <span class="c-4str">'F.TEMP'</span>
+</span><span>       <span class="c-1com">OPEN</span> <span class="c-4str">'DICT'</span>, V.FILE <span class="c-1com">TO</span> F.TEMP.DICT <span class="c-1com">ELSE</span> <span class="c-1com">ABORT</span> <span class="c-2num">201</span>, <span class="c-4str">'F.TEMP]D'</span>
+</span><span>    <span class="c-5com">* Field <span class="c-2num">1</span> dictionary entry</span>
+</span><span>       R.DICT.D1 = <span class="c-4str">''</span>
+</span><span>       R.DICT.D1&lt;<span class="c-2num">1</span>&gt = <span class="c-4str">'D'</span>
+</span><span>       R.DICT.D1&lt;<span class="c-2num">2</span>&gt = <span class="c-4str">'1'</span>
+</span><span>       R.DICT.D1&lt;<span class="c-2num">5</span>&gt = <span class="c-4str">'25L'</span>
+</span><span>       R.DICT.D1&lt;<span class="c-2num">6</span>&gt = <span class="c-4str">'S'</span>
+</span><span>       <span class="c-1com">WRITE</span> R.DICT.D1 <span class="c-1com">TO</span> F.TEMP.DICT, <span class="c-4str">'FOOTWEAR'</span>
 </span><span>    <span class="c-5com">*</span>
-</span><span>       <span class="c-1com">READ</span> <span class="c-3typ">@RECORD</span> <span class="c-1com">FROM</span> FILE, <span class="c-3typ">@ID</span> <span class="c-1com">THEN</span>
-</span><span>       <span class="c-1com">PRINT</span> <span class="c-3typ">@ID</span>: <span class="c-4str">" WEARS SLIPPERS SIZE "</span> : <span class="c-0fun">ITYPE</span>(ITYPEDESC)
-</span><span>       <span class="c-1com">END</span>
-</span><span>    <span class="c-1com">REPEAT</span>
+</span><span>    <span class="c-5com">* I-descriptor</span>
+</span><span>       V.DESCR = <span class="c-4str">'SIZE'</span>
+</span><span>       R.DICT.I = <span class="c-4str">''</span>
+</span><span>       R.DICT.I&lt;<span class="c-2num">1</span>&gt = <span class="c-4str">'I'</span>
+</span><span>       R.DICT.I&lt;<span class="c-2num">2</span>&gt = <span class="c-4str">'FOOTWEAR[":", 2, 1]'</span>
+</span><span>       R.DICT.I&lt;<span class="c-2num">4</span>&gt = V.DESCR
+</span><span>       R.DICT.I&lt;<span class="c-2num">5</span>&gt = <span class="c-4str">'3R'</span>
+</span><span>       R.DICT.I&lt;<span class="c-2num">6</span>&gt = <span class="c-4str">'S'</span>
+</span><span>       <span class="c-1com">WRITE</span> R.DICT.I <span class="c-1com">TO</span> F.TEMP.DICT, V.DESCR
+</span><span>    <span class="c-5com">*</span>
+</span><span>    <span class="c-5com">* Data records</span>
+</span><span>       R.DATA = <span class="c-4str">''</span>
+</span><span>       R.DATA&lt;<span class="c-2num">1</span>&gt = <span class="c-4str">'SLIPPERS:8'</span>
+</span><span>       <span class="c-1com">WRITE</span> R.DATA <span class="c-1com">TO</span> F.TEMP, <span class="c-4str">'JIM'</span>
+</span><span>       R.DATA = <span class="c-4str">''</span>
+</span><span>       R.DATA&lt;<span class="c-2num">1</span>&gt = <span class="c-4str">'BOOTS:10'</span>
+</span><span>       <span class="c-1com">WRITE</span> R.DATA <span class="c-1com">TO</span> F.TEMP, <span class="c-4str">'GREG'</span>
+</span><span>       R.DATA = <span class="c-4str">''</span>
+</span><span>       R.DATA&lt;<span class="c-2num">1</span>&gt = <span class="c-4str">'SLIPPERS:5'</span>
+</span><span>       <span class="c-1com">WRITE</span> R.DATA <span class="c-1com">TO</span> F.TEMP, <span class="c-4str">'ALAN'</span>
+</span><span>    <span class="c-5com">*</span>
+</span><span>    <span class="c-5com">* Data is prepared; now proceed it</span>
+</span><span>    <span class="c-5com">*</span>
+</span><span>       <span class="c-3typ">@FILENAME</span> = V.FILE
+</span><span>       <span class="c-1com">READ</span> V.ITYPE <span class="c-1com">FROM</span> F.TEMP.DICT, V.DESCR <span class="c-1com">ELSE</span> <span class="c-1com">ABORT</span>
+</span><span>    <span class="c-5com">*</span>
+</span><span>       <span class="c-1com">SSELECT</span> F.TEMP <span class="c-1com">TO</span> V.PEOPLE.L
+</span><span>       <span class="c-1com">LOOP</span>
+</span><span>          <span class="c-1com">READNEXT</span> V.ID <span class="c-1com">FROM</span> V.PEOPLE.L <span class="c-1com">ELSE</span> <span class="c-1com">BREAK</span>
+</span><span>          <span class="c-3typ">@ID</span> = V.ID
+</span><span>          <span class="c-1com">READ</span> <span class="c-3typ">@RECORD</span> <span class="c-1com">FROM</span> F.TEMP, <span class="c-3typ">@ID</span> <span class="c-1com">ELSE</span> <span class="c-1com">ABORT</span>
+</span><span>          V.RET = <span class="c-0fun">ITYPE</span>(V.ITYPE)
+</span><span>          <span class="c-1com">CRT</span> <span class="c-3typ">@ID</span> : <span class="c-4str">"'S FOOTWEAR HAS SIZE "</span> : V.RET
+</span><span>       <span class="c-1com">REPEAT</span>
 </span></pre>
 <p>The output of this program is:
 </p>
 <p><pre>
-     3 records selected
-     JIM WEARS SLIPPERS SIZE 8
-     GREG WEARS SLIPPERS SIZE 10
-     ALAN WEARS SLIPPERS SIZE 5</pre>
-</p></div>
+     ALAN'S FOOTWEAR HAS SIZE 5
+     GREG'S FOOTWEAR HAS SIZE 10
+     JIM'S FOOTWEAR HAS SIZE 8</pre>
+</p><div id="timestamp">Last update: Tue, 15 Jan 2013 09:53 CET</div></div>
 </div>
 <script type="text/javascript">
 
