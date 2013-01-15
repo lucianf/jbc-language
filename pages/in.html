@@ -467,16 +467,28 @@
 <h2>NOTES</h2>
 <p>See also: <a href="input.html">INPUT</a>, <a href="inputnull.html">INPUTNULL</a>.
 </p>
-<h2>EXAMPLES</h2>
-<pre><span>    Char2 = "
-</span><span>    <span class="c-1com">IN</span> Char
-</span><span>    <span class="c-1com">IF</span> Char = <span class="c-2num">27</span> <span class="c-1com">THEN</span> ;<span class="c-5com">* ESC seen</span>
-</span><span>        <span class="c-1com">IN</span> Char2 <span class="c-1com">FOR</span> <span class="c-2num">20</span> <span class="c-1com">THEN</span> ;<span class="c-5com">* Function Key?</span>
-</span><span>            Char2 = <span class="c-0fun">CHAR</span>(Char2) ;<span class="c-5com">* ASCII value</span>
-</span><span>        <span class="c-1com">END</span>
-</span><span>    <span class="c-1com">END</span>
-</span><span>    Char = <span class="c-0fun">CHAR</span>(Char):Char2 ;<span class="c-5com">* Return key sequence</span>
-</span></pre></div>
+<h2>EXAMPLE</h2>
+<pre><span>       <span class="c-1com">LOOP</span>
+</span><span>          <span class="c-1com">IN</span> in_key
+</span><span>          <span class="c-1com">IF</span> in_key <span class="c-1com">EQ</span> <span class="c-2num">27</span> <span class="c-1com">THEN</span> ;<span class="c-5com">* ESC seen</span>
+</span><span>             <span class="c-1com">IN</span> in_key_2 <span class="c-1com">FOR</span> <span class="c-2num">2</span> <span class="c-1com">THEN</span> ;<span class="c-5com">* Function Key?</span>
+</span><span>                <span class="c-1com">IN</span> in_key_3 <span class="c-1com">FOR</span> <span class="c-2num">2</span> <span class="c-1com">THEN</span>
+</span><span>                   <span class="c-1com">CRT</span> <span class="c-4str">''</span>
+</span><span>                   <span class="c-1com">BEGIN</span> <span class="c-1com">CASE</span>
+</span><span>                   <span class="c-1com">CASE</span> in_key_2 <span class="c-1com">EQ</span> <span class="c-2num">79</span> <span class="c-1com">AND</span> in_key_3 <span class="c-1com">EQ</span> <span class="c-2num">80</span>
+</span><span>                      <span class="c-1com">CRT</span> <span class="c-4str">'F1 detected'</span>
+</span><span>                   <span class="c-1com">CASE</span> in_key_2 <span class="c-1com">EQ</span> <span class="c-2num">79</span> <span class="c-1com">AND</span> in_key_3 <span class="c-1com">EQ</span> <span class="c-2num">81</span>
+</span><span>                      <span class="c-1com">CRT</span> <span class="c-4str">'F2 detected'</span>
+</span><span>                   <span class="c-1com">END</span> <span class="c-1com">CASE</span>
+</span><span>                <span class="c-1com">END</span>
+</span><span>             <span class="c-1com">END</span> <span class="c-1com">ELSE</span>
+</span><span>                <span class="c-1com">CRT</span> <span class="c-4str">''</span>
+</span><span>                <span class="c-1com">CRT</span> <span class="c-4str">'ESC pressed, exiting'</span>
+</span><span>                <span class="c-1com">STOP</span>
+</span><span>             <span class="c-1com">END</span>
+</span><span>          <span class="c-1com">END</span>
+</span><span>       <span class="c-1com">REPEAT</span>
+</span></pre><div id="timestamp">Last update: Tue, 15 Jan 2013 14:43 CET</div></div>
 </div>
 <script type="text/javascript">
 
