@@ -8443,46 +8443,62 @@ NOTE: Set the @FILENAME to the name of the file before ITYPE execution.
 
 ### EXAMPLE
 
-This is the SLIPPER file content:
-
-|JIM   |   GREG   |  ALAN  |
-|------|----------|--------|
-|001 8 |  001 10  |  001 5 |
-
-This is the DICT SLIPPER content:
-
-<pre>
-    &lowast;&lowast;SIZE&lowast;&lowast;
-    001 D
-    002 1
-    003
-    004
-    005 10L
-    006 L</pre>
-
-This is the program source code:
-
-    OPEN 'SLIPPERS' TO FILE ELSE STOP
-    OPEN 'DICT','SLIPPERS' TO D.FILE ELSE STOP
-    READ ITYPEDESC FROM D.FILE, 'SIZE' ELSE STOP
+    * Data preparation
     *
-    EXECUTE 'SELECT SLIPPERS'
-    @FILENAME = 'SLIPPERS'
-    LOOP
-       READNEXT @ID DO
+       V.FILE = 'F.TEMP'
+       EXECUTE 'DELETE-FILE ' : V.FILE
+       EXECUTE 'CREATE-FILE ' : V.FILE : ' 1 101 TYPE=J4'
+       OPEN V.FILE TO F.TEMP ELSE ABORT 201, 'F.TEMP'
+       OPEN 'DICT', V.FILE TO F.TEMP.DICT ELSE ABORT 201, 'F.TEMP]D'
+    * Field 1 dictionary entry
+       R.DICT.D1 = ''
+       R.DICT.D1<1> = 'D'
+       R.DICT.D1<2> = '1'
+       R.DICT.D1<5> = '25L'
+       R.DICT.D1<6> = 'S'
+       WRITE R.DICT.D1 TO F.TEMP.DICT, 'FOOTWEAR'
     *
-       READ @RECORD FROM FILE, @ID THEN
-       PRINT @ID: " WEARS SLIPPERS SIZE " : ITYPE(ITYPEDESC)
-       END
-    REPEAT
+    * I-descriptor
+       V.DESCR = 'SIZE'
+       R.DICT.I = ''
+       R.DICT.I<1> = 'I'
+       R.DICT.I<2> = 'FOOTWEAR[":", 2, 1]'
+       R.DICT.I<4> = V.DESCR
+       R.DICT.I<5> = '3R'
+       R.DICT.I<6> = 'S'
+       WRITE R.DICT.I TO F.TEMP.DICT, V.DESCR
+    *
+    * Data records
+       R.DATA = ''
+       R.DATA<1> = 'SLIPPERS:8'
+       WRITE R.DATA TO F.TEMP, 'JIM'
+       R.DATA = ''
+       R.DATA<1> = 'BOOTS:10'
+       WRITE R.DATA TO F.TEMP, 'GREG'
+       R.DATA = ''
+       R.DATA<1> = 'SLIPPERS:5'
+       WRITE R.DATA TO F.TEMP, 'ALAN'
+    *
+    * Data is prepared; now proceed it
+    *
+       @FILENAME = V.FILE
+       READ V.ITYPE FROM F.TEMP.DICT, V.DESCR ELSE ABORT
+    *
+       SSELECT F.TEMP TO V.PEOPLE.L
+       LOOP
+          READNEXT V.ID FROM V.PEOPLE.L ELSE BREAK
+          @ID = V.ID
+          READ @RECORD FROM F.TEMP, @ID ELSE ABORT
+          V.RET = ITYPE(V.ITYPE)
+          CRT @ID : "'S FOOTWEAR HAS SIZE " : V.RET
+       REPEAT
 
 The output of this program is:
 
 <pre>
-    3 records selected
-    JIM WEARS SLIPPERS SIZE 8
-    GREG WEARS SLIPPERS SIZE 10
-    ALAN WEARS SLIPPERS SIZE 5</pre>
+    ALAN'S FOOTWEAR HAS SIZE 5
+    GREG'S FOOTWEAR HAS SIZE 10
+    JIM'S FOOTWEAR HAS SIZE 8</pre>
 
 ## JBASECOREDUMP
 
