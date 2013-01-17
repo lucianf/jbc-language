@@ -452,12 +452,11 @@
 <p>See also: <a href="timedate.html">TIMEDATE</a>
 </p>
 <h2>EXAMPLES</h2>
-<pre><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>( <span class="c-0fun">DATE</span>(), <span class="c-4str">'D'</span> )  ;<span class="c-5com">* e.g. <span class="c-2num">17</span> OCT <span class="c-2num">2012</span></span>
-</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">DATE</span>()                ;<span class="c-5com">* number of days (e.g. <span class="c-2num">16362</span>) since day <span class="c-2num">1</span>...</span>
-</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>(<span class="c-2num">1</span>, <span class="c-4str">'D'</span>)         ;<span class="c-5com">*  ...which is:  <span class="c-2num">01</span> JAN <span class="c-2num">1968</span></span>
-</span></pre>
-<p>Displays today's date in the form: 14 JUL 64
-</p></div>
+<pre><span>       curr_date = <span class="c-0fun">DATE</span>()
+</span><span>       <span class="c-1com">CRT</span> curr_date                  ;<span class="c-5com">* number of days (e.g. <span class="c-2num">16454</span>) since day <span class="c-2num">1</span>...</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>(<span class="c-2num">1</span>, <span class="c-4str">'D'</span>)              ;<span class="c-5com">*  ...which is:  <span class="c-2num">01</span> JAN <span class="c-2num">1968</span></span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>(curr_date, <span class="c-4str">'D4/'</span>)    ;<span class="c-5com">* e.g. <span class="c-2num">01</span>/<span class="c-2num">17</span>/<span class="c-2num">2013</span></span>
+</span></pre><div id="timestamp">Last update: Thu, 17 Jan 2013 08:54 CET</div></div>
 </div>
 <script type="text/javascript">
 

@@ -463,11 +463,14 @@
 <p>See also: <a href="count.html">COUNT</a>
 </p>
 <h2>EXAMPLES</h2>
-<pre><span>    A = <span class="c-4str">"A:B:C:D"</span>
-</span><span>    <span class="c-1com">CRT</span> <span class="c-0fun">DCOUNT</span>(A, <span class="c-4str">':'</span>)
-</span></pre>
-<p>Displays the value 4
-</p></div>
+<pre><span>       search_string = <span class="c-4str">"A:B:C:D"</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">DCOUNT</span>(search_string, <span class="c-4str">':'</span>)             ;<span class="c-5com">* <span class="c-2num">4</span></span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">COUNT</span>(search_string, <span class="c-4str">':'</span>)              ;<span class="c-5com">* <span class="c-2num">3</span> - COUNT returned</span>
+</span><span>                                                  ;<span class="c-5com">* number of <span class="c-4str">":"</span> symbols</span>
+</span><span>       <span class="c-1com">CHANGE</span> <span class="c-4str">':'</span> <span class="c-1com">TO</span> <span class="c-4str">'-&gt'</span> <span class="c-1com">IN</span> search_string
+</span><span>       <span class="c-1com">CRT</span> search_string                          ;<span class="c-5com">* A-&gtB-&gtC-&gtD</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">DCOUNT</span>(search_string, <span class="c-4str">'-&gt'</span>)            ;<span class="c-5com">* <span class="c-2num">4</span></span>
+</span></pre><div id="timestamp">Last update: Thu, 17 Jan 2013 09:01 CET</div></div>
 </div>
 <script type="text/javascript">
 
