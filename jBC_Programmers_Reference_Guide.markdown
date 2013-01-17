@@ -4554,11 +4554,10 @@ See also: [TIMEDATE](#TIMEDATE)
 
 ### EXAMPLES
 
-       CRT OCONV( DATE(), 'D' )  ;* e.g. 17 OCT 2012
-       CRT DATE()                ;* number of days (e.g. 16362) since day 1...
-       CRT OCONV(1, 'D')         ;*  ...which is:  01 JAN 1968
-
-Displays today's date in the form: 14 JUL 64
+       curr_date = DATE()
+       CRT curr_date                  ;* number of days (e.g. 16454) since day 1...
+       CRT OCONV(1, 'D')              ;*  ...which is:  01 JAN 1968
+       CRT OCONV(curr_date, 'D4/')    ;* e.g. 01/17/2013
 
 ## DCOUNT
 
@@ -4592,10 +4591,13 @@ See also: [COUNT](#COUNT)
 
 ### EXAMPLES
 
-    A = "A:B:C:D"
-    CRT DCOUNT(A, ':')
-
-Displays the value 4
+       search_string = "A:B:C:D"
+       CRT DCOUNT(search_string, ':')             ;* 4
+       CRT COUNT(search_string, ':')              ;* 3 - COUNT returned
+                                                  ;* number of ":" symbols
+       CHANGE ':' TO '->' IN search_string
+       CRT search_string                          ;* A->B->C->D
+       CRT DCOUNT(search_string, '->')            ;* 4
 
 ## DEBUG
 
