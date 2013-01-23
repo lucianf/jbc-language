@@ -4,6 +4,19 @@
 <title>INPUTNULL</title>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" type="text/css" href="../index.css">
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-37857283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
 </head>
 <body>
 <div id="search">
@@ -31,6 +44,9 @@
 <li><a href="dynamic_arrays.html">Dynamic arrays</a></li>
 <li><a href="dimensioned_arrays.html">Dimensioned arrays</a></li>
 <li><a href="other_notes.html">Other notes</a></li>
+</ul>
+<h2>Guidelines for writing the source code</h2>
+<ul><li><a href="recommendations_not_rules.html">Recommendations (not rules)</a></li>
 </ul>
 <h2>Environment variables relevant to jBC programming</h2>
 <ul><li><a href="minimum_set_of_variables_necessary_to_start_development.html">Minimum set of variables necessary to start development</a></li>
@@ -457,15 +473,16 @@
 <h2>NOTES</h2>
 <p>The INPUT statement does not default to accepting the _ character
  as a NULL input, the programmer must explicitly allow this with
- the statement: INPUTNULL "
+ the statement: INPUTNULL ''. In the example below an ampersand can be used
+ to input the empty value.
 </p>
-<h2>EXAMPLES</h2>
+<h2>EXAMPLE</h2>
 <pre><span>    <span class="c-1com">INPUTNULL</span> <span class="c-4str">"&"</span>
-</span><span>    <span class="c-1com">INPUT</span> @ (<span class="c-2num">10</span>,<span class="c-2num">10</span>):Answer,<span class="c-2num">1</span>
+</span><span>    <span class="c-1com">INPUT</span> @(<span class="c-2num">10</span>,<span class="c-2num">10</span>):Answer,<span class="c-2num">1</span>
 </span><span>    <span class="c-1com">IF</span> Answer = <span class="c-4str">''</span> <span class="c-1com">THEN</span>
 </span><span>       <span class="c-1com">CRT</span> <span class="c-4str">"A NULL input was received"</span>
 </span><span>    <span class="c-1com">END</span>
-</span></pre></div>
+</span></pre><div id="timestamp">Last update: Wed, 23 Jan 2013 11:58 CET</div></div>
 </div>
 <script type="text/javascript">
 

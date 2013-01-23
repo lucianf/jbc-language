@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>NOTS</title>
+<title>Guidelines for writing the source code</title>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" type="text/css" href="../index.css">
 <script type="text/javascript">
@@ -452,33 +452,7 @@
 </ul>
 </div>
 <div id="scrollable">
-<div id="content"><h1>NOTS</h1>
-<p>NOTS function is used to return a dynamic array of the logical
- complements of each element of dynamic.array.
-</p>
-<h2>COMMAND SYNTAX</h2>
-<pre><span>    <span class="c-0fun">NOTS</span>(dynamic.array)
-</span></pre>
-<p>If the value of the element is true, the NOTS function returns a
- false value (0) in the corresponding element of the returned array.
- If the value of the element is false, the NOTS function returns a
- true value (1) in the corresponding element of the returned array.
-</p>
-<p>A numeric expression that evaluates to 0 has a logical value of false.
- A numeric expression that evaluates to anything else, other than the
- null value, is a logical true.
-</p>
-<p>An empty string is logically false. All other string expressions,
- including strings, which consist of an empty string, spaces, or the
- number 0 and spaces, are logically true.
-</p>
-<p>If any element in dynamic.array is null, it returns null for that
- element.
-</p>
-<h2>EXAMPLE</h2>
-<pre><span>       X = <span class="c-2num">5</span>  ; Y = <span class="c-2num">5</span>
-</span><span>       <span class="c-1com">PRINT</span> <span class="c-0fun">OCONV</span>( <span class="c-0fun">NOTS</span>(X-Y :<span class="c-3typ">@VM</span>: X+Y), <span class="c-4str">'MCP'</span> )     ;<span class="c-5com">*  <span class="c-2num">1</span>]<span class="c-2num">0</span></span>
-</span></pre><div id="timestamp">Last update: Wed, 23 Jan 2013 11:49 CET</div></div>
+<div id="content"><h1>Guidelines for writing the source code</h1><div id="timestamp">Last update: Wed, 23 Jan 2013 11:49 CET</div></div>
 </div>
 <script type="text/javascript">
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>NOTS</title>
+<title>Recommendations (not rules)</title>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" type="text/css" href="../index.css">
 <script type="text/javascript">
@@ -452,33 +452,74 @@
 </ul>
 </div>
 <div id="scrollable">
-<div id="content"><h1>NOTS</h1>
-<p>NOTS function is used to return a dynamic array of the logical
- complements of each element of dynamic.array.
+<div id="content"><h1>Recommendations (not rules)</h1>
+<p><em>Note: some examples in this documentation don't fully follow these rules - they were taken from other sources or it's done intentionally to illustrate some language features.</em>
 </p>
-<h2>COMMAND SYNTAX</h2>
-<pre><span>    <span class="c-0fun">NOTS</span>(dynamic.array)
+<ul><li>All variables are to be in lower case and in the lower_case_and_underscore_naming style.
+</li></ul>
+<ul><li>Use only one style of quotes for strings, e.g.: "QWERT" (double quotes, preferable) or 'QWERT' (single quotes). Mix them only if it's really required.
+</li></ul>
+<ul><li>Always use one space after the comma and never before the comma.
+</li></ul>
+<ul><li>Never use space after '(' and before ')' (exception is when code is more readable with it).
+</li></ul>
+<ul><li>Never put multiple commands on a single line and separate them by ";", except for short similar statements, like:
+</li></ul>
+<pre><span>       var_1 = <span class="c-2num">1</span>  ;  var_2 = <span class="c-2num">2</span>  ;  var_3 = <span class="c-2num">3</span>
 </span></pre>
-<p>If the value of the element is true, the NOTS function returns a
- false value (0) in the corresponding element of the returned array.
- If the value of the element is false, the NOTS function returns a
- true value (1) in the corresponding element of the returned array.
+<ul><li>Don't put trailing ';' at the end of the lines.
+</li></ul>
+<ul><li>Never convert ints to boolean implicitly:
+</li></ul>
+<p>Instead of:
 </p>
-<p>A numeric expression that evaluates to 0 has a logical value of false.
- A numeric expression that evaluates to anything else, other than the
- null value, is a logical true.
+<pre><span>       <span class="c-1com">IF</span> <span class="c-0fun">INDEX</span>(...) <span class="c-1com">THEN</span>
+</span></pre>
+<p>always write:
 </p>
-<p>An empty string is logically false. All other string expressions,
- including strings, which consist of an empty string, spaces, or the
- number 0 and spaces, are logically true.
+<pre><span>       <span class="c-1com">IF</span> <span class="c-0fun">INDEX</span>(...) <span class="c-1com">NE</span> <span class="c-2num">0</span> <span class="c-1com">THEN</span>
+</span></pre>
+<p>Same goes for strings. Instead of:
 </p>
-<p>If any element in dynamic.array is null, it returns null for that
- element.
+<pre><span>       var = <span class="c-4str">'ABC'</span>
+</span><span>       <span class="c-1com">IF</span> var <span class="c-1com">THEN</span> ...
+</span></pre>
+<p>Use:
 </p>
-<h2>EXAMPLE</h2>
-<pre><span>       X = <span class="c-2num">5</span>  ; Y = <span class="c-2num">5</span>
-</span><span>       <span class="c-1com">PRINT</span> <span class="c-0fun">OCONV</span>( <span class="c-0fun">NOTS</span>(X-Y :<span class="c-3typ">@VM</span>: X+Y), <span class="c-4str">'MCP'</span> )     ;<span class="c-5com">*  <span class="c-2num">1</span>]<span class="c-2num">0</span></span>
-</span></pre><div id="timestamp">Last update: Wed, 23 Jan 2013 11:49 CET</div></div>
+<pre><span>       <span class="c-1com">IF</span> var <span class="c-1com">NE</span> <span class="c-4str">''</span> <span class="c-1com">THEN</span> ...
+</span></pre>
+<ul><li>Never hardcode program or subroutine name in error messages etc. Use SYSTEM(40) instead.
+</li></ul>
+<ul><li>Always supply meaningful error messages with sufficient additional information.
+</li></ul>
+<ul><li>Don't comment what you do; comment why.
+</li></ul>
+<ul><li>Don't mix tabs with spaces, use either former or latter.
+</li></ul>
+<ul><li>Don't use characters with ASCII code above 126 in the source. To form strings with such characters use CHAR() or load them from external file or table.
+</li></ul>
+<ul><li>Use CR (ASCII 10) for line ends rather than CR+LF.
+</li></ul>
+<ul><li>For statements like INCLUDE, $INSERT use zero indent; for all other code - 3 spaces of initial indent and 3 spaces to indent each FOR...NEXT, LOOP...REPEAT contents etc.
+</li></ul>
+<ul><li>Wrap lines that are longer than 80 characters (use a backslash or comma at the end where the latter is applicable).
+</li></ul>
+<ul><li>Use spaces around "=":  not "var=1" but "var = 1".
+</li></ul>
+<ul><li>Use "=" for assignment only; for comparisons use "EQ".
+</li></ul>
+<ul><li>Don't use IF..ELSE without THEN.
+</li></ul>
+<ul><li>Avoid GOTO, RETURN TO as much as possible.
+</li></ul>
+<ul><li>Use named COMMON rather than unnamed.
+</li></ul>
+<ul><li>Don't use numeric line labels like:
+</li></ul>
+<pre><span>       <span class="c-2num">001</span> A = <span class="c-2num">0</span>
+</span><span>       <span class="c-2num">002</span> A += <span class="c-2num">1</span>
+</span><span>       <span class="c-2num">003</span> <span class="c-1com">IF</span> A <span class="c-1com">LT</span> <span class="c-2num">5</span> <span class="c-1com">THEN</span> <span class="c-1com">GOTO</span> <span class="c-2num">002</span> <span class="c-1com">ELSE</span> <span class="c-1com">CRT</span> A
+</span></pre><div id="timestamp">Last update: Wed, 23 Jan 2013 13:01 CET</div></div>
 </div>
 <script type="text/javascript">
 
