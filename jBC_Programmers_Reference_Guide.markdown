@@ -293,6 +293,76 @@ IF...ELSE construct can be used without THEN:
        V.STRING = 'ABC'
        IF V.STRING NE 'ABC' ELSE CRT 'YES'
 
+# Guidelines for writing the source code
+
+## Recommendations (not rules)
+
+*Note: some examples in this documentation don't fully follow these rules - they were taken from other sources or it's done intentionally to illustrate some language features.*
+
+- All variables are to be in lower case and in the lower_case_and_underscore_naming style.
+
+- Use only one style of quotes for strings, e.g.: "QWERT" (double quotes, preferable) or 'QWERT' (single quotes). Mix them only if it's really required.
+
+- Always use one space after the comma and never before the comma.
+
+- Never use space after '(' and before ')' (exception is when code is more readable with it).
+
+- Never put multiple commands on a single line and separate them by ";", except for short similar statements, like:
+
+       var_1 = 1  ;  var_2 = 2  ;  var_3 = 3
+
+- Don't put trailing ';' at the end of the lines.
+
+- Never convert ints to boolean implicitly:
+
+Instead of:
+
+       IF INDEX(...) THEN
+
+always write:
+
+       IF INDEX(...) NE 0 THEN
+
+Same goes for strings. Instead of:
+
+       var = 'ABC'
+       IF var THEN ...
+
+Use:
+
+       IF var NE '' THEN ...
+
+- Never hardcode program or subroutine name in error messages etc. Use SYSTEM(40) instead.
+
+- Always supply meaningful error messages with sufficient additional information.
+
+- Don't comment what you do; comment why.
+
+- Don't mix tabs with spaces, use either former or latter.
+
+- Don't use characters with ASCII code above 126 in the source. To form strings with such characters use CHAR() or load them from external file or table.
+
+- Use CR (ASCII 10) for line ends rather than CR+LF.
+
+- For statements like INCLUDE, $INSERT use zero indent; for all other code - 3 spaces of initial indent and 3 spaces to indent each FOR...NEXT, LOOP...REPEAT contents etc.
+
+- Wrap lines that are longer than 80 characters (use a backslash or comma at the end where the latter is applicable).
+
+- Use spaces around "=":  not "var=1" but "var = 1".
+
+- Use "=" for assignment only; for comparisons use "EQ".
+
+- Don't use IF..ELSE without THEN.
+
+- Avoid GOTO, RETURN TO as much as possible.
+
+- Use named COMMON rather than unnamed.
+
+- Don't use numeric line labels like:
+
+       001 A = 0
+       002 A += 1
+       003 IF A LT 5 THEN GOTO 002 ELSE CRT A
 
 # Environment variables relevant to jBC programming
 
@@ -3657,13 +3727,13 @@ which is the entire ASCII character set.
 The CHAR function will return Unicode values encoded as UTF-8 byte
 sequences as follows:
 
-Expression values 0 – 127 return UTF-8 single byte characters
+Expression values 0 - 127 return UTF-8 single byte characters
 equivalent to ASCII.
 
-Expression values 127 – 248 return UTF-8 double byte character
+Expression values 127 - 248 return UTF-8 double byte character
 sequences.
 
-Expression values 249 – 255 return system delimiters 0xf8 – 0xff
+Expression values 249 - 255 return system delimiters 0xf8 – 0xff
 
 Expression values > 255 return UTF-8 multi byte character
 sequences
@@ -7582,7 +7652,7 @@ Using the INMAT() function, without the 'array' argument, returns the
 number of dimensioned array elements from the most recent
 [MATREAD](#MATREAD), [MATREADU](#MATREADU), [MATREADL](#MATREADL) or
 [MATPARSE](#MATPARSE) statement. If the number of array elements exceeds
-the number of elements specified in the corresponding [DIM](#DIM)
+the number of elements specified in the corresponding [DIMENSION](#DIMENSION)
 statement, the INMAT() function will return zero.
 
 Using the INMAT(), function with the 'array' argument, returns the
@@ -7596,17 +7666,36 @@ inconsistent with its primary purpose and not implemented in jBASE. To
 achieve this functionality use the [IOCTL](#IOCTL) function with the
 JIOCTL_COMMAND_FILESTATUS command.
 
-### EXAMPLE
+### EXAMPLES
 
-    OPEN "CUSTOMERS" TO CUSTOMERS ELSE STOP 201, "CUSTOMERS"
-    DIM CUSTREC(99)
-    ELEMENTS = INMAT(CUSTREC) ; * Returns the value "99" to the variable ELEMENTS
-    ID = "149"
-    MATREAD CUSTREC FROM CUSTOMERS, ID THEN
-        CUSTREC.ELEMENTS = INMAT() ; * Returns the number of
-                                   ; * elements in the CUSTRECarray
-                                   ; * to the variable CUSTREC.ELEMENTS
-    END
+       DIM cust_rec(99)
+       MAT cust_rec = ''
+       CRT INMAT(cust_rec)                  ;* 99
+       DIM cust_rec(299)
+       cust_rec(150) = 'Y'
+       CRT INMAT(cust_rec)                  ;* 299
+       CRT INMAT()                          ;* 0
+       *
+       EXECUTE 'DELETE-FILE DATA F.TEMP'
+       EXECUTE 'CREATE-FILE DATA F.TEMP 1 101 TYPE=J4'
+       OPEN 'F.TEMP' TO f_temp ELSE ABORT 201, 'F.TEMP'
+       new_rec = 'LINE 1' :@FM: 'LINE 2' :@FM: 'LINE 3'
+       WRITE new_rec TO f_temp, 'REC1'
+       *
+       MAT cust_rec = ''
+       MATREAD cust_rec FROM f_temp, 'REC1' ELSE
+          CRT 'Read error'
+          STOP
+       END
+       CRT INMAT(cust_rec)                  ;* 299 - current size
+       CRT INMAT()                          ;* 3
+       *
+       dyn_array = 1 :@FM: 2 :@VM: 3 :@SM: 4: @FM: 5 :@FM: 6
+       MATPARSE cust_rec FROM dyn_array
+       CRT INMAT()                          ;* 4 (only FMs count)
+       CRT FMT(cust_rec(2), 'MCP')          ;* 2]3\4
+       DIM cust_rec(100,2)
+       CRT FMT( INMAT(cust_rec), 'MCP' )      ;* 100]2
 
 ## INPUT
 
@@ -7768,12 +7857,13 @@ character of _ is used to define a NULL input sequence.
 
 The INPUT statement does not default to accepting the _ character
 as a NULL input, the programmer must explicitly allow this with
-the statement: INPUTNULL "
+the statement: INPUTNULL ''. In the example below an ampersand can be used
+to input the empty value.
 
-### EXAMPLES
+### EXAMPLE
 
     INPUTNULL "&"
-    INPUT @ (10,10):Answer,1
+    INPUT @(10,10):Answer,1
     IF Answer = '' THEN
        CRT "A NULL input was received"
     END
@@ -9729,7 +9819,7 @@ match any number of characters of the specified type.
     * the ";" character and then 2 alphabetic characters
        Pattern = "4X':'6N';'2A"
        Serno = '1.2.:123456;AB'
-       CRT Serno MATCHES Pattern            ;* 1
+       CRT Serno MATCH Pattern              ;* 1
        Serno = '17st:456789;FB'
        CRT Serno MATCHES Pattern            ;* 1
     * More examples:
