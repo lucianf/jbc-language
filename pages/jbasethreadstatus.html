@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>OBJEXCALLBACK</title>
+<title>JBASETHREADStatus</title>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" type="text/css" href="../index.css">
 <link href="data:image/x-icon;base64,AAABAAEAEBAAAAAAAABoBQAAFgAAACgAAAAQAAAAIAAAAAEACAAAAAAAQAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////ALaKNwDk1YgAlVMAAMKWdgDu4cgA07lmAKRoJgDexqoAxaJOAM6rjQC2gmAA+PPgAOzirgDcyXUAsXxKAJ9jEADcxZQAzq54AK16JwDAl10AvJREAK14OADp3Z4Ay61eAPz58ADWuZwA9O7OAOfWwADdyYQA2L2KAPDmvADhzZ0Au49UAKlwLwDKpm8At4dLANO2gQCaWwgAqHMfAObVpgCjaxcA4dF9AMqkhQDiz68AvpBvAOfalQD28NcA8unFAN3FnwDJqlYA+vbpAMOfVQD9/PcAvJJNAO7kzwDAmkYA7uO0AOrcrwCmay0A49CpAM6yXgDcw6QAwpxcAPPrygD38dwArnwrAPHnwQC4hmAA3ciRAO/kuADl06MA/v36ANzGnADMrWEA8Oi+AN7GoQD9+/UA/PryAPn25wDz68wA9u/XAPDlvADu47MAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAE9BGEIAAAAAAAAAAAAANi1HRwMrUQAAAAAAAABJUiAlOjorAisOAAAAAABQICA7CBJGOQQzKxg2AAAAICAgEwgmQAQEPisHL1AANDogUyMkIAoEBD4rFhQZADA6Oh8VIEhDBAQRFCcqBwBEIB8XOzpGOQQEBAQUNQNPRykIFylTVA8qBAQEFCsYDUciCAgyUlI9SyoEBAQrDjEhPBBFLlIsGz83KAQEM0xNRQwuDAwLBQwuCUoWJygcTh0GUlJSUlJSUlJSUR4WOAAAGlJSUlJSUlJSUjAwVDYAAAABNFJSUlJSUlINNDYAAAAAAABJDVJCNE8BAAAAAP4fAAD4DwAA4AcAAMABAADAAAAAgAAAAIAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAA4AEAAPgPAAA=" rel="icon" type="image/x-icon" />
@@ -454,44 +454,19 @@
 </ul>
 </div>
 <div id="scrollable">
-<div id="content"><h1>OBJEXCALLBACK</h1>
-<p>jBASE OBjEX provides the facility to call a subroutine from a front-end
- program written in a tool that supports OLE, such as Delphi or Visual
- Basic. The OBJEXCALLBACK statement allows communication between the
- subroutine and the calling OBjEX program.
+<div id="content"><h1>JBASETHREADStatus</h1>
+<p>JBASETHREADStatus command shows the status of all running threads.
 </p>
 <h2>COMMAND SYNTAX</h2>
-<pre><span>    <span class="c-1com">OBJEXCALLBACK</span> expression1, expression2 <span class="c-1com">THEN</span> | <span class="c-1com">ELSE</span> statements
-</span></pre>
+<p>JBASETHREADStatus(ThreadList)
+</p>
 <h2>SYNTAX ELEMENTS</h2>
-<p><strong>expression1</strong> and <strong>expression2</strong> can contain any data. They are
- returned to the OBjEX program where they are defined as variants.
+<p><strong>ThreadList</strong> is a list of the threads active in this process,
+ with one attribute per thread.
 </p>
-<p>If the subroutine containing the OBJEXCALLBACK statement is not called
- from an OBjEX program (using the Call Method) then the ELSE clause will
- be taken.
+<p>The layout of the multi-values in each attribute is as follows:
 </p>
-<h2>NOTES</h2>
-<p>The OBJEXCALLBACK statement is designed to allow jBC subroutines to
- temporarily return to the calling environment to handle exception
- conditions or prompt for additional information. After servicing this
- event, the code should return control to the jBC program to ensure that
- the proper clean up operations are eventually made. The two parameters can
- be used to pass data between the jBC and OBjEX environments in both
- directions. They are defined as Variants in the OBjEX environment and as
- normal variables in the jBC environment.
-</p>
-<p>See the OBjEX documentation for more information.
-</p>
-<h2>EXAMPLE</h2>
-<pre><span>    param1 = <span class="c-4str">"SomeActionCode"</span>
-</span><span>    param2 = ProblemItem
-</span><span>    <span class="c-1com">OBJEXCALLBACK</span> param1, param2 <span class="c-1com">THEN</span>
-</span><span>    <span class="c-5com">* this routine was called from ObjEX</span>
-</span><span>    <span class="c-1com">END</span> <span class="c-1com">ELSE</span>
-</span><span>    <span class="c-5com">* this routine was not called from ObjEX</span>
-</span><span>    <span class="c-1com">END</span>
-</span></pre><div id="timestamp">Last update: Fri, 01 Feb 2013 08:29 CET</div></div>
+<table><tr><th>Value</th><th>Description</th></tr><tr><td>< n,1 ></td><td>port number</td></tr><tr><td>< n,2 ></td><td>thread handle returned from JBASETHREADCreate</td></tr></table><div id="timestamp">Last update: Fri, 01 Feb 2013 08:29 CET</div></div>
 </div>
 <script type="text/javascript">
 

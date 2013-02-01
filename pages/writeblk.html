@@ -4,6 +4,7 @@
 <title>WRITEBLK</title>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" type="text/css" href="../index.css">
+<link href="data:image/x-icon;base64,AAABAAEAEBAAAAAAAABoBQAAFgAAACgAAAAQAAAAIAAAAAEACAAAAAAAQAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAA////ALaKNwDk1YgAlVMAAMKWdgDu4cgA07lmAKRoJgDexqoAxaJOAM6rjQC2gmAA+PPgAOzirgDcyXUAsXxKAJ9jEADcxZQAzq54AK16JwDAl10AvJREAK14OADp3Z4Ay61eAPz58ADWuZwA9O7OAOfWwADdyYQA2L2KAPDmvADhzZ0Au49UAKlwLwDKpm8At4dLANO2gQCaWwgAqHMfAObVpgCjaxcA4dF9AMqkhQDiz68AvpBvAOfalQD28NcA8unFAN3FnwDJqlYA+vbpAMOfVQD9/PcAvJJNAO7kzwDAmkYA7uO0AOrcrwCmay0A49CpAM6yXgDcw6QAwpxcAPPrygD38dwArnwrAPHnwQC4hmAA3ciRAO/kuADl06MA/v36ANzGnADMrWEA8Oi+AN7GoQD9+/UA/PryAPn25wDz68wA9u/XAPDlvADu47MAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAE9BGEIAAAAAAAAAAAAANi1HRwMrUQAAAAAAAABJUiAlOjorAisOAAAAAABQICA7CBJGOQQzKxg2AAAAICAgEwgmQAQEPisHL1AANDogUyMkIAoEBD4rFhQZADA6Oh8VIEhDBAQRFCcqBwBEIB8XOzpGOQQEBAQUNQNPRykIFylTVA8qBAQEFCsYDUciCAgyUlI9SyoEBAQrDjEhPBBFLlIsGz83KAQEM0xNRQwuDAwLBQwuCUoWJygcTh0GUlJSUlJSUlJSUR4WOAAAGlJSUlJSUlJSUjAwVDYAAAABNFJSUlJSUlINNDYAAAAAAABJDVJCNE8BAAAAAP4fAAD4DwAA4AcAAMABAADAAAAAgAAAAIAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAAAAA4AEAAPgPAAA=" rel="icon" type="image/x-icon" />
 <script type="text/javascript">
 
   var _gaq = _gaq || [];
@@ -260,6 +261,7 @@
 <li><a href="jbasecoredump.html">JBASECOREDUMP</a></li>
 <li><a href="jbasesubroutineexist.html">JBASESubroutineExist</a></li>
 <li><a href="jbasethreadcreate.html">JBASETHREADCreate</a></li>
+<li><a href="jbasethreadstatus.html">JBASETHREADStatus</a></li>
 <li><a href="jqlcompile.html">JQLCOMPILE</a></li>
 <li><a href="jqlexecute.html">JQLEXECUTE</a></li>
 <li><a href="jqlfetch.html">JQLFETCH</a></li>
@@ -484,11 +486,11 @@
 <p>When using the WRITEBLK statement in International Mode, care must be
  taken to ensure that the write variable is handled properly before the
  WRITEBLK statement. The WRITEBLK statement expects the output variable
- to be in bytes, however when manipulating variables in International
+ to be in "bytes", however when manipulating variables in International
  Mode character length rather than byte lengths are usually used and
  hence possible confusion or program malfunction can occur. If
  requiring byte count data the output variable can be converted from
- the UTF-8 byte sequence to binary/latin1 via the LATIN1 function.
+ the UTF-8 byte sequence to 'binary/latin1' via the LATIN1 function.
 </p>
 <p>It is not recommended that you use the <a href="readblk.html">READBLK</a>/
  <a href="writeblk.html">WRITEBLK</a> statements when executing in International Mode.
@@ -525,7 +527,7 @@
 </span><span>       <span class="c-1com">CLOSESEQ</span> F.FILE.OUT
 </span><span>       <span class="c-1com">STOP</span>
 </span><span>    <span class="c-1com">END</span>
-</span></pre><div id="timestamp">Last update: Wed, 23 Jan 2013 11:49 CET</div></div>
+</span></pre><div id="timestamp">Last update: Fri, 01 Feb 2013 08:29 CET</div></div>
 </div>
 <script type="text/javascript">
 
