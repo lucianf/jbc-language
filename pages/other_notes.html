@@ -473,7 +473,108 @@
 </p>
 <pre><span>       V.STRING = <span class="c-4str">'ABC'</span>
 </span><span>       <span class="c-1com">IF</span> V.STRING <span class="c-1com">NE</span> <span class="c-4str">'ABC'</span> <span class="c-1com">ELSE</span> <span class="c-1com">CRT</span> <span class="c-4str">'YES'</span>
-</span></pre><div id="timestamp">Last update: Fri, 01 Feb 2013 08:29 CET</div></div>
+</span></pre>
+<h2>Differences between emulations</h2>
+<p>For T24 emulation should always be <strong>prime</strong>, however for porting the code it's
+ crucial to understand the differences.
+</p>
+<p>See several examples below.
+</p>
+<p>The following
+ code will run successfully under <strong>prime</strong> emulation and will fail under <strong>ros</strong>:
+</p>
+<pre><span>       ret_code = <span class="c-0fun">GETENV</span>(<span class="c-4str">'JBCEMULATE'</span>, jbc_emu)   ;   <span class="c-1com">CRT</span> jbc_emu
+</span><span>       dyn_array = <span class="c-2num">3</span> :<span class="c-3typ">@AM</span>: <span class="c-2num">7</span>
+</span><span>       dyn_array += <span class="c-2num">4</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">FMT</span>(dyn_array, <span class="c-4str">'MCP'</span>)
+</span></pre>
+<p>Runtime:
+</p>
+<p><pre>
+     prime
+     7^7</pre>
+</p>
+<p><pre>
+     ros
+     Non-numeric value -- ZERO USED ,
+     Variable 'dyn_array' , Line     3 , Source test.b
+     Trap from an error message, error message name = NON_NUMERIC</pre>
+</p>
+<p><em>Setting in Config_EMULATE: <strong></em>no_value_maths = false|true</strong>
+</p>
+<p>Next program outputs <em><></em> under <strong>prime</strong> and <em><0></em> under <strong>seq</strong>
+ emulation. In the latter case there will be zero-sized file <em>report.txt</em> after
+ program termination. So if, for example, nothing was written to a report
+ under <strong>prime</strong> emulation (or, in fact, any other except <strong>seq</strong>),
+ there will be no output file left after that.
+</p>
+<p>Source code:
+</p>
+<pre><span>       dir_name = <span class="c-4str">'.'</span>
+</span><span>       file_name = <span class="c-4str">'report.txt'</span>
+</span><span>       <span class="c-1com">DELETESEQ</span> dir_name, file_name <span class="c-1com">ELSE</span> <span class="c-1com">NULL</span>
+</span><span>       <span class="c-5com">*</span>
+</span><span>       <span class="c-1com">OPENSEQ</span> dir_name, file_name <span class="c-1com">TO</span> f_report <span class="c-1com">THEN</span> <span class="c-1com">NULL</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-4str">'&lt;'</span> : <span class="c-0fun">DIR</span>(file_name)&lt;<span class="c-2num">1</span>&gt : <span class="c-4str">'&gt'</span>
+</span></pre>
+<p><em>Setting in Config_EMULATE: <strong></em>openseq_creates = false|true</strong>
+</p>
+<p>The following program outputs <em>1</em> under <strong>prime</strong> emulation and <em>0</em>
+ under <strong>r83</strong>, thus showing that common variables can be assigned or
+ unassigned upon declaration of COMMON area:
+</p>
+<pre><span>       <span class="c-1com">COMMON</span> /MY.COMM/ var_1, var_2
+</span><span>       <span class="c-5com">*</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">ASSIGNED</span>(var_1)
+</span></pre>
+<p><em>Setting in Config_EMULATE: <strong></em>named_common = unassigned|null|zero</strong>
+</p>
+<p>The next program outputs <em>A^1^2^3^4^5</em> under <strong>seq</strong> or <strong>r83</strong>
+ emulations; under others (that do add additional
+ delimiter even if one exists at the end of an array in question) the output
+ will be: <em>A^^1^2^3^4^5</em>.
+</p>
+<p>Source code:
+</p>
+<pre><span>       dyn_array = <span class="c-4str">'A'</span> : <span class="c-3typ">@FM</span>
+</span><span>       <span class="c-1com">FOR</span> i = <span class="c-2num">1</span> <span class="c-1com">TO</span> <span class="c-2num">5</span>
+</span><span>          dyn_array&lt;<span class="c-2num">-1</span>&gt = i
+</span><span>       <span class="c-1com">NEXT</span> i
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>(dyn_array, <span class="c-4str">'MCP'</span>)
+</span></pre>
+<p><em>Setting in Config_EMULATE: <strong></em>no_extra_delimiter = false|true</strong>
+</p>
+<p>The following <em>READV</em> example outputs <em>REC1</em> (i.e. record key) when is
+ run under <strong>jbase</strong> emulation and <em>3</em> (i.e. fields count) under, e.g.,
+ <strong>ap</strong> or <strong>r83</strong>:
+</p>
+<pre><span>       <span class="c-1com">OPEN</span> <span class="c-4str">'F.TEMP'</span> <span class="c-1com">TO</span> f_temp <span class="c-1com">THEN</span>
+</span><span>          ret_error = <span class="c-4str">''</span>
+</span><span>          <span class="c-1com">CLEARFILE</span> f_temp <span class="c-1com">SETTING</span> ret_error
+</span><span>          <span class="c-1com">IF</span> ret_error <span class="c-1com">NE</span> <span class="c-4str">''</span> <span class="c-1com">THEN</span>
+</span><span>             <span class="c-1com">CRT</span> <span class="c-4str">'ERROR '</span> : ret_error
+</span><span>             <span class="c-1com">STOP</span>
+</span><span>          <span class="c-1com">END</span>
+</span><span>       <span class="c-1com">END</span> <span class="c-1com">ELSE</span>
+</span><span>          <span class="c-1com">EXECUTE</span> <span class="c-4str">'CREATE-FILE DATA F.TEMP 1 101 TYPE=J4'</span>
+</span><span>          <span class="c-1com">OPEN</span> <span class="c-4str">'F.TEMP'</span> <span class="c-1com">TO</span> f_temp <span class="c-1com">ELSE</span> <span class="c-1com">ABORT</span> <span class="c-2num">201</span>, <span class="c-4str">'F.TEMP'</span>
+</span><span>       <span class="c-1com">END</span>
+</span><span>       <span class="c-5com">*</span>
+</span><span>       out_record = <span class="c-4str">'LINE 1'</span> :<span class="c-3typ">@FM</span>: <span class="c-4str">'LINE 2'</span> :<span class="c-3typ">@FM</span>: <span class="c-4str">'LINE 3'</span>
+</span><span>       <span class="c-1com">WRITE</span> out_record <span class="c-1com">TO</span> f_temp, <span class="c-4str">'REC1'</span>
+</span><span>       <span class="c-5com">*</span>
+</span><span>       <span class="c-1com">READV</span> in_record <span class="c-1com">FROM</span> f_temp, <span class="c-4str">'REC1'</span>, <span class="c-2num">0</span> <span class="c-1com">ELSE</span>
+</span><span>          <span class="c-1com">CRT</span> <span class="c-4str">'Read error'</span>
+</span><span>          <span class="c-1com">STOP</span>
+</span><span>       <span class="c-1com">END</span>
+</span><span>       <span class="c-5com">*</span>
+</span><span>       <span class="c-1com">CRT</span> in_record
+</span></pre>
+<p><em>Setting in Config_EMULATE: <strong></em>readv0 = key|dcount|binary</strong>
+</p>
+<p>For more settings see <em>Config_EMULATE</em> and <em>Config_EMULATE.txt</em>
+ files in your TAFC/config folder.
+</p><div id="timestamp">Last update: Mon, 18 Feb 2013 11:46 CET</div></div>
 </div>
 <script type="text/javascript">
 

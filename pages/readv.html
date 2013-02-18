@@ -497,18 +497,28 @@
  shared lock on the field, use <a href="readvl.html">READVL</a>.
 </p>
 <h2>EXAMPLE</h2>
-<pre><span>    <span class="c-1com">OPEN</span> <span class="c-4str">"Customers"</span> <span class="c-1com">ELSE</span> <span class="c-1com">ABORT</span> <span class="c-2num">201</span>, <span class="c-4str">"Customers"</span>
-</span><span>    <span class="c-1com">OPEN</span> <span class="c-4str">"DICT Customers"</span> <span class="c-1com">TO</span> DCusts <span class="c-1com">ELSE</span>
-</span><span>    	    <span class="c-1com">ABORT</span> <span class="c-2num">201</span>, <span class="c-4str">"DICT Customers"</span>
-</span><span>    <span class="c-1com">END</span>
-</span><span>    <span class="c-1com">READV</span> Rec <span class="c-1com">FROM</span> DCusts, "Xref",<span class="c-2num">7</span> <span class="c-1com">THEN</span>
-</span><span>       <span class="c-1com">READ</span> DataRec <span class="c-1com">FROM</span> Rec&lt;<span class="c-2num">7</span>&gt <span class="c-1com">ELSE</span>
-</span><span>            <span class="c-1com">ABORT</span> <span class="c-2num">202</span>, Rec&lt;<span class="c-2num">7</span>&gt
-</span><span>        <span class="c-1com">END</span>
-</span><span>    <span class="c-1com">END</span> <span class="c-1com">ELSE</span>
-</span><span>    	    <span class="c-1com">ABORT</span> <span class="c-2num">202</span>, <span class="c-4str">"Xref"</span>
-</span><span>    <span class="c-1com">END</span>
-</span></pre><div id="timestamp">Last update: Fri, 01 Feb 2013 08:29 CET</div></div>
+<pre><span>       <span class="c-1com">OPEN</span> <span class="c-4str">'F.TEMP'</span> <span class="c-1com">TO</span> f_temp <span class="c-1com">THEN</span>
+</span><span>          ret_error = <span class="c-4str">''</span>
+</span><span>          <span class="c-1com">CLEARFILE</span> f_temp <span class="c-1com">SETTING</span> ret_error
+</span><span>          <span class="c-1com">IF</span> ret_error <span class="c-1com">NE</span> <span class="c-4str">''</span> <span class="c-1com">THEN</span>
+</span><span>             <span class="c-1com">CRT</span> <span class="c-4str">'ERROR '</span> : ret_error
+</span><span>             <span class="c-1com">STOP</span>
+</span><span>          <span class="c-1com">END</span>
+</span><span>       <span class="c-1com">END</span> <span class="c-1com">ELSE</span>
+</span><span>          <span class="c-1com">EXECUTE</span> <span class="c-4str">'CREATE-FILE DATA F.TEMP 1 101 TYPE=J4'</span>
+</span><span>          <span class="c-1com">OPEN</span> <span class="c-4str">'F.TEMP'</span> <span class="c-1com">TO</span> f_temp <span class="c-1com">ELSE</span> <span class="c-1com">ABORT</span> <span class="c-2num">201</span>, <span class="c-4str">'F.TEMP'</span>
+</span><span>       <span class="c-1com">END</span>
+</span><span>       <span class="c-5com">*</span>
+</span><span>       out_record = <span class="c-4str">'Field 1'</span> :<span class="c-3typ">@FM</span>: <span class="c-4str">'Field 2'</span> :<span class="c-3typ">@FM</span>: <span class="c-4str">'Field 3'</span>
+</span><span>       <span class="c-1com">WRITE</span> out_record <span class="c-1com">TO</span> f_temp, <span class="c-4str">'REC1'</span>
+</span><span>       <span class="c-5com">*</span>
+</span><span>       <span class="c-1com">READV</span> second_field <span class="c-1com">FROM</span> f_temp, <span class="c-4str">'REC1'</span>, <span class="c-2num">2</span> <span class="c-1com">ELSE</span>
+</span><span>          <span class="c-1com">CRT</span> <span class="c-4str">'Read error'</span>
+</span><span>          <span class="c-1com">STOP</span>
+</span><span>       <span class="c-1com">END</span>
+</span><span>       <span class="c-5com">*</span>
+</span><span>       <span class="c-1com">CRT</span> second_field           ;<span class="c-5com">*  Field <span class="c-2num">2</span></span>
+</span></pre><div id="timestamp">Last update: Mon, 18 Feb 2013 10:51 CET</div></div>
 </div>
 <script type="text/javascript">
 
