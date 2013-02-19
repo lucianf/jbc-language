@@ -480,14 +480,14 @@
 <h2>EXAMPLE</h2>
 <pre><span>          A = <span class="c-2num">2</span>
 </span><span>          B = <span class="c-2num">31</span>
-</span><span>          <span class="c-1com">CRT</span> <span class="c-4str">"2 GB is "</span> : A^B                     ;<span class="c-5com">* <span class="c-2num">2</span> GB is <span class="c-2num">2147483648</span></span>
+</span><span>          <span class="c-1com">CRT</span> <span class="c-4str">"2 GB is "</span> : A ^ B                   ;<span class="c-5com">* <span class="c-2num">2</span> GB is <span class="c-2num">2147483648</span></span>
 </span><span>          <span class="c-1com">CRT</span> <span class="c-4str">"2 GB is definitely "</span> : <span class="c-0fun">PWR</span>(A, B)    ;<span class="c-5com">* <span class="c-2num">2</span> GB is definitely <span class="c-2num">2147483648</span></span>
-</span><span>          <span class="c-1com">CRT</span> <span class="c-4str">"-2 GB is "</span> : <span class="c-1com">NE</span>G(A)^B               ;<span class="c-5com">* <span class="c-2num">-2</span> GB is <span class="c-2num">-2147483648</span></span>
+</span><span>          <span class="c-1com">CRT</span> <span class="c-4str">"-2 GB is "</span> : <span class="c-0fun">NEG</span>(A)^B               ;<span class="c-5com">* <span class="c-2num">-2</span> GB is <span class="c-2num">-2147483648</span></span>
 </span><span>          <span class="c-1com">CRT</span> <span class="c-4str">"2 to the power of 31.5 is "</span> : <span class="c-0fun">PWR</span>(A, B+<span class="c-2num">0</span>.<span class="c-2num">5</span>)
 </span><span>                                       ;<span class="c-5com">* <span class="c-2num">2</span> to the power of <span class="c-2num">31</span>.<span class="c-2num">5</span> is <span class="c-2num">3037000499</span>.<span class="c-2num">9761</span></span>
-</span><span>          <span class="c-1com">CRT</span> <span class="c-4str">"-2 to the power of 31.5 is "</span> : <span class="c-0fun">PWR</span>( <span class="c-1com">NE</span>G(A), B+<span class="c-2num">0</span>.<span class="c-2num">5</span>)
+</span><span>          <span class="c-1com">CRT</span> <span class="c-4str">"-2 to the power of 31.5 is "</span> : <span class="c-0fun">PWR</span>( <span class="c-0fun">NEG</span>(A), B+<span class="c-2num">0</span>.<span class="c-2num">5</span>)
 </span><span>                                       ;<span class="c-5com">* <span class="c-2num">-2</span> to the power of <span class="c-2num">31</span>.<span class="c-2num">5</span> is <span class="c-2num">0</span>.0nan</span>
-</span></pre><div id="timestamp">Last update: Fri, 01 Feb 2013 08:29 CET</div></div>
+</span></pre><div id="timestamp">Last update: Tue, 19 Feb 2013 11:50 CET</div></div>
 </div>
 <script type="text/javascript">
 

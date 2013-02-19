@@ -461,40 +461,75 @@
 </span><span>       <span class="c-1com">CRT</span> <span class="c-4str">"QWERTZ"</span>    ;<span class="c-5com">* this is also a string</span>
 </span><span>       <span class="c-1com">CRT</span> <span class="c-4str">'QWE"RTZ'</span>   ;<span class="c-5com">* and even this is a string</span>
 </span><span>       <span class="c-1com">CRT</span> <span class="c-4str">\QWERTZ\</span>    ;<span class="c-5com">* still this is a string</span>
-</span><span>    <span class="c-5com">* and here a backslash means line continuation</span>
+</span><span>       <span class="c-5com">* and here a backslash means line continuation</span>
 </span><span>       <span class="c-1com">CRT</span> <span class="c-4str">'QWE'</span>  \
 </span><span>          : <span class="c-4str">'RTZ'</span>
 </span></pre>
 <p>To concatenate strings (you could see it in one of examples above), use a
  colon:
 </p>
-<pre><span>       V.LINE = <span class="c-4str">'QWE'</span> : <span class="c-4str">'RTY'</span>
-</span><span>       <span class="c-1com">CRT</span> V.LINE                   ;<span class="c-5com">*  QWERTY</span>
+<pre><span>       a_line = <span class="c-4str">'QWE'</span> : <span class="c-4str">'RT'</span>
+</span><span>       <span class="c-1com">CRT</span> a_line                               ;<span class="c-5com">*  QWERT</span>
+</span><span>       <span class="c-5com">* unary concatenation</span>
+</span><span>       a_line := <span class="c-4str">'Y'</span>
+</span><span>       <span class="c-1com">CRT</span> a_line                               ;<span class="c-5com">*  QWERTY</span>
+</span></pre>
+<p>String can be concatenated with a number without explicit conversion:
+</p>
+<pre><span>       a_line = <span class="c-4str">'QWERTY'</span>
+</span><span>       a_line := <span class="c-2num">123</span>
+</span><span>       <span class="c-1com">CRT</span> a_line                               ;<span class="c-5com">*  QWERTY123</span>
 </span></pre>
 <p>To extract a substring from a string use square brackets:
 </p>
-<pre><span>       V.LINE = <span class="c-4str">'QWERTY'</span>
-</span><span>       <span class="c-1com">CRT</span> V.LINE[<span class="c-2num">1</span>,<span class="c-2num">2</span>]              ;<span class="c-5com">*  QW</span>
-</span><span>       <span class="c-1com">CRT</span> V.LINE[<span class="c-2num">2</span>]                ;<span class="c-5com">*  TY</span>
-</span><span>       <span class="c-1com">CRT</span> V.LINE[<span class="c-2num">-4</span>,<span class="c-2num">2</span>]             ;<span class="c-5com">*  ER</span>
-</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">SQUOTE</span>(V.LINE[<span class="c-2num">4</span>,<span class="c-2num">999</span>])    ;<span class="c-5com">*  <span class="c-4str">'RTY'</span></span>
+<pre><span>       a_line = <span class="c-4str">'QWERTY'</span>
+</span><span>       <span class="c-1com">CRT</span> a_line[<span class="c-2num">1</span>,<span class="c-2num">2</span>]                          ;<span class="c-5com">*  QW</span>
+</span><span>       <span class="c-1com">CRT</span> a_line[<span class="c-2num">2</span>]                            ;<span class="c-5com">*  TY</span>
+</span><span>       <span class="c-1com">CRT</span> a_line[<span class="c-2num">-4</span>,<span class="c-2num">2</span>]                         ;<span class="c-5com">*  ER</span>
 </span></pre>
 <p>It's possible to reassign parts of a string using that notation:
 </p>
-<pre><span>       V.STRING = <span class="c-4str">'ABC'</span>
-</span><span>       V.STRING[<span class="c-2num">2</span>,<span class="c-2num">1</span>] = <span class="c-4str">'Q'</span>
-</span><span>       <span class="c-1com">CRT</span> V.STRING                 ;<span class="c-5com">* AQC</span>
-</span><span>       V.STRING[<span class="c-2num">2</span>,<span class="c-2num">1</span>] = <span class="c-4str">'WER'</span>
-</span><span>       <span class="c-1com">CRT</span> V.STRING                 ;<span class="c-5com">* AWERC</span>
+<pre><span>       a_string = <span class="c-4str">'ABC'</span>
+</span><span>       a_string[<span class="c-2num">2</span>,<span class="c-2num">1</span>] = <span class="c-4str">'Q'</span>
+</span><span>       <span class="c-1com">CRT</span> a_string                             ;<span class="c-5com">* AQC</span>
+</span><span>       a_string[<span class="c-2num">2</span>,<span class="c-2num">1</span>] = <span class="c-4str">'WER'</span>
+</span><span>       <span class="c-1com">CRT</span> a_string                             ;<span class="c-5com">* AWERC</span>
 </span></pre>
 <p>Strings comparison is done from left to right:
 </p>
-<pre><span>       V.STRING = <span class="c-4str">'ABC'</span>
-</span><span>       V.CHAR.A = <span class="c-4str">'A'</span>
-</span><span>       V.CHAR.B = <span class="c-4str">'B'</span>
-</span><span>       <span class="c-1com">CRT</span> V.STRING <span class="c-1com">GT</span> V.CHAR.A       ;<span class="c-5com">* <span class="c-2num">1</span></span>
-</span><span>       <span class="c-1com">CRT</span> V.STRING <span class="c-1com">GT</span> V.CHAR.B       ;<span class="c-5com">* <span class="c-2num">0</span></span>
-</span></pre><div id="timestamp">Last update: Fri, 01 Feb 2013 08:29 CET</div></div>
+<pre><span>       a_string = <span class="c-4str">'ABC'</span>
+</span><span>       char_a = <span class="c-4str">'A'</span>
+</span><span>       char_b = <span class="c-4str">'B'</span>
+</span><span>       <span class="c-1com">CRT</span> a_string <span class="c-1com">GT</span> char_a       ;<span class="c-5com">* <span class="c-2num">1</span></span>
+</span><span>       <span class="c-1com">CRT</span> a_string <span class="c-1com">GT</span> char_b       ;<span class="c-5com">* <span class="c-2num">0</span></span>
+</span></pre>
+<p>Other common string operations:
+</p>
+<pre><span>       a_line = <span class="c-4str">'QWERTY'</span>
+</span><span>       <span class="c-5com">* add quotes around a string</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">SQUOTE</span>(a_line[<span class="c-2num">4</span>,<span class="c-2num">999</span>])                ;<span class="c-5com">*  <span class="c-4str">'RTY'</span></span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">QUOTE</span>(a_line)                        ;<span class="c-5com">*  <span class="c-4str">"QWERTY"</span></span>
+</span><span>       <span class="c-5com">* change case</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">DOWNCASE</span>(a_line)                     ;<span class="c-5com">*  qwerty</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">UPCASE</span>(<span class="c-4str">'do it now!'</span>)                 ;<span class="c-5com">*  <span class="c-1com">DO</span> IT NOW!</span>
+</span><span>       <span class="c-5com">* get length of a string</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">LEN</span>(a_line)                          ;<span class="c-5com">*  <span class="c-2num">6</span></span>
+</span><span>       <span class="c-5com">* get length of i18n string - number of characters and number of bytes</span>
+</span><span>       a_line := <span class="c-0fun">CHAR</span>(<span class="c-2num">353</span>)
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">LEN</span>(a_line)                          ;<span class="c-5com">*  <span class="c-2num">7</span></span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">BYTELEN</span>(a_line)                      ;<span class="c-5com">*  <span class="c-2num">8</span></span>
+</span><span>       <span class="c-5com">* repeat string several times</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">STR</span>(<span class="c-4str">'QWE'</span>, <span class="c-2num">5</span>)                        ;<span class="c-5com">*  QWEQWEQWEQWEQWE</span>
+</span><span>       <span class="c-5com">* dynamic array is also a string</span>
+</span><span>       dyn_array = <span class="c-4str">'qwe'</span> : <span class="c-3typ">@FM</span> : <span class="c-4str">"rty"</span> : <span class="c-3typ">@VM</span> : <span class="c-4str">\xYZ\</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">LEN</span>(dyn_array)                       ;<span class="c-5com">*  <span class="c-2num">11</span></span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">FMT</span>( <span class="c-0fun">UPCASE</span>(dyn_array), <span class="c-4str">'MCP'</span> )      ;<span class="c-5com">*  QWE^RTY]XYZ</span>
+</span><span>       <span class="c-5com">* pad a string</span>
+</span><span>       a_string = <span class="c-4str">'AWERC'</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-4str">'/'</span> : <span class="c-0fun">FMT</span>(a_string, <span class="c-4str">'25R'</span>) : <span class="c-4str">'/'</span>     ;<span class="c-5com">* /                    AWERC/</span>
+</span><span>       <span class="c-5com">* get ASCII value of a character</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">SEQ</span>(a_string[<span class="c-2num">1</span>,<span class="c-2num">1</span>])                   ;<span class="c-5com">* <span class="c-2num">65</span> (ASCII code of "A")</span>
+</span></pre><div id="timestamp">Last update: Tue, 19 Feb 2013 12:00 CET</div></div>
 </div>
 <script type="text/javascript">
 
