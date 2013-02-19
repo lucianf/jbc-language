@@ -15,6 +15,8 @@ jBASE and the jBASE logo (dove) are registered trademarks of T-jBASE SA, a compa
 
 ### Latest changes
 
+Tuesday, 19 Feb 2013: ["String variables"](#String_variables) updated; other minor changes.
+
 Monday, 18 Feb 2013: chapter [READV](#READV) was updated. "Differences between emulations" part was added to ["Other notes"](#Other_notes).
 
 Friday, 01 Feb 2013: technical (internal) update of all site. Also - [TRIMFS](#TRIMFS) was updated.
@@ -160,39 +162,74 @@ Strings can be delimited with single quotes, double quotes or backslashes:
        CRT "QWERTZ"    ;* this is also a string
        CRT 'QWE"RTZ'   ;* and even this is a string
        CRT \QWERTZ\    ;* still this is a string
-    * and here a backslash means line continuation
+       * and here a backslash means line continuation
        CRT 'QWE'  \
           : 'RTZ'
 
 To concatenate strings (you could see it in one of examples above), use a
 colon:
 
-       V.LINE = 'QWE' : 'RTY'
-       CRT V.LINE                   ;*  QWERTY
+       a_line = 'QWE' : 'RT'
+       CRT a_line                               ;*  QWERT
+       * unary concatenation
+       a_line := 'Y'
+       CRT a_line                               ;*  QWERTY
+
+String can be concatenated with a number without explicit conversion:
+
+       a_line = 'QWERTY'
+       a_line := 123
+       CRT a_line                               ;*  QWERTY123
 
 To extract a substring from a string use square brackets:
 
-       V.LINE = 'QWERTY'
-       CRT V.LINE[1,2]              ;*  QW
-       CRT V.LINE[2]                ;*  TY
-       CRT V.LINE[-4,2]             ;*  ER
-       CRT SQUOTE(V.LINE[4,999])    ;*  'RTY'
+       a_line = 'QWERTY'
+       CRT a_line[1,2]                          ;*  QW
+       CRT a_line[2]                            ;*  TY
+       CRT a_line[-4,2]                         ;*  ER
 
 It's possible to reassign parts of a string using that notation:
 
-       V.STRING = 'ABC'
-       V.STRING[2,1] = 'Q'
-       CRT V.STRING                 ;* AQC
-       V.STRING[2,1] = 'WER'
-       CRT V.STRING                 ;* AWERC
+       a_string = 'ABC'
+       a_string[2,1] = 'Q'
+       CRT a_string                             ;* AQC
+       a_string[2,1] = 'WER'
+       CRT a_string                             ;* AWERC
 
 Strings comparison is done from left to right:
 
-       V.STRING = 'ABC'
-       V.CHAR.A = 'A'
-       V.CHAR.B = 'B'
-       CRT V.STRING GT V.CHAR.A       ;* 1
-       CRT V.STRING GT V.CHAR.B       ;* 0
+       a_string = 'ABC'
+       char_a = 'A'
+       char_b = 'B'
+       CRT a_string GT char_a       ;* 1
+       CRT a_string GT char_b       ;* 0
+
+Other common string operations:
+
+       a_line = 'QWERTY'
+       * add quotes around a string
+       CRT SQUOTE(a_line[4,999])                ;*  'RTY'
+       CRT QUOTE(a_line)                        ;*  "QWERTY"
+       * change case
+       CRT DOWNCASE(a_line)                     ;*  qwerty
+       CRT UPCASE('do it now!')                 ;*  DO IT NOW!
+       * get length of a string
+       CRT LEN(a_line)                          ;*  6
+       * get length of i18n string - number of characters and number of bytes
+       a_line := CHAR(353)
+       CRT LEN(a_line)                          ;*  7
+       CRT BYTELEN(a_line)                      ;*  8
+       * repeat string several times
+       CRT STR('QWE', 5)                        ;*  QWEQWEQWEQWEQWE
+       * dynamic array is also a string
+       dyn_array = 'qwe' : @FM : "rty" : @VM : \xYZ\
+       CRT LEN(dyn_array)                       ;*  11
+       CRT FMT( UPCASE(dyn_array), 'MCP' )      ;*  QWE^RTY]XYZ
+       * pad a string
+       a_string = 'AWERC'
+       CRT '/' : FMT(a_string, '25R') : '/'     ;* /                    AWERC/
+       * get ASCII value of a character
+       CRT SEQ(a_string[1,1])                   ;* 65 (ASCII code of "A")
 
 ## Numeric variables
 
@@ -12262,7 +12299,7 @@ the host machine and truncated to the compiled precision on completion.
 
           A = 2
           B = 31
-          CRT "2 GB is " : A^B                     ;* 2 GB is 2147483648
+          CRT "2 GB is " : A ^ B                   ;* 2 GB is 2147483648
           CRT "2 GB is definitely " : PWR(A, B)    ;* 2 GB is definitely 2147483648
           CRT "-2 GB is " : NEG(A)^B               ;* -2 GB is -2147483648
           CRT "2 to the power of 31.5 is " : PWR(A, B+0.5)
@@ -12292,6 +12329,10 @@ at the beginning and end of a string.
 The QUOTE and DQUOTE functions will enclose the value in double
 quotation marks. The SQUOTE function will enclose the value in
 single quotation marks.
+
+### EXAMPLES
+
+See ["String variables"](#String_variables).
 
 ## RAISE
 
