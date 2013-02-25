@@ -15,6 +15,8 @@ jBASE and the jBASE logo (dove) are registered trademarks of T-jBASE SA, a compa
 
 ### Latest changes
 
+Monday, 25 Feb 2013: another emulation example added to chapter ["Other notes"](#Other_notes); chapter [DIV](#DIV) updated.
+
 Tuesday, 19 Feb 2013: ["String variables"](#String_variables) updated; other minor changes.
 
 Monday, 18 Feb 2013: chapter [READV](#READV) was updated. "Differences between emulations" part was added to ["Other notes"](#Other_notes).
@@ -22,8 +24,6 @@ Monday, 18 Feb 2013: chapter [READV](#READV) was updated. "Differences between e
 Friday, 01 Feb 2013: technical (internal) update of all site. Also - [TRIMFS](#TRIMFS) was updated.
 
 Thursday, 31 Jan 2013: chapter [TRIMBS](#TRIMBS) was updated.
-
-Tuesday, 29 Jan 2013: chapters [LATIN1](#LATIN1) and [UTF8](#UTF8) - examples added.
 
 ## What is TAFC
 
@@ -438,6 +438,35 @@ run under **jbase** emulation and *3* (i.e. fields count) under, e.g.,
        CRT in_record
 
 *Setting in Config_EMULATE: ***readv0 = key|dcount|binary**
+
+Some settings are effective at runtime, others apply during compilation.
+For example, the following program compiles successfully under **prime**
+emulation and runs successfully after that under all emulations.
+However, it's not possible to compile it under, say, **jbase** emulation.
+Reason of error - redimensioning of an array.
+
+Code:
+
+       DIMENSION dyn_array(10)
+       MAT dyn_array = '!'
+       dyn_array(5) = '?'
+       FOR i = 1 TO 10
+          CRT dyn_array(i):          ;* !!!!?!!!!!
+       NEXT i
+       DIM dyn_array(15)
+       dyn_array(15) = '...'
+       CRT dyn_array(15)
+
+Compilation under **jbase** emulation:
+
+<pre>
+    [error 1        (32)] "test.b", 7 (offset 18)  near ")":
+    Array dyn_array has already been DIMensioned
+    &nbsp;
+    1 error was found</pre>
+
+*Setting in Config_EMULATE: ***resize_array = false|true**
+
 
 For more settings see *Config_EMULATE* and *Config_EMULATE.txt*
 files in your TAFC/config folder.
@@ -5394,14 +5423,17 @@ division of the dividend by the divisor.
 The dividend and divisor expressions can evaluate to any numeric
 value. The only exception is that the divisor cannot be zero. If
 either dividend or divisor evaluates to null, it returns null.
+DIV is PRECISION-dependent.
 
 ### EXAMPLE
 
-    I=400 ;  K=200
-    J = DIV(I, K)
-    PRINT J
-
-"2" is the output of this program.
+       CRT DIV(400, 200)                     ;* 2
+       CRT DIV(200, 400)                     ;* 0.5
+       CRT DIV(200, -400)                    ;* -0.5
+       PRECISION 9
+       CRT DIV(1, 10000000000)               ;* 0
+       PRECISION 17
+       CRT DIV(1, 10000000000)               ;* 0.0000000001
 
 ## DIVS
 
