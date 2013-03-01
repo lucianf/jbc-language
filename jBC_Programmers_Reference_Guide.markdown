@@ -15,6 +15,8 @@ jBASE and the jBASE logo (dove) are registered trademarks of T-jBASE SA, a compa
 
 ### Latest changes
 
+Friday, 01 Mar 2013: small updates in chapter ["Other notes"](#Other_notes); several corrections in other chapters.
+
 Monday, 25 Feb 2013: another emulation example added to chapter ["Other notes"](#Other_notes); chapter [DIV](#DIV) updated.
 
 Tuesday, 19 Feb 2013: ["String variables"](#String_variables) updated; other minor changes.
@@ -22,8 +24,6 @@ Tuesday, 19 Feb 2013: ["String variables"](#String_variables) updated; other min
 Monday, 18 Feb 2013: chapter [READV](#READV) was updated. "Differences between emulations" part was added to ["Other notes"](#Other_notes).
 
 Friday, 01 Feb 2013: technical (internal) update of all site. Also - [TRIMFS](#TRIMFS) was updated.
-
-Thursday, 31 Jan 2013: chapter [TRIMBS](#TRIMBS) was updated.
 
 ## What is TAFC
 
@@ -328,12 +328,13 @@ though it's possible to use "EQ" in the latter case:
        IF V.STRING = 'ABC' THEN CRT 'YES'
        IF V.STRING EQ 'ABC' THEN CRT 'YES AGAIN'
 
-"Non-equal" can either be "#", "!" or "NE":
+"Non-equal" can either be "#", "!", "<>" or "NE":
 
-       V.STRING = 'ABC'
-       IF V.STRING #  'A' THEN CRT 'Not an A'
-       IF V.STRING NE 'B' THEN CRT 'Not a B'
-       IF V.STRING ! 'C' THEN CRT 'Not even a C'
+       a_string = 'ABC'
+       IF a_string #  'A' THEN CRT 'Not an "A"'
+       IF a_string NE 'B' THEN CRT 'Not a "B"'
+       IF a_string ! 'C' THEN CRT 'Not even a "C"'
+       IF a_string <> 'D' THEN CRT 'Surprisingly, but neither a "D"'
 
 IF...ELSE construct can be used without THEN:
 
@@ -4687,7 +4688,7 @@ separated by commas will be sent to the screen separated by a
 tab character.
 
 The CRT statement will append a newline sequence to the final
-expression unless it is terminated with a colon ":" character.
+expression unless it is terminated with a colon (":") character.
 
 ### NOTES
 
@@ -4727,7 +4728,7 @@ For compatibility, use DISPLAY in place of CRT.
        V.STRING = 'In the year of'
        CRT V.STRING V.LINE             ;* same as FMT(V.STRING, '39R')
        V.VAR = 5
-       CRT V.VAR > 1           ;* Rssult of an expression (1 in this case)
+       CRT V.VAR > 1           ;* Result of an expression (1 in this case)
        CRT @SYS.BELL           ;* rings the bell
 
 ## DATA
