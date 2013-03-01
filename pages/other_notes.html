@@ -462,12 +462,13 @@
 </span><span>       <span class="c-1com">IF</span> V.STRING = <span class="c-4str">'ABC'</span> <span class="c-1com">THEN</span> <span class="c-1com">CRT</span> <span class="c-4str">'YES'</span>
 </span><span>       <span class="c-1com">IF</span> V.STRING <span class="c-1com">EQ</span> <span class="c-4str">'ABC'</span> <span class="c-1com">THEN</span> <span class="c-1com">CRT</span> <span class="c-4str">'YES AGAIN'</span>
 </span></pre>
-<p>"Non-equal" can either be "#", "!" or "NE":
+<p>"Non-equal" can either be "#", "!", "<>" or "NE":
 </p>
-<pre><span>       V.STRING = <span class="c-4str">'ABC'</span>
-</span><span>       <span class="c-1com">IF</span> V.STRING #  <span class="c-4str">'A'</span> <span class="c-1com">THEN</span> <span class="c-1com">CRT</span> <span class="c-4str">'Not an A'</span>
-</span><span>       <span class="c-1com">IF</span> V.STRING <span class="c-1com">NE</span> <span class="c-4str">'B'</span> <span class="c-1com">THEN</span> <span class="c-1com">CRT</span> <span class="c-4str">'Not a B'</span>
-</span><span>       <span class="c-1com">IF</span> V.STRING ! <span class="c-4str">'C'</span> <span class="c-1com">THEN</span> <span class="c-1com">CRT</span> <span class="c-4str">'Not even a C'</span>
+<pre><span>       a_string = <span class="c-4str">'ABC'</span>
+</span><span>       <span class="c-1com">IF</span> a_string #  <span class="c-4str">'A'</span> <span class="c-1com">THEN</span> <span class="c-1com">CRT</span> <span class="c-4str">'Not an "A"'</span>
+</span><span>       <span class="c-1com">IF</span> a_string <span class="c-1com">NE</span> <span class="c-4str">'B'</span> <span class="c-1com">THEN</span> <span class="c-1com">CRT</span> <span class="c-4str">'Not a "B"'</span>
+</span><span>       <span class="c-1com">IF</span> a_string ! <span class="c-4str">'C'</span> <span class="c-1com">THEN</span> <span class="c-1com">CRT</span> <span class="c-4str">'Not even a "C"'</span>
+</span><span>       <span class="c-1com">IF</span> a_string &lt;&gt <span class="c-4str">'D'</span> <span class="c-1com">THEN</span> <span class="c-1com">CRT</span> <span class="c-4str">'Surprisingly, but neither a "D"'</span>
 </span></pre>
 <p>IF...ELSE construct can be used without THEN:
 </p>
@@ -602,7 +603,7 @@
 </p>
 <p>For more settings see <em>Config_EMULATE</em> and <em>Config_EMULATE.txt</em>
  files in your TAFC/config folder.
-</p><div id="timestamp">Last update: Mon, 25 Feb 2013 10:48 CET</div></div>
+</p><div id="timestamp">Last update: Fri, 01 Mar 2013 09:47 CET</div></div>
 </div>
 <script type="text/javascript">
 
