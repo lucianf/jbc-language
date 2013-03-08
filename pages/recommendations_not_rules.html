@@ -459,8 +459,10 @@
 </p>
 <ul><li>All variables are to be in lower case and in the lower_case_and_underscore_naming style.
 </li></ul>
-<ul><li>Use only one style of quotes for strings, e.g.: "QWERT" (double quotes, preferable) or 'QWERT' (single quotes). Mix them only if it's really required.
+<ul><li>Use only one style of quotes for strings, e.g.: "QWERT" (double quotes, preferable) or 'QWERT' (single quotes). Mix them only if it's really required, e.g.:
 </li></ul>
+<pre><span>       <span class="c-1com">CRT</span> <span class="c-4str">'"Yes Minister", '</span> : <span class="c-4str">"that's what I said."</span>
+</span></pre>
 <ul><li>Always use one space after the comma and never before the comma.
 </li></ul>
 <ul><li>Never use space after '(' and before ')' (exception is when code is more readable with it).
@@ -504,8 +506,16 @@
 </li></ul>
 <ul><li>For statements like INCLUDE, $INSERT use zero indent; for all other code - 3 spaces of initial indent and 3 spaces to indent each FOR...NEXT, LOOP...REPEAT contents etc.
 </li></ul>
-<ul><li>Wrap lines that are longer than 80 characters (use a backslash or comma at the end where the latter is applicable).
+<ul><li>Wrap lines that are longer than 80 characters (use a backslash or comma at the end where the latter is applicable). It's a good idea to move line continuation(s) even more than 3 positions to the right, e.g.:
 </li></ul>
+<pre><span>       current_date = <span class="c-0fun">DATE</span>()
+</span><span>       current_day = <span class="c-0fun">OCONV</span>(current_date, <span class="c-4str">'DD'</span>)
+</span><span>       current_month = <span class="c-0fun">OCONV</span>(current_date, <span class="c-4str">'DM'</span>)
+</span><span>       ansi_date =  <span class="c-0fun">OCONV</span>(current_date, <span class="c-4str">'DY'</span>) : <span class="c-4str">'-'</span>    \
+</span><span>             : <span class="c-0fun">FMT</span>(current_month, <span class="c-4str">'R0%2'</span> )   : <span class="c-4str">'-'</span>     \
+</span><span>             : <span class="c-0fun">FMT</span>(current_day, <span class="c-4str">'R0%2'</span> )
+</span><span>       <span class="c-1com">CRT</span> ansi_date                             ;<span class="c-5com">* e.g. <span class="c-2num">2013</span>-<span class="c-2num">03</span>-<span class="c-2num">08</span></span>
+</span></pre>
 <ul><li>Use spaces around "=":  not "var=1" but "var = 1".
 </li></ul>
 <ul><li>Use "=" for assignment only; for comparisons use "EQ".
@@ -521,7 +531,18 @@
 <pre><span>       <span class="c-2num">001</span> A = <span class="c-2num">0</span>
 </span><span>       <span class="c-2num">002</span> A += <span class="c-2num">1</span>
 </span><span>       <span class="c-2num">003</span> <span class="c-1com">IF</span> A <span class="c-1com">LT</span> <span class="c-2num">5</span> <span class="c-1com">THEN</span> <span class="c-1com">GOTO</span> <span class="c-2num">002</span> <span class="c-1com">ELSE</span> <span class="c-1com">CRT</span> A
-</span></pre><div id="timestamp">Last update: Fri, 01 Feb 2013 08:29 CET</div></div>
+</span></pre>
+<ul><li>Avoid ambiguity with IF...AND...OR, use parentheses. In the following example code lines 2, 3 and 4 are the same (except parentheses); only second IF is true:
+</li></ul>
+<pre><span>       var_1 = <span class="c-2num">1</span>  ; var_2 = <span class="c-2num">2</span>  ; var_3 = <span class="c-2num">3</span> ; var_4 = <span class="c-2num">4</span>
+</span><span>       <span class="c-1com">IF</span> var_1 <span class="c-1com">EQ</span> <span class="c-2num">1</span> <span class="c-1com">OR</span> var_2 <span class="c-1com">EQ</span> <span class="c-2num">20</span> <span class="c-1com">AND</span> var_3 <span class="c-1com">EQ</span> <span class="c-2num">30</span> <span class="c-1com">OR</span> var_4 <span class="c-1com">EQ</span> <span class="c-2num">40</span> <span class="c-1com">THEN</span> <span class="c-1com">CRT</span> <span class="c-2num">1</span>
+</span><span>       <span class="c-1com">IF</span> var_1 <span class="c-1com">EQ</span> <span class="c-2num">1</span> <span class="c-1com">OR</span> (var_2 <span class="c-1com">EQ</span> <span class="c-2num">20</span> <span class="c-1com">AND</span> var_3 <span class="c-1com">EQ</span> <span class="c-2num">30</span> <span class="c-1com">OR</span> var_4 <span class="c-1com">EQ</span> <span class="c-2num">40</span>) <span class="c-1com">THEN</span> <span class="c-1com">CRT</span> <span class="c-2num">2</span>
+</span><span>       <span class="c-1com">IF</span> (var_1 <span class="c-1com">EQ</span> <span class="c-2num">1</span> <span class="c-1com">OR</span> var_2 <span class="c-1com">EQ</span> <span class="c-2num">20</span>) <span class="c-1com">AND</span> (var_3 <span class="c-1com">EQ</span> <span class="c-2num">30</span> <span class="c-1com">OR</span> var_4 <span class="c-1com">EQ</span> <span class="c-2num">40</span>) <span class="c-1com">THEN</span> <span class="c-1com">CRT</span> <span class="c-2num">3</span>
+</span></pre>
+<ul><li>Use only one method of writing "not equal" (preferably "NE").
+</li></ul>
+<p>(See the second example in chapter <a href="other_notes.html">"Other notes"</a>.)
+</p><div id="timestamp">Last update: Fri, 08 Mar 2013 10:27 CET</div></div>
 </div>
 <script type="text/javascript">
 
