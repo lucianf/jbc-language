@@ -15,15 +15,15 @@ jBASE and the jBASE logo (dove) are registered trademarks of T-jBASE SA, a compa
 
 ### Latest changes
 
+Friday, 08 Mar 2013: chapter ["Recommendations (not rules)"](#Recommendations_(not_rules) updated.
+
 Friday, 01 Mar 2013: small updates in chapter ["Other notes"](#Other_notes); several corrections in other chapters.
 
 Monday, 25 Feb 2013: another emulation example added to chapter ["Other notes"](#Other_notes); chapter [DIV](#DIV) updated.
 
-Tuesday, 19 Feb 2013: ["String variables"](#String_variables) updated; other minor changes.
+Tuesday, 19 Feb 2013: chapter ["String variables"](#String_variables) updated; other minor changes.
 
 Monday, 18 Feb 2013: chapter [READV](#READV) was updated. "Differences between emulations" part was added to ["Other notes"](#Other_notes).
-
-Friday, 01 Feb 2013: technical (internal) update of all site. Also - [TRIMFS](#TRIMFS) was updated.
 
 ## What is TAFC
 
@@ -480,7 +480,9 @@ files in your TAFC/config folder.
 
 - All variables are to be in lower case and in the lower_case_and_underscore_naming style.
 
-- Use only one style of quotes for strings, e.g.: "QWERT" (double quotes, preferable) or 'QWERT' (single quotes). Mix them only if it's really required.
+- Use only one style of quotes for strings, e.g.: "QWERT" (double quotes, preferable) or 'QWERT' (single quotes). Mix them only if it's really required, e.g.:
+
+       CRT '"Yes Minister", ' : "that's what I said."
 
 - Always use one space after the comma and never before the comma.
 
@@ -525,7 +527,15 @@ Use:
 
 - For statements like INCLUDE, $INSERT use zero indent; for all other code - 3 spaces of initial indent and 3 spaces to indent each FOR...NEXT, LOOP...REPEAT contents etc.
 
-- Wrap lines that are longer than 80 characters (use a backslash or comma at the end where the latter is applicable).
+- Wrap lines that are longer than 80 characters (use a backslash or comma at the end where the latter is applicable). It's a good idea to move line continuation(s) even more than 3 positions to the right, e.g.:
+
+       current_date = DATE()
+       current_day = OCONV(current_date, 'DD')
+       current_month = OCONV(current_date, 'DM')
+       ansi_date =  OCONV(current_date, 'DY') : '-'    \
+             : FMT(current_month, 'R0%2' )   : '-'     \
+             : FMT(current_day, 'R0%2' )
+       CRT ansi_date                             ;* e.g. 2013-03-08
 
 - Use spaces around "=":  not "var=1" but "var = 1".
 
@@ -542,6 +552,17 @@ Use:
        001 A = 0
        002 A += 1
        003 IF A LT 5 THEN GOTO 002 ELSE CRT A
+
+- Avoid ambiguity with IF...AND...OR, use parentheses. In the following example code lines 2, 3 and 4 are the same (except parentheses); only second IF is true:
+
+       var_1 = 1  ; var_2 = 2  ; var_3 = 3 ; var_4 = 4
+       IF var_1 EQ 1 OR var_2 EQ 20 AND var_3 EQ 30 OR var_4 EQ 40 THEN CRT 1
+       IF var_1 EQ 1 OR (var_2 EQ 20 AND var_3 EQ 30 OR var_4 EQ 40) THEN CRT 2
+       IF (var_1 EQ 1 OR var_2 EQ 20) AND (var_3 EQ 30 OR var_4 EQ 40) THEN CRT 3
+
+- Use only one method of writing "not equal" (preferably "NE").
+
+(See the second example in chapter ["Other notes"](#Other_notes).)
 
 # Environment variables relevant to jBC programming
 
