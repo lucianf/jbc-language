@@ -15,6 +15,8 @@ jBASE and the jBASE logo (dove) are registered trademarks of T-jBASE SA, a compa
 
 ### Latest changes
 
+Friday, 15 Mar 2013: chapters ["Boolean variables"](#Boolean_variables), [GOSUB](#GOSUB) and [@CALLSTACK](#@CALLSTACK) updated.
+
 Friday, 08 Mar 2013: chapter ["Recommendations (not rules)"](#Recommendations_(not_rules) updated.
 
 Friday, 01 Mar 2013: small updates in chapter ["Other notes"](#Other_notes); several corrections in other chapters.
@@ -22,8 +24,6 @@ Friday, 01 Mar 2013: small updates in chapter ["Other notes"](#Other_notes); sev
 Monday, 25 Feb 2013: another emulation example added to chapter ["Other notes"](#Other_notes); chapter [DIV](#DIV) updated.
 
 Tuesday, 19 Feb 2013: chapter ["String variables"](#String_variables) updated; other minor changes.
-
-Monday, 18 Feb 2013: chapter [READV](#READV) was updated. "Differences between emulations" part was added to ["Other notes"](#Other_notes).
 
 ## What is TAFC
 
@@ -260,12 +260,13 @@ Other common string operations:
 Boolean variables as such don't exist in jBC; the result of a statement like IF (VAR) THEN...
 depends on that variable contents:
 
-       IF NOT(V.UNASSIGNED) THEN CRT 'Unassigned var is false'
-       V.TRUE.VAR = 1  ;  V.FALSE.VAR = 0
-       IF V.TRUE.VAR THEN CRT '1 is true'
-       IF NOT(V.FALSE.VAR) THEN CRT '0 is false'
-       V.STRING = 'YES'
-       IF V.STRING THEN CRT 'Non-empty string is true'
+<!--jBC-->
+       IF NOT(unassigned_var) THEN CRT 'Unassigned var is false'
+       true_var = 1  ;  false_var = 0
+       IF true_var THEN CRT '1 is true'
+       IF NOT(false_var) THEN CRT '0 is false'
+       a_string = 'YES'
+       IF a_string THEN CRT 'Non-empty string is true'
        IF NOT('0.00') THEN CRT '0.00 is false'
        IF NOT('-0.00') THEN CRT '"-0.00" is still false - treated as numeric'
     * and this test depends on PRECISION
@@ -275,13 +276,21 @@ depends on that variable contents:
        PRECISION 17
        IF NOT('0.00000000000001') THEN CRT '0.00000000000001 is false' \
              ELSE CRT '0.00000000000001 is true with PRECISION 17'
+       *------------------------------------------------------------------------
+    ANOTHER.METHOD:
+    *
+      CRT @TRUE
+      CRT @FALSE
 
-Output:
+Compiler warning:
+
+    Warning: Variable unassigned_var is never assigned!
+
+Runtime:
 
 <pre>
     Non-numeric value -- ZERO USED ,
-    Variable 'V.UNASSIGNED' , Line
-    1 , Source test2.b
+    Variable 'unassigned_var' , Line 1 , Source test.b
     Unassigned var is false
     1 is true
     0 is false
@@ -289,7 +298,9 @@ Output:
     0.00 is false
     "-0.00" is still false - treated as numeric
     0.00000000000001 is false
-    0.00000000000001 is true with PRECISION 17</pre>
+    0.00000000000001 is true with PRECISION 17
+    1
+    0</pre>
 
 ## Dynamic arrays
 
@@ -1226,11 +1237,14 @@ implemented. SYSTEM(1029) could be used to obtain call stack information, e.g:
 
 Main program (test.b):
 
+<!--jBC-->
        GOSUB SECTION1
        STOP
+       *-------------
     SECTION1:
        GOSUB SECTION2
        RETURN
+       *-------------
     SECTION2:
        CRT OCONV( SYSTEM(1029), 'MCP' )
        CALL TEST.SUB
@@ -1239,9 +1253,12 @@ Main program (test.b):
 
 Subroutine:
 
+<!--jBC-->
        SUBROUTINE TEST.SUB
+    *
        GOSUB SECTION3
        RETURN
+       *-------------
     SECTION3:
        CRT OCONV( SYSTEM(1029), 'MCP' )
        RETURN
@@ -7417,16 +7434,29 @@ code, which identifies the start of a local subroutine.
 
 ### EXAMPLE
 
-       V.IN = NEGS(1:@FM:2:@FM:3)
-       GOSUB SCROUTP                               ;* -1^-2^-3
-       V.IN = NEGS(-1:@FM:-2:@FM:-3)
-       GOSUB SCROUTP                               ;*  1^2^3
-       V.IN = NEGS(1:@FM:-2:@FM:3)
-       GOSUB SCROUTP                               ;*  -1^2^-3
+<!--jBC-->
+       var_1 = 1  ; var_2 = 2  ; var_3 = 3
+       GOSUB MAKE.ARRAY
+       GOSUB OUTPUT                               ;* -1^-2^-3
+       var_1 = -1  ; var_2 = -2 ; var_3 = -3
+       GOSUB MAKE.ARRAY
+       GOSUB OUTPUT                               ;* 1^2^3
+       var_1 = 1  ; var_2 = -2 ; var_3 = 3
+       GOSUB MAKE.ARRAY
+       GOSUB OUTPUT                               ;* -1^2^-3
        STOP
-    SCROUTP:
-       CRT FMT(V.IN, 'MCP')
+    *------------------------Subroutines----------------------------------
+    MAKE.ARRAY:
+       dyn_array = NEGS(var_1 :@FM: var_2 :@FM: var_3)
        RETURN
+    *------------
+    OUTPUT:
+       CRT FMT(dyn_array, 'MCP')
+       RETURN
+
+If you, for example, forget a RETURN in MAKE.ARRAY section the execution will
+continue till the next RETURN, i.e. section OUTPUT will be executed 6 times
+instead of 3.
 
 ## GOTO
 
