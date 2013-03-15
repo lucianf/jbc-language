@@ -458,28 +458,36 @@
 <p>Boolean variables as such don't exist in jBC; the result of a statement like IF (VAR) THEN...
  depends on that variable contents:
 </p>
-<pre><span>       <span class="c-1com">IF</span> <span class="c-0fun">NOT</span>(V.UNASSIGNED) <span class="c-1com">THEN</span> <span class="c-1com">CRT</span> <span class="c-4str">'Unassigned var is false'</span>
-</span><span>       V.TRUE.VAR = <span class="c-2num">1</span>  ;  V.FALSE.VAR = <span class="c-2num">0</span>
-</span><span>       <span class="c-1com">IF</span> V.TRUE.VAR <span class="c-1com">THEN</span> <span class="c-1com">CRT</span> <span class="c-4str">'1 is true'</span>
-</span><span>       <span class="c-1com">IF</span> <span class="c-0fun">NOT</span>(V.FALSE.VAR) <span class="c-1com">THEN</span> <span class="c-1com">CRT</span> <span class="c-4str">'0 is false'</span>
-</span><span>       V.STRING = <span class="c-4str">'YES'</span>
-</span><span>       <span class="c-1com">IF</span> V.STRING <span class="c-1com">THEN</span> <span class="c-1com">CRT</span> <span class="c-4str">'Non-empty string is true'</span>
-</span><span>       <span class="c-1com">IF</span> <span class="c-0fun">NOT</span>(<span class="c-4str">'0.00'</span>) <span class="c-1com">THEN</span> <span class="c-1com">CRT</span> <span class="c-4str">'0.00 is false'</span>
-</span><span>       <span class="c-1com">IF</span> <span class="c-0fun">NOT</span>(<span class="c-4str">'-0.00'</span>) <span class="c-1com">THEN</span> <span class="c-1com">CRT</span> <span class="c-4str">'"-0.00" is still false - treated as numeric'</span>
-</span><span>    <span class="c-5com">* and this test depends on <span class="c-1com">PRECISION</span></span>
-</span><span>       <span class="c-1com">PRECISION</span> <span class="c-2num">9</span>
-</span><span>       <span class="c-1com">IF</span> <span class="c-0fun">NOT</span>(<span class="c-4str">'0.00000000000001'</span>) <span class="c-1com">THEN</span> <span class="c-1com">CRT</span> <span class="c-4str">'0.00000000000001 is false'</span>  \
-</span><span>             <span class="c-1com">ELSE</span> <span class="c-1com">CRT</span> <span class="c-4str">'0.00000000000001 is true'</span>
-</span><span>       <span class="c-1com">PRECISION</span> <span class="c-2num">17</span>
-</span><span>       <span class="c-1com">IF</span> <span class="c-0fun">NOT</span>(<span class="c-4str">'0.00000000000001'</span>) <span class="c-1com">THEN</span> <span class="c-1com">CRT</span> <span class="c-4str">'0.00000000000001 is false'</span> \
-</span><span>             <span class="c-1com">ELSE</span> <span class="c-1com">CRT</span> <span class="c-4str">'0.00000000000001 is true with PRECISION 17'</span>
+<pre><span>    <span class="c-1com">IF</span> <span class="c-0fun">NOT</span>(unassigned_var) <span class="c-1com">THEN</span> <span class="c-1com">CRT</span> <span class="c-4str">'Unassigned var is false'</span>
+</span><span>    true_var = <span class="c-2num">1</span> ; false_var = <span class="c-2num">0</span>
+</span><span>    <span class="c-1com">IF</span> true_var <span class="c-1com">THEN</span> <span class="c-1com">CRT</span> <span class="c-4str">'1 is true'</span>
+</span><span>    <span class="c-1com">IF</span> <span class="c-0fun">NOT</span>(false_var) <span class="c-1com">THEN</span> <span class="c-1com">CRT</span> <span class="c-4str">'0 is false'</span>
+</span><span>    a_string = <span class="c-4str">'YES'</span>
+</span><span>    <span class="c-1com">IF</span> a_string <span class="c-1com">THEN</span> <span class="c-1com">CRT</span> <span class="c-4str">'Non-empty string is true'</span>
+</span><span>    <span class="c-1com">IF</span> <span class="c-0fun">NOT</span>(<span class="c-4str">'0.00'</span>) <span class="c-1com">THEN</span> <span class="c-1com">CRT</span> <span class="c-4str">'0.00 is false'</span>
+</span><span>    <span class="c-1com">IF</span> <span class="c-0fun">NOT</span>(<span class="c-4str">'-0.00'</span>) <span class="c-1com">THEN</span> <span class="c-1com">CRT</span> <span class="c-4str">'"-0.00" is still false - treated as numeric'</span>
+</span><span>    <span class="c-5com">* and this test depends on PRECISION</span>
+</span><span>    <span class="c-1com">PRECISION</span> <span class="c-2num">9</span>
+</span><span>    <span class="c-1com">IF</span> <span class="c-0fun">NOT</span>(<span class="c-4str">'0.00000000000001'</span>) <span class="c-1com">THEN</span> <span class="c-1com">CRT</span> <span class="c-4str">'0.00000000000001 is false'</span> \
+</span><span>          <span class="c-1com">ELSE</span> <span class="c-1com">CRT</span> <span class="c-4str">'0.00000000000001 is true'</span>
+</span><span>    <span class="c-1com">PRECISION</span> <span class="c-2num">17</span>
+</span><span>    <span class="c-1com">IF</span> <span class="c-0fun">NOT</span>(<span class="c-4str">'0.00000000000001'</span>) <span class="c-1com">THEN</span> <span class="c-1com">CRT</span> <span class="c-4str">'0.00000000000001 is false'</span> \
+</span><span>          <span class="c-1com">ELSE</span> <span class="c-1com">CRT</span> <span class="c-4str">'0.00000000000001 is true with PRECISION 17'</span>
+</span><span> <span class="c-5com">*------------------------------------------------------------------------</span>
+</span><span> <span class="c-6lbl">ANOTHER.METHOD:</span>
+</span><span>    <span class="c-5com">*</span>
+</span><span>    <span class="c-1com">CRT</span> <span class="c-3typ">@TRUE</span> 
+</span><span>    <span class="c-1com">CRT</span> <span class="c-3typ">@FALSE</span> 
 </span></pre>
-<p>Output:
+<p>Compiler warning:
+</p>
+<pre><span>    Warning: Variable unassigned_var is never assigned!
+</span></pre>
+<p>Runtime:
 </p>
 <p><pre>
      Non-numeric value -- ZERO USED ,
-     Variable 'V.UNASSIGNED' , Line
-     1 , Source test2.b
+     Variable 'unassigned_var' , Line 1 , Source test.b
      Unassigned var is false
      1 is true
      0 is false
@@ -487,8 +495,10 @@
      0.00 is false
      "-0.00" is still false - treated as numeric
      0.00000000000001 is false
-     0.00000000000001 is true with PRECISION 17</pre>
-</p><div id="timestamp">Last update: Fri, 01 Feb 2013 08:29 CET</div></div>
+     0.00000000000001 is true with PRECISION 17
+     1
+     0</pre>
+</p><div id="timestamp">Last update: Fri, 15 Mar 2013 12:51 CET</div></div>
 </div>
 <script type="text/javascript">
 

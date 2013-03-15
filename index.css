@@ -8,6 +8,12 @@ color: #302F2D;
 .c-2num { color: #AFD66F; }
 .c-3typ { color: #F5896F; }
 .c-4str { color: #85C5DC; }
+.c-6lbl { color: #F87217; }
+.c-0fun-v2 { color: #F75D59; }
+.c-1com-v2 { color: #EAC117; }
+.c-2num-v2 { color: #57E964; }
+.c-3typ-v2 { color: #E45E9D; }
+.c-4str-v2 { color: #6698FF; }
 .c-5com, .c-5com > * { color: #878989 !important; }
 #sidebar {
 position: fixed; top: 0; bottom: 0; left: 0; z-index: 1;
