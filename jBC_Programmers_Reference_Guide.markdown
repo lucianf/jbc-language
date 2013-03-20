@@ -15,6 +15,8 @@ jBASE and the jBASE logo (dove) are registered trademarks of T-jBASE SA, a compa
 
 ### Latest changes
 
+Wednesday, 20 Mar 2013: chapter ["Several statements on the same line"](#Several_statements_on_the_same_line) updated.
+
 Friday, 15 Mar 2013: chapters ["Boolean variables"](#Boolean_variables), [GOSUB](#GOSUB) and [@CALLSTACK](#@CALLSTACK) updated.
 
 Friday, 08 Mar 2013: chapter ["Recommendations (not rules)"](#Recommendations_(not_rules) updated.
@@ -22,8 +24,6 @@ Friday, 08 Mar 2013: chapter ["Recommendations (not rules)"](#Recommendations_(n
 Friday, 01 Mar 2013: small updates in chapter ["Other notes"](#Other_notes); several corrections in other chapters.
 
 Monday, 25 Feb 2013: another emulation example added to chapter ["Other notes"](#Other_notes); chapter [DIV](#DIV) updated.
-
-Tuesday, 19 Feb 2013: chapter ["String variables"](#String_variables) updated; other minor changes.
 
 ## What is TAFC
 
@@ -136,11 +136,22 @@ Or - if line ends with a comma - that's not necessary:
 
 ## Several statements on the same line
 
-Use semicolon:
+Use semicolon to delimit several statements on the same line; don't forget about
+code readability. You can combine statements with comments (though as soon as
+you have a comment, the following statements turn to comments as well):
 
-       V.VAR = 1  ;  V.VAR++  ;  CRT V.VAR
-       V.VAR-- ;* comment goes to the end of line so no "1" in the output ; CRT V.VAR
-       V.VAR-- ; CRT V.VAR  ;* 0 will be displayed
+<!--jBC-->
+    V.VAR = 1  ;  V.VAR++  ;  CRT V.VAR
+    V.VAR-- ;* comment goes to the end of line so no "1" in the output ; CRT V.VAR
+    V.VAR-- ; CRT V.VAR  ;* 0 will be displayed
+
+Conditional statements are also supported (though code readability suffers in
+the following example):
+
+<!--jBC-->
+    var_1 = 1 ; var_2 = 2 ; IF var_1 + var_2 EQ 3 THEN
+       CRT var_1, '+', var_2, '= 3'
+    END
 
 ## Comments
 
@@ -7445,7 +7456,7 @@ code, which identifies the start of a local subroutine.
        GOSUB MAKE.ARRAY
        GOSUB OUTPUT                               ;* -1^2^-3
        STOP
-    *------------------------Subroutines----------------------------------
+    *------------------------Subroutines------------------------------------
     MAKE.ARRAY:
        dyn_array = NEGS(var_1 :@FM: var_2 :@FM: var_3)
        RETURN
