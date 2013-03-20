@@ -455,12 +455,21 @@
 </div>
 <div id="scrollable">
 <div id="content"><h1>Several statements on the same line</h1>
-<p>Use semicolon:
+<p>Use semicolon to delimit several statements on the same line; don't forget about
+ code readability. You can combine statements with comments (though as soon as
+ you have a comment, the following statements turn to comments as well):
 </p>
-<pre><span>       V.VAR = <span class="c-2num">1</span>  ;  V.VAR++  ;  <span class="c-1com">CRT</span> V.VAR
-</span><span>       V.VAR-- ;<span class="c-5com">* comment goes to the end of line so no <span class="c-4str">"1"</span> in the output ; <span class="c-1com">CRT</span> V.VAR</span>
-</span><span>       V.VAR-- ; <span class="c-1com">CRT</span> V.VAR  ;<span class="c-5com">* <span class="c-2num">0</span> will be displayed</span>
-</span></pre><div id="timestamp">Last update: Fri, 01 Feb 2013 08:29 CET</div></div>
+<pre><span>    V.VAR = <span class="c-2num">1</span> ; V.VAR ++ ; <span class="c-1com">CRT</span> V.VAR
+</span><span>    V.VAR --     <span class="c-5com">;* comment goes to the end of line so no "1" in the output ; CRT V.VAR</span>
+</span><span>    V.VAR -- ; <span class="c-1com">CRT</span> V.VAR                           <span class="c-5com">;* 0 will be displayed</span>
+</span></pre>
+<p>Conditional statements are also supported (though code readability suffers in
+ the following example):
+</p>
+<pre><span>    var_1 = <span class="c-2num">1</span> ; var_2 = <span class="c-2num">2</span> ; <span class="c-1com">IF</span> var_1 + var_2 <span class="c-1com">EQ</span> <span class="c-2num">3</span> <span class="c-1com">THEN</span>
+</span><span>       <span class="c-1com">CRT</span> var_1, <span class="c-4str">'+'</span>, var_2, <span class="c-4str">'= 3'</span>
+</span><span>    <span class="c-1com">END</span>
+</span></pre><div id="timestamp">Last update: Wed, 20 Mar 2013 11:17 CET</div></div>
 </div>
 <script type="text/javascript">
 
