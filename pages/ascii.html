@@ -470,10 +470,20 @@
  is unchanged while the returned result of the function is now the ASCII
  equivalent.
 </p>
-<h2>EXAMPLES</h2>
-<pre><span>        <span class="c-1com">READT</span> EbcdicBlock <span class="c-1com">ELSE</span> <span class="c-1com">CRT</span> <span class="c-4str">"Tape failed!"</span> ; <span class="c-1com">STOP</span>
-</span><span>        AsciiBlock = <span class="c-0fun">ASCII</span>(EbcdicBlock) ;<span class="c-5com">* convert to ASCII</span>
-</span></pre><div id="timestamp">Last update: Fri, 01 Feb 2013 08:29 CET</div></div>
+<h2>EXAMPLE</h2>
+<p>Create the file test.txt in hex editor containing the following characters (in hex):
+</p>
+<p><pre>
+     C8 85 93 93 96 40 91 C2 C3</pre>
+</p>
+<p>Run the following program:
+</p>
+<pre><span>    <span class="c-1com">OSREAD</span> the_line <span class="c-1com">FROM</span> <span class="c-4str">'test.txt'</span> <span class="c-1com">ELSE</span> <span class="c-1com">NULL</span></span><span>    <span class="c-1com">CRT</span> <span class="c-0fun">ASCII</span>(the_line)</span></pre>
+<p>Output:
+</p>
+<p><pre>
+     Hello jBC</pre>
+</p><div id="timestamp">Last update: Tue, 02 Apr 2013 10:14 CET</div></div>
 </div>
 <script type="text/javascript">
 
