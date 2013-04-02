@@ -486,11 +486,11 @@
 <p>Same goes for strings. Instead of:
 </p>
 <pre><span>       var = <span class="c-4str">'ABC'</span>
-</span><span>       <span class="c-1com">IF</span> var <span class="c-1com">THEN</span> ...
+</span><span>       <span class="c-1com">IF</span> var <span class="c-1com">THEN</span>  ;<span class="c-5com">* code continues here</span>
 </span></pre>
 <p>Use:
 </p>
-<pre><span>       <span class="c-1com">IF</span> var <span class="c-1com">NE</span> <span class="c-4str">''</span> <span class="c-1com">THEN</span> ...
+<pre><span>       <span class="c-1com">IF</span> var <span class="c-1com">NE</span> <span class="c-4str">''</span> <span class="c-1com">THEN</span>  ;<span class="c-5com">* code continues here</span>
 </span></pre>
 <ul><li>Never hardcode program or subroutine name in error messages etc. Use SYSTEM(40) instead.
 </li></ul>
@@ -542,7 +542,7 @@
 <ul><li>Use only one method of writing "not equal" (preferably "NE").
 </li></ul>
 <p>(See the second example in chapter <a href="other_notes.html">"Other notes"</a>.)
-</p><div id="timestamp">Last update: Fri, 08 Mar 2013 10:27 CET</div></div>
+</p><div id="timestamp">Last update: Tue, 02 Apr 2013 10:10 CET</div></div>
 </div>
 <script type="text/javascript">
 
