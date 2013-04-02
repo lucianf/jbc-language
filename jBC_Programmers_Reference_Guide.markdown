@@ -15,6 +15,8 @@ jBASE and the jBASE logo (dove) are registered trademarks of T-jBASE SA, a compa
 
 ### Latest changes
 
+Tuesday, 02 Apr 2013: new examples for [@TIME](#@TIME) and [ASCII](#ASCII); formatting of some chapters improved.
+
 Wednesday, 20 Mar 2013: chapter ["Several statements on the same line"](#Several_statements_on_the_same_line) updated.
 
 Friday, 15 Mar 2013: chapters ["Boolean variables"](#Boolean_variables), [GOSUB](#GOSUB) and [@CALLSTACK](#@CALLSTACK) updated.
@@ -22,8 +24,6 @@ Friday, 15 Mar 2013: chapters ["Boolean variables"](#Boolean_variables), [GOSUB]
 Friday, 08 Mar 2013: chapter ["Recommendations (not rules)"](#Recommendations_(not_rules) updated.
 
 Friday, 01 Mar 2013: small updates in chapter ["Other notes"](#Other_notes); several corrections in other chapters.
-
-Monday, 25 Feb 2013: another emulation example added to chapter ["Other notes"](#Other_notes); chapter [DIV](#DIV) updated.
 
 ## What is TAFC
 
@@ -142,7 +142,7 @@ you have a comment, the following statements turn to comments as well):
 
 <!--jBC-->
     V.VAR = 1  ;  V.VAR++  ;  CRT V.VAR
-    V.VAR-- ;* comment goes to the end of line so no "1" in the output ; CRT V.VAR
+    V.VAR-- ;* comment starts here so no "1" in the output ; CRT V.VAR
     V.VAR-- ; CRT V.VAR  ;* 0 will be displayed
 
 Conditional statements are also supported (though code readability suffers in
@@ -295,7 +295,8 @@ depends on that variable contents:
 
 Compiler warning:
 
-    Warning: Variable unassigned_var is never assigned!
+<pre>
+    Warning: Variable unassigned_var is never assigned!</pre>
 
 Runtime:
 
@@ -529,11 +530,11 @@ always write:
 Same goes for strings. Instead of:
 
        var = 'ABC'
-       IF var THEN ...
+       IF var THEN  ;* code continues here
 
 Use:
 
-       IF var NE '' THEN ...
+       IF var NE '' THEN  ;* code continues here
 
 - Never hardcode program or subroutine name in error messages etc. Use SYSTEM(40) instead.
 
@@ -1397,7 +1398,13 @@ The Terminal type
 
 Returns the internal time - on some systems, this differs from the
 TIME function in that the variable is set when program execution
-starts, whereas the function reflects the current time
+starts, whereas the function reflects the current time.
+
+### EXAMPLE
+
+<!--jBC-->
+       MSLEEP 3000
+       CRT @TIME, TIME()     ;*  e.g. 26359   26362
 
 ## @TIMEZONE
 
@@ -1903,6 +1910,7 @@ is zero or an empty string, it returns false for those elements.
 
 ### EXAMPLE
 
+<!--jBC-->
         A = 1 :@SM: 4 :@VM: 4 :@SM: 1
         B = 1 :@SM: 1 - 1 :@VM: 2
         PRINT OCONV( ANDS(A, B), 'MCP' )    ;*  1\0]1\0
@@ -1926,10 +1934,23 @@ set and translate them using a character map. The original expression
 is unchanged while the returned result of the function is now the ASCII
 equivalent.
 
-### EXAMPLES
+### EXAMPLE
 
-        READT EbcdicBlock ELSE CRT "Tape failed!" ; STOP
-        AsciiBlock = ASCII(EbcdicBlock) ;* convert to ASCII
+Create the file test.txt in hex editor containing the following characters (in hex):
+
+<pre>
+    C8 85 93 93 96 40 91 C2 C3</pre>
+
+Run the following program:
+
+<!--jBC-->
+       OSREAD the_line FROM 'test.txt' ELSE NULL
+       CRT ASCII(the_line)
+
+Output:
+
+<pre>
+    Hello jBC</pre>
 
 ## ASSIGNED
 
@@ -17167,6 +17188,7 @@ Oracle.
 
 PartEntry.b listing (Oracle)
 
+<pre>
     *
     *
     * Declare jBC vars to use in Embedded SQL statements ( A )
@@ -17221,7 +17243,7 @@ PartEntry.b listing (Oracle)
     * Commit updates to database ( F )
     *
     *
-    EXEC SQL COMMIT ;
+    EXEC SQL COMMIT ;</pre>
 
 ( A ) Declare jBC variables to use within Embedded SQL statements
 
