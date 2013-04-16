@@ -464,12 +464,12 @@
 <pre><span>        to.var = <span class="c-4str">'QQQ'</span> :<span class="c-3typ">@FM</span>: <span class="c-4str">'WWW'</span> :<span class="c-3typ">@FM</span>: <span class="c-4str">'EEE'</span>
 </span><span>        from.var = <span class="c-4str">'rtz'</span>
 </span><span>        <span class="c-1com">GROUPSTORE</span> from.var <span class="c-1com">IN</span> to.var <span class="c-1com">USING</span> <span class="c-2num">2</span>, <span class="c-2num">0</span>, <span class="c-3typ">@FM</span>   ;<span class="c-5com">* start,replace,delim</span>
-</span><span>        <span class="c-1com">CRT</span> <span class="c-0fun">FMT</span>(to.var, <span class="c-4str">'MCP'</span>)                          ;<span class="c-5com">* QQQ^rtz^WWWEEE</span>
+</span><span>        <span class="c-1com">CRT</span> <span class="c-0fun">FMT</span>(to.var, <span class="c-4str">'MCP'</span>)                          ;<span class="c-5com">* QQQ^rtz^WWW^EEE</span>
 </span><span>        <span class="c-1com">GROUPSTORE</span> from.var <span class="c-1com">IN</span> to.var <span class="c-1com">USING</span> <span class="c-2num">4</span>, <span class="c-2num">1</span>
 </span><span>        <span class="c-1com">CRT</span> <span class="c-0fun">FMT</span>(to.var, <span class="c-4str">'MCP'</span>)                          ;<span class="c-5com">* QQQ^rtz^WWW^rtz</span>
 </span><span>        <span class="c-1com">GROUPSTORE</span> from.var <span class="c-1com">IN</span> to.var <span class="c-1com">USING</span> <span class="c-2num">2</span>, <span class="c-2num">0</span>, <span class="c-3typ">@VM</span>
 </span><span>        <span class="c-1com">CRT</span> <span class="c-0fun">FMT</span>(to.var, <span class="c-4str">'MCP'</span>)                          ;<span class="c-5com">* QQQ^rtz^WWW^rtz]rtz</span>
-</span></pre><div id="timestamp">Last update: Fri, 01 Feb 2013 08:29 CET</div></div>
+</span></pre><div id="timestamp">Last update: Tue, 16 Apr 2013 12:30 CET</div></div>
 </div>
 <script type="text/javascript">
 
