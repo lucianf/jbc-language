@@ -15,6 +15,8 @@ jBASE and the jBASE logo (dove) are registered trademarks of T-jBASE SA, a compa
 
 ### Latest changes
 
+Tuesday, 16 Apr 2013: new example for [WRITEV](#WRITEV).
+
 Tuesday, 02 Apr 2013: new examples for [@TIME](#@TIME) and [ASCII](#ASCII); formatting of some chapters improved.
 
 Wednesday, 20 Mar 2013: chapter ["Several statements on the same line"](#Several_statements_on_the_same_line) updated.
@@ -22,8 +24,6 @@ Wednesday, 20 Mar 2013: chapter ["Several statements on the same line"](#Several
 Friday, 15 Mar 2013: chapters ["Boolean variables"](#Boolean_variables), [GOSUB](#GOSUB) and [@CALLSTACK](#@CALLSTACK) updated.
 
 Friday, 08 Mar 2013: chapter ["Recommendations (not rules)"](#Recommendations_(not_rules) updated.
-
-Friday, 01 Mar 2013: small updates in chapter ["Other notes"](#Other_notes); several corrections in other chapters.
 
 ## What is TAFC
 
@@ -7259,7 +7259,7 @@ See: [GETX](#GETX)
 
 The GETCWD function allows a jBC program to determine the current working
 directory of the program, which is normally be the directory in which
-execution of the program occurred but possibly changed using the CHDIR_
+execution of the program occurred but possibly changed using the CHDIR()
 function.
 
 ### COMMAND SYNTAX
@@ -7578,7 +7578,7 @@ Insert the variable contents into dynamic array (or replace an element in it).
         to.var = 'QQQ' :@FM: 'WWW' :@FM: 'EEE'
         from.var = 'rtz'
         GROUPSTORE from.var IN to.var USING 2, 0, @FM   ;* start,replace,delim
-        CRT FMT(to.var, 'MCP')                          ;* QQQ^rtz^WWWEEE
+        CRT FMT(to.var, 'MCP')                          ;* QQQ^rtz^WWW^EEE
         GROUPSTORE from.var IN to.var USING 4, 1
         CRT FMT(to.var, 'MCP')                          ;* QQQ^rtz^WWW^rtz
         GROUPSTORE from.var IN to.var USING 2, 0, @VM
@@ -16792,14 +16792,22 @@ record, do so explicitly with the WRITEVU statement.
 
 ### EXAMPLE
 
-    OPEN "Customers" ELSE ABORT 201, "Customers"
-    OPEN "DICT Customers" TO DCusts ELSE
-       ABORT 201, "DICT Customers"
-    END
-    WRITEV Rec ON DCusts, 'Xref',7 Setting Err ON ERROR
-       CRT "I/O Error[" :Err: "]"
-       ABORT
-    END
+<!--jBC-->
+       EXECUTE 'DELETE-FILE DATA F.TEMP'
+       EXECUTE 'CREATE-FILE DATA F.TEMP 1 101 TYPE=J4'
+       OPEN 'F.TEMP' TO f_temp ELSE ABORT 201, 'F.TEMP'
+       new_rec = 'LINE 1' :@FM: 'LINE 2' :@FM: 'LINE 3'
+       WRITE new_rec TO f_temp, 'REC1'
+       WRITEV 'LINE 2v2' TO f_temp, 'REC1', 2 ON ERROR
+          CRT 'WRITEV error'
+          STOP
+       END
+       EXECUTE "I-DUMP F.TEMP 'REC1'"     ;* REC1^LINE 1^LINE 2v2^LINE 3^
+       WRITEV 'LINE 7' TO f_temp, 'REC1', 7 ON ERROR
+          CRT 'WRITEV error'
+          STOP
+       END
+       EXECUTE "I-DUMP F.TEMP 'REC1'"     ;* REC1^LINE 1^LINE 2v2^LINE 3^^^^LINE 7^
 
 ## WRITEVU
 
