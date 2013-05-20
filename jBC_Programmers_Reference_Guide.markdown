@@ -15,6 +15,8 @@ jBASE and the jBASE logo (dove) are registered trademarks of T-jBASE SA, a compa
 
 ### Latest changes
 
+Monday, 20 May 2013: chapter [INPUT](#INPUT) updated.
+
 Tuesday, 16 Apr 2013: new example for [WRITEV](#WRITEV).
 
 Tuesday, 02 Apr 2013: new examples for [@TIME](#@TIME) and [ASCII](#ASCII); formatting of some chapters improved.
@@ -22,8 +24,6 @@ Tuesday, 02 Apr 2013: new examples for [@TIME](#@TIME) and [ASCII](#ASCII); form
 Wednesday, 20 Mar 2013: chapter ["Several statements on the same line"](#Several_statements_on_the_same_line) updated.
 
 Friday, 15 Mar 2013: chapters ["Boolean variables"](#Boolean_variables), [GOSUB](#GOSUB) and [@CALLSTACK](#@CALLSTACK) updated.
-
-Friday, 08 Mar 2013: chapter ["Recommendations (not rules)"](#Recommendations_(not_rules) updated.
 
 ## What is TAFC
 
@@ -8064,10 +8064,22 @@ remaining time is updated on user screen.
        CRT @(0):'Seconds left: ': FMT(V.TIMEOUT, '2R') : '. Your choice':
        RETURN
 
-The above example attempts to read a single character from the input
-device for 10 deci-seconds (1 second). The LOOP will exit when a
-character has been input otherwise every second it will call the
-local subroutine UpdateClock.
+
+### EXAMPLE 2
+
+Pad the input field.
+
+Code:
+
+       CRT @(-1)
+       INPUT @(17,2):the_input,50,'_..':_
+
+User screen:
+
+                        ? _________________________________________________
+
+
+See also: [PROMPT](#PROMPT).
 
 ## INPUTCLEAR
 
