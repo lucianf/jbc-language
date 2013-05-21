@@ -471,21 +471,7 @@
  of the CATS function is the non-null dynamic array.
 </p>
 <h2>EXAMPLES</h2>
-<pre><span>    X  = <span class="c-4str">"a"</span> : <span class="c-3typ">@VM</span> : <span class="c-4str">"b"</span> : <span class="c-3typ">@VM</span> : <span class="c-4str">"c"</span>
-</span><span>    B = <span class="c-2num">1</span> : <span class="c-3typ">@VM</span> : <span class="c-2num">2</span> : <span class="c-3typ">@VM</span> : <span class="c-2num">3</span>
-</span><span>    Z = <span class="c-0fun">CATS</span>(X, Y)
-</span></pre>
-<p>The assigned value to variable Z is:
-</p>
-<pre><span>    a1 : <span class="c-3typ">@VM</span> : b2 : <span class="c-3typ">@VM</span> : c3
-</span><span>    A = <span class="c-4str">"a"</span> : <span class="c-3typ">@SM</span> : <span class="c-4str">"b"</span> : <span class="c-3typ">@VM</span> : <span class="c-4str">"c": @VM : "d"</span>
-</span><span>    B = <span class="c-4str">"x"</span> : <span class="c-3typ">@VM</span> : <span class="c-4str">"y"</span> : <span class="c-3typ">@SM</span> : <span class="c-4str">"z"</span>
-</span><span>    C = <span class="c-0fun">CATS</span>(A, B)
-</span></pre>
-<p>The assigned value to variable C is:
-</p>
-<pre><span>    ax : <span class="c-3typ">@SM</span> : b : <span class="c-3typ">@VM</span> : cy : <span class="c-3typ">@SM</span> : z : <span class="c-3typ">@VM</span> : d
-</span></pre><div id="timestamp">Last update: Fri, 01 Feb 2013 08:29 CET</div></div>
+<pre><span> <span class="c-5com">* Same array structure -------------</span></span><span>    an_array = <span class="c-4str">"a"</span> : <span class="c-3typ">@VM</span> : <span class="c-4str">"b"</span> : <span class="c-3typ">@VM</span> : <span class="c-4str">"c"</span></span><span>    another_array = <span class="c-2num">1</span> : <span class="c-3typ">@VM</span> : <span class="c-2num">2</span> : <span class="c-3typ">@VM</span> : <span class="c-2num">3</span></span><span>    <span class="c-1com">GOSUB</span> DO.PROCEED                                              <span class="c-5com">;*   a1]b2]c3</span></span><span> <span class="c-5com">* Different array structure -------------</span></span><span>    an_array = <span class="c-4str">"a"</span> : <span class="c-3typ">@SM</span> : <span class="c-4str">"b"</span> : <span class="c-3typ">@VM</span> : <span class="c-4str">"c"</span> : <span class="c-3typ">@VM</span> : <span class="c-4str">"d"</span></span><span>    another_array = <span class="c-4str">"x"</span> : <span class="c-3typ">@VM</span> : <span class="c-4str">"y"</span> : <span class="c-3typ">@SM</span> : <span class="c-4str">"z"</span></span><span>    <span class="c-1com">GOSUB</span> DO.PROCEED                                           <span class="c-5com">;*   ax\b]cy\z]d</span></span><span>    <span class="c-1com">STOP</span></span><span> <span class="c-5com">*-------------</span></span><span> <span class="c-6lbl">DO.PROCEED:</span></span><span>    the_result = <span class="c-0fun">CATS</span>(an_array, another_array)</span><span>    <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>(the_result, <span class="c-4str">'MCP'</span>)</span><span>    <span class="c-1com">RETURN</span></span></pre><div id="timestamp">Last update: Tue, 21 May 2013 12:34 CET</div></div>
 </div>
 <script type="text/javascript">
 

@@ -465,21 +465,16 @@
 </span></pre>
 <h2>SYNTAX ELEMENTS</h2>
 <p>The expression may evaluate to any result but will usually be a string.
- The function then scans every character in the string and returns a
- numeric addition of the characters within the string.
+ The function then scans every character in the string and sums up
+ the multiplication of character position by its ASCII value.
+ This algorithm doesn't really supply reliable result - see the example below.
 </p>
-<h2>NOTES</h2>
-<p>The function calculates the checksum by summing the product of the
- ASCII value of each character and its position within the string.
-</p>
-<h2>EXAMPLES</h2>
-<pre><span>    <span class="c-1com">INPUT</span> DataBlock,<span class="c-2num">128</span>:
-</span><span>    <span class="c-1com">IF</span> <span class="c-0fun">CHECKSUM</span>(DataBlock) = ExpectedChk <span class="c-1com">THEN</span>
-</span><span>        <span class="c-1com">CRT</span> AckChar:
-</span><span>    <span class="c-1com">END</span>
-</span><span>    <span class="c-1com">ELSE</span>
-</span><span>    ......
-</span></pre><div id="timestamp">Last update: Fri, 01 Feb 2013 08:29 CET</div></div>
+<h2>EXAMPLE</h2>
+<pre><span>       <span class="c-1com">CRT</span> <span class="c-0fun">CHECKSUM</span>(<span class="c-4str">'A'</span>)                ;<span class="c-5com">* <span class="c-2num">65</span></span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">CHECKSUM</span>(<span class="c-4str">'AA'</span>)               ;<span class="c-5com">* <span class="c-2num">65</span>*<span class="c-2num">1</span> + <span class="c-2num">65</span>*<span class="c-2num">2</span> = <span class="c-2num">195</span></span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">CHECKSUM</span>(<span class="c-4str">'B'</span>)                ;<span class="c-5com">* <span class="c-2num">66</span></span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">CHECKSUM</span>( <span class="c-0fun">CHAR</span>(<span class="c-2num">0</span>): <span class="c-4str">'!'</span> )     ;<span class="c-5com">* <span class="c-2num">0</span>*<span class="c-2num">1</span> + <span class="c-2num">33</span>*<span class="c-2num">2</span> = <span class="c-2num">66</span></span>
+</span></pre><div id="timestamp">Last update: Tue, 21 May 2013 12:37 CET</div></div>
 </div>
 <script type="text/javascript">
 

@@ -461,20 +461,11 @@
  specified by any numeric expression.
 </p>
 <h2>COMMAND SYNTAX</h2>
-<pre><span>    <span class="c-0fun">BITNOT</span>(expression ?,bit#?)
+<pre><span>    <span class="c-0fun">BITNOT</span>(expression)
 </span></pre>
 <p>DESCRIPTION
 </p>
-<p><strong>bit#</strong> is an expression that evaluates to the number of the bit to
- invert. If bit# is unspecified, BITNOT inverts each bit. It changes
- each bit of 1 to a bit of 0 and each
-</p>
-<p>bit of 0 to a bit of 1. This is equivalent to returning a value equal
- to the following: (?expression)?1
-</p>
-<p>If expression evaluates to the null value, null is returned. If bit#
- evaluates to the null value, the BITNOT function fails and the program
- terminates with a run-time error message.
+<p>If expression evaluates to the null value, null is returned.
 </p>
 <p>Non integer values are truncated before the operation is performed.
  The BITNOT operation is performed on a 32-bit twos-complement word.
@@ -483,13 +474,15 @@
  high-order bit non portable.
 </p>
 <h2>EXAMPLE</h2>
-<pre><span>    <span class="c-1com">PRINT</span> <span class="c-0fun">BITNOT</span>(<span class="c-2num">6</span>), <span class="c-0fun">BITNOT</span>(<span class="c-2num">15</span>,<span class="c-2num">0</span>), <span class="c-0fun">BITNOT</span>(<span class="c-2num">15</span>,<span class="c-2num">1</span>), <span class="c-0fun">BITNOT</span>(<span class="c-2num">15</span>,<span class="c-2num">2</span>)
+<pre><span>    <span class="c-1com">CRT</span> <span class="c-0fun">BITNOT</span>(<span class="c-2num">6</span>)     ;<span class="c-5com">*  <span class="c-2num">4294967289</span></span>
 </span></pre>
-<p>This is the program output:
+<p>Explanation of this example:
 </p>
 <p><pre>
-     7 14 13 11</pre>
-</p><div id="timestamp">Last update: Fri, 01 Feb 2013 08:29 CET</div></div>
+     6 (decimal) = 110 (binary)
+     Invert every bit (32-bit representation): 11111111111111111111111111111001
+     Convert to decimal: 4294967289</pre>
+</p><div id="timestamp">Last update: Tue, 21 May 2013 12:28 CET</div></div>
 </div>
 <script type="text/javascript">
 
