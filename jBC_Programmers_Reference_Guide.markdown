@@ -15,6 +15,8 @@ jBASE and the jBASE logo (dove) are registered trademarks of T-jBASE SA, a compa
 
 ### Latest changes
 
+Tuesday, 21 May 2013: chapters [BITNOT](#BITNOT), [BITTEST](#BITTEST), [CATS](#CATS), [CHDIR](#CHDIR), [CHECKSUM](#CHECKSUM), [CREATE](#CREATE), [STATUS](#STATUS) and [XTD](#XTD) updated.
+
 Monday, 20 May 2013: chapter [INPUT](#INPUT) updated.
 
 Tuesday, 16 Apr 2013: new example for [WRITEV](#WRITEV).
@@ -22,8 +24,6 @@ Tuesday, 16 Apr 2013: new example for [WRITEV](#WRITEV).
 Tuesday, 02 Apr 2013: new examples for [@TIME](#@TIME) and [ASCII](#ASCII); formatting of some chapters improved.
 
 Wednesday, 20 Mar 2013: chapter ["Several statements on the same line"](#Several_statements_on_the_same_line) updated.
-
-Friday, 15 Mar 2013: chapters ["Boolean variables"](#Boolean_variables), [GOSUB](#GOSUB) and [@CALLSTACK](#@CALLSTACK) updated.
 
 ## What is TAFC
 
@@ -2157,20 +2157,11 @@ specified by any numeric expression.
 
 ### COMMAND SYNTAX
 
-    BITNOT(expression ?,bit#?)
+    BITNOT(expression)
 
 DESCRIPTION
 
-**bit#** is an expression that evaluates to the number of the bit to
-invert. If bit# is unspecified, BITNOT inverts each bit. It changes
-each bit of 1 to a bit of 0 and each
-
-bit of 0 to a bit of 1. This is equivalent to returning a value equal
-to the following: (?expression)?1
-
-If expression evaluates to the null value, null is returned. If bit#
-evaluates to the null value, the BITNOT function fails and the program
-terminates with a run-time error message.
+If expression evaluates to the null value, null is returned.
 
 Non integer values are truncated before the operation is performed.
 The BITNOT operation is performed on a 32-bit twos-complement word.
@@ -2180,12 +2171,14 @@ high-order bit non portable.
 
 ### EXAMPLE
 
-    PRINT BITNOT(6), BITNOT(15,0), BITNOT(15,1), BITNOT(15,2)
+    CRT BITNOT(6)     ;*  4294967289
 
-This is the program output:
+Explanation of this example:
 
 <pre>
-    7 14 13 11</pre>
+    6 (decimal) = 110 (binary)
+    Invert every bit (32-bit representation): 11111111111111111111111111111001
+    Convert to decimal: 4294967289</pre>
 
 ## BITOR
 
@@ -2327,27 +2320,9 @@ specified by expression.
 
     BITTEST(expression, bit#)
 
-### DESCRIPTION
+### NOTE
 
-The function returns 1 if the bit is set; it returns 0 if it is not;
-Bits are counted from right to left. The number of the rightmost bit
-is 0.
-
-If expression evaluates to the null value, null is returned. If bit#
-evaluates to null, the BITTEST function fails and the program
-terminates with a run-time error message.
-
-Non integer values are truncated before the operation is performed.
-
-### EXAMPLE
-
-        PRINT BITTEST(11,0), BITTEST(11,1), BITTEST(11,2), BITTEST(11,3)
-     * The binary value of 11 = 1011
-
-This is the program output:
-
-<pre>
-    1 1 0 1</pre>
+This function is reserved for future use and hadn't yet been implemented.
 
 ## BITXOR
 
@@ -3807,20 +3782,21 @@ of the CATS function is the non-null dynamic array.
 
 ### EXAMPLES
 
-    X  = "a" : @VM : "b" : @VM : "c"
-    B = 1 : @VM : 2 : @VM : 3
-    Z = CATS(X, Y)
-
-The assigned value to variable Z is:
-
-    a1 : @VM : b2 : @VM : c3
-    A = "a" : @SM : "b" : @VM : "c": @VM : "d"
-    B = "x" : @VM : "y" : @SM : "z"
-    C = CATS(A, B)
-
-The assigned value to variable C is:
-
-    ax : @SM : b : @VM : cy : @SM : z : @VM : d
+<!--jBC-->
+    * Same array structure -------------
+       an_array =   "a" : @VM : "b" : @VM : "c"
+       another_array = 1 : @VM : 2 : @VM : 3
+       GOSUB DO.PROCEED                                     ;*   a1]b2]c3
+    * Different array structure -------------
+       an_array =      "a" : @SM : "b" : @VM : "c" : @VM : "d"
+       another_array = "x" : @VM : "y" : @SM : "z"
+       GOSUB DO.PROCEED                                     ;*   ax\b]cy\z]d
+       STOP
+    *-------------
+    DO.PROCEED:
+       the_result = CATS(an_array, another_array)
+       CRT OCONV(the_result, 'MCP')
+       RETURN
 
 ## CHAIN
 
@@ -4057,18 +4033,15 @@ The expression should evaluate to a valid path name within the file
 system. The function returns a Boolean TRUE result if the CHDIR
 succeeded and a Boolean FALSE result if it failed.
 
-### EXAMPLES
+### EXAMPLE
 
-    IF CHDIR('/usr/jBC/src') THEN
-        CRT "jBASE development system INSTALLED"
-    END
-
-    IF GETENV('JBCGLOBALDIR', jgdir) THEN
-        IF CHDIR (jgdir:'\config') ELSE
-            CRT "jBASE configuration cannot be found."
-            ABORT
-        END
-    END
+    INCLUDE JBC.h
+       IF GETENV('TAFC_HOME', tafc_home) THEN
+          IF CHDIR(tafc_home : DIR_DELIM_CH : 'config') ELSE
+             CRT "TAFC configuration cannot be found"
+             ABORT
+          END
+       END ELSE CRT 'TAFC home can not be found'
 
 ## CHECKSUM
 
@@ -4084,22 +4057,16 @@ string.
 ### SYNTAX ELEMENTS
 
 The expression may evaluate to any result but will usually be a string.
-The function then scans every character in the string and returns a
-numeric addition of the characters within the string.
+The function then scans every character in the string and sums up
+the multiplication of character position by its ASCII value.
+This algorithm doesn't really supply reliable result - see the example below.
 
-### NOTES
+### EXAMPLE
 
-The function calculates the checksum by summing the product of the
-ASCII value of each character and its position within the string.
-
-### EXAMPLES
-
-    INPUT DataBlock,128:
-    IF CHECKSUM(DataBlock) = ExpectedChk THEN
-        CRT AckChar:
-    END
-    ELSE
-    ......
+       CRT CHECKSUM('A')                ;* 65
+       CRT CHECKSUM('AA')               ;* 65*1 + 65*2 = 195
+       CRT CHECKSUM('B')                ;* 66
+       CRT CHECKSUM( CHAR(0): '!' )     ;* 0*1 + 33*2 = 66
 
 ## CLEAR
 
@@ -4734,10 +4701,21 @@ When [OPENSEQ](#OPENSEQ) fails to open RECORD to the file variable FILE,
 the CREATE statement creates RECORD in the type 1 file DIRFILE and opens
 it to the file variable FILE.
 
-    OPENSEQ 'DIRFILE', 'RECORD' TO FILE
-    ELSE CREATE FILE ELSE ABORT
-    WEOFSEQ FILE
-    WRITESEQ 'SOME DATA' TO FILE ELSE STOP
+    INCLUDE JBC.h
+       out_dir = '.'  ;  out_file = 'report.txt'
+       OPENSEQ out_dir, out_file TO f_out THEN
+          WEOFSEQ f_out
+       END ELSE
+          CREATE f_out ELSE CRT 'File create error'  ;  STOP
+          CRT 'File created'
+       END
+       WRITESEQ 'ABCDEFabcdef' TO f_out ELSE
+          CRT 'Write error'
+          STOP
+       END
+       CLOSESEQ f_out
+       OSREAD the_content FROM out_dir : DIR_DELIM_CH : out_file ELSE NULL
+       CRT the_content        ;* ABCDEFabcdef
 
 ## CRT
 
@@ -14931,6 +14909,14 @@ Consult the documentation that accompanied your tape drive
 unit for information about interpreting the values returned
 by the STATUS function.
 
+### EXAMPLE
+
+       DELETE not_valid_filevar, 'REC5' SETTING ret_code ON ERROR
+          CRT 'REC5 - DELETE ERROR'
+       END
+       CRT STATUS()           ;*  -1
+       CRT ret_code           ;*  32768
+
 ## STATUS statement
 
 STATUS statement is used to determine the status of an open
@@ -17151,8 +17137,12 @@ See also: [DTX](#DTX).
 
 ### EXAMPLES
 
-    A = "FF"
-    CRT XTD(A)
+       CRT XTD('BADBEEF')     ;*  195935983 (00001011101011011011111011101111)
+       CRT XTD('DEADBEEF')    ;* -559038737 (11011110101011011011111011101111)
+       CRT XTD('GHI')         ;* 0
+
+Negative result in line 2 is caused by the first bit of binary result
+being set.
 
 # Embedded SQL for jBC
 
