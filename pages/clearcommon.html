@@ -464,21 +464,7 @@
 <pre><span>    <span class="c-1com">CLEARCOMMON</span>
 </span></pre>
 <h2>EXAMPLE</h2>
-<p>Subroutine:
-</p>
-<pre><span>       <span class="c-1com">SUBROUTINE</span> TEST.SUB
-</span><span>       <span class="c-1com">COMMON</span> V.VAR1, V.VAR2
-</span><span>       <span class="c-1com">CLEARCOMMON</span>
-</span><span>       <span class="c-1com">RETURN</span>
-</span><span>    <span class="c-1com">END</span>
-</span></pre>
-<p>Calling program:
-</p>
-<pre><span>       <span class="c-1com">COMMON</span> V.VAR.ONE, V.VAR.TWO
-</span><span>       V.VAR.ONE = <span class="c-2num">1</span>  ;  V.VAR.TWO = <span class="c-2num">2</span>
-</span><span>       <span class="c-1com">CALL</span> TEST.SUB
-</span><span>       <span class="c-1com">CRT</span> V.VAR.ONE, V.VAR.TWO          ;<span class="c-5com">* <span class="c-2num">0</span>  <span class="c-2num">0</span></span>
-</span></pre><div id="timestamp">Last update: Fri, 01 Feb 2013 08:29 CET</div></div>
+<pre><span>    <span class="c-1com">COMMON</span> / MY.COMM / global_var</span><span>    <span class="c-1com">COMMON</span> gl_unnamed</span><span>    global_var = <span class="c-2num">1000</span></span><span>    gl_unnamed = <span class="c-2num">1001</span></span><span>    <span class="c-1com">CLEARCOMMON</span></span><span>    <span class="c-5com">* only unnamed common will be cleared</span></span><span>    <span class="c-1com">CRT</span> global_var                                                      <span class="c-5com">;* 1000</span></span><span>    <span class="c-1com">CRT</span> gl_unnamed                                                         <span class="c-5com">;* 0</span></span></pre><div id="timestamp">Last update: Thu, 20 Jun 2013 09:26 CET</div></div>
 </div>
 <script type="text/javascript">
 

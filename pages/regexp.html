@@ -477,8 +477,8 @@
  was invalid then the function returns -1.
 </p>
 <h2>EXAMPLES</h2>
-<pre><span>       String = <span class="c-4str">"jBASE Software Inc."</span>          ;<span class="c-5com">* position of the character <span class="c-4str">"t"</span></span>
-</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">REGEXP</span>(String, <span class="c-4str">'S[^t]*'</span>)            ;<span class="c-5com">* in <span class="c-4str">"Software"</span> = <span class="c-2num">4</span></span>
+<pre><span>       String = <span class="c-4str">"jBASE Software Inc."</span>    ;<span class="c-5com">* <span class="c-2num">4</span> (position of matching pattern -</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">REGEXP</span>(String, <span class="c-4str">'S[^t]*'</span>)      ;<span class="c-5com">*   <span class="c-4str">"S"</span> followed by <span class="c-4str">"t"</span> later on)</span>
 </span><span>    <span class="c-5com">* find an exact value in a list</span>
 </span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">REGEXP</span>(<span class="c-4str">'051'</span>, <span class="c-4str">'^(050|5001|051|053|265|4007|5007|037|060|098)$'</span>)   ;<span class="c-5com">* <span class="c-2num">1</span></span>
 </span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">REGEXP</span>(<span class="c-4str">'05123'</span>, <span class="c-4str">'^(050|5001|051|053|265|4007|5007|037|060|098)$'</span>) ;<span class="c-5com">* <span class="c-2num">0</span></span>
@@ -497,7 +497,7 @@
 </span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">REGEXP</span>(<span class="c-4str">'RU'</span>, <span class="c-4str">'([A-QS-Z][A-Z]|[R][A-RT-Z])'</span>)                       ;<span class="c-5com">* <span class="c-2num">1</span></span>
 </span><span>    <span class="c-5com">* negative lookahead assertion isn<span class="c-4str">'t supported ("all not containing '</span>bar'")</span>
 </span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">REGEXP</span>(<span class="c-4str">'bar'</span>, <span class="c-4str">'"^(?!.*?bar).*"'</span>)                                 ;<span class="c-5com">* <span class="c-2num">-1</span></span>
-</span></pre><div id="timestamp">Last update: Fri, 01 Feb 2013 08:29 CET</div></div>
+</span></pre><div id="timestamp">Last update: Thu, 20 Jun 2013 09:50 CET</div></div>
 </div>
 <script type="text/javascript">
 

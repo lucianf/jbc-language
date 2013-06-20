@@ -482,8 +482,7 @@
 <p>Variables declared without naming the common area may only be shared
  between the program and its subroutines (unless CHAIN is used).
  Variables declared in a named common area may be shared across program
- boundaries. When any common area is shared, all programs using it should
- have declared the same number of variables within it.
+ boundaries.
 </p>
 <p>Dimensioned arrays are declared and dimensioned within the COMMON
  statement.
@@ -496,7 +495,66 @@
 </span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">ASSIGNED</span>(V.VAR2)   ;<span class="c-5com">* <span class="c-2num">0</span></span>
 </span><span>       V.VAR1 = <span class="c-4str">'YES'</span>
 </span><span>       V.VAR2 = <span class="c-4str">'NO'</span>
-</span></pre><div id="timestamp">Last update: Fri, 01 Feb 2013 08:29 CET</div></div>
+</span></pre>
+<h2>NOTE</h2>
+<p>When a COMMON area is used in different programs or subroutines, it has to be
+ declared in each of them. Variable names can be different but their number has to be the same.
+</p>
+<h2>EXAMPLE</h2>
+<p>Program test.b:
+</p>
+<pre><span>       <span class="c-1com">COMMON</span> /MY.AREA/ global_var, global_dyn_array
+</span><span>       global_var = <span class="c-2num">42</span>
+</span><span>       <span class="c-1com">EXECUTE</span> <span class="c-4str">'test2'</span>
+</span></pre>
+<p>Program test2.b:
+</p>
+<pre><span>       <span class="c-1com">COMMON</span> /MY.AREA/ my_var, my_dyn_array
+</span><span>       <span class="c-1com">CRT</span> my_var
+</span></pre>
+<p>Run program test:
+</p>
+<p><pre>
+     42</pre>
+</p>
+<h2>NOTE</h2>
+<p>It's a good idea to put COMMON areas declaration for particular task to an insert file and include it
+ into every relevant source file.
+</p>
+<h2>EXAMPLE</h2>
+<p>File I_MYTASK.COMMON:
+</p>
+<pre><span>       <span class="c-1com">COMMON</span> /MY.AREA/ global_var, global_dyn_array
+</span></pre>
+<p>Program test.b:
+</p>
+<pre><span>       <span class="c-3typ">$INSERT</span> I_MYTASK.COMMON
+</span><span>       &nbsp;
+</span><span>       global_var = <span class="c-2num">42</span>
+</span><span>       <span class="c-1com">EXECUTE</span> <span class="c-4str">'test2'</span>
+</span></pre>
+<p>Program test2.b:
+</p>
+<pre><span>       <span class="c-3typ">$INSERT</span> I_MYTASK.COMMON
+</span><span>       &nbsp;
+</span><span>       <span class="c-1com">CRT</span> global_var
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">ASSIGNED</span>(global_dyn_array)
+</span></pre>
+<p>Run program test (<strong>prime</strong> emulation):
+</p>
+<p><pre>
+     42
+     1</pre>
+</p>
+<p><strong>r83</strong> emulation:
+</p>
+<p><pre>
+     42
+     0</pre>
+</p>
+<h2>NOTE</h2>
+<p>If number of variables in COMMON area changes, all relevant source files are to be recompiled.
+</p><div id="timestamp">Last update: Thu, 20 Jun 2013 12:02 CET</div></div>
 </div>
 <script type="text/javascript">
 

@@ -458,10 +458,11 @@
 <p><a name="FDIV"/>
 </p>
 <p>The FDIV function performs floating point division on two numeric
- values.
+ values. (Similarly, FMUL does the multiplication.)
 </p>
 <h2>COMMAND SYNTAX</h2>
 <pre><span>    <span class="c-0fun">FDIV</span>(expression1, expression2)
+</span><span>    <span class="c-0fun">FMUL</span>(expression1, expression2)
 </span></pre>
 <h2>SYNTAX ELEMENTS</h2>
 <p>Both expression1 and expression 2 must evaluate to non-null numeric
@@ -477,10 +478,9 @@
 <p>The calculation is not subject to the PRECISION setting.
 </p>
 <h2>EXAMPLE</h2>
-<pre><span>        <span class="c-1com">CRT</span> <span class="c-0fun">FDIV</span>(<span class="c-2num">1</span>,<span class="c-2num">7</span>)
-</span></pre>
-<p>displays 0.1428571429
-</p><div id="timestamp">Last update: Fri, 01 Feb 2013 08:29 CET</div></div>
+<pre><span>        <span class="c-1com">CRT</span> <span class="c-0fun">FDIV</span>(<span class="c-2num">1</span>, <span class="c-2num">7</span>)                   ;<span class="c-5com">* <span class="c-2num">0</span>.<span class="c-2num">1428571429</span></span>
+</span><span>        <span class="c-1com">CRT</span> <span class="c-0fun">FMUL</span>(<span class="c-2num">2</span>.<span class="c-2num">54</span>, <span class="c-2num">5</span>.<span class="c-2num">703358</span>)         ;<span class="c-5com">* <span class="c-2num">14</span>.<span class="c-2num">48652932</span></span>
+</span></pre><div id="timestamp">Last update: Thu, 20 Jun 2013 11:30 CET</div></div>
 </div>
 <script type="text/javascript">
 

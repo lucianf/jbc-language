@@ -482,13 +482,22 @@
  until a specified time.
 </p>
 <h2>EXAMPLES</h2>
-<p>Sleep for 1/10th of a second...
-</p>
-<pre><span>    <span class="c-1com">MSLEEP</span> <span class="c-2num">100</span>
-</span><span>    <span class="c-5com">*</span>
-</span><span>    <span class="c-5com">* <span class="c-2num">40</span> winks...</span>
-</span><span>    <span class="c-1com">MSLEEP</span> <span class="c-2num">40000</span>
-</span></pre><div id="timestamp">Last update: Fri, 01 Feb 2013 08:29 CET</div></div>
+<pre><span>       <span class="c-1com">CRT</span> <span class="c-0fun">MAKETIMESTAMP</span>( <span class="c-0fun">DATE</span>(), <span class="c-0fun">TIME</span>(), <span class="c-4str">''</span> )           ;<span class="c-5com">*  e.g. <span class="c-2num">1353068005</span>.<span class="c-2num">934</span></span>
+</span><span>       <span class="c-1com">MSLEEP</span>(<span class="c-2num">100</span>)      ;<span class="c-5com">* <span class="c-2num">0</span>.<span class="c-2num">1</span> sec</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">MAKETIMESTAMP</span>( <span class="c-0fun">DATE</span>(), <span class="c-0fun">TIME</span>(), <span class="c-4str">''</span> )           ;<span class="c-5com">*  e.g. <span class="c-2num">1353068006</span>.<span class="c-2num">044</span></span>
+</span><span>       <span class="c-1com">MSLEEP</span>(<span class="c-2num">3000</span>)      ;<span class="c-5com">* <span class="c-2num">3</span> sec</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">MAKETIMESTAMP</span>( <span class="c-0fun">DATE</span>(), <span class="c-0fun">TIME</span>(), <span class="c-4str">''</span> )           ;<span class="c-5com">*  e.g. <span class="c-2num">1353068009</span>.<span class="c-2num">039</span></span>
+</span><span>       <span class="c-1com">MSLEEP</span> <span class="c-2num">3000</span>       ;<span class="c-5com">* this syntax also works</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">MAKETIMESTAMP</span>( <span class="c-0fun">DATE</span>(), <span class="c-0fun">TIME</span>(), <span class="c-4str">''</span> )           ;<span class="c-5com">*  e.g. <span class="c-2num">1353068012</span>.<span class="c-2num">035</span></span>
+</span><span>    <span class="c-5com">* Sleep until the beginning of the next hour</span>
+</span><span>       time = <span class="c-0fun">OCONV</span>( <span class="c-0fun">TIME</span>(), <span class="c-4str">'MT'</span> )
+</span><span>       sleep_until = time[<span class="c-2num">1</span>, <span class="c-2num">2</span>] + <span class="c-2num">1</span>
+</span><span>       <span class="c-1com">IF</span> sleep_until <span class="c-1com">EQ</span> <span class="c-2num">24</span> <span class="c-1com">THEN</span> sleep_until = <span class="c-4str">'00'</span>
+</span><span>       sleep_until := <span class="c-4str">':00'</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-4str">"I<span class="c-4str">'ll be back at " : sleep_until   ;<span class="c-5com">*  e.g. I'</span>ll be back at <span class="c-2num">13</span>:<span class="c-2num">00</span></span>
+</span><span>       <span class="c-1com">SLEEP</span> sleep_until
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>( <span class="c-0fun">TIME</span>(), <span class="c-4str">'MTS'</span> ), <span class="c-4str">','</span>, <span class="c-4str">"I'm back as promised"</span>
+</span></pre><div id="timestamp">Last update: Thu, 20 Jun 2013 10:16 CET</div></div>
 </div>
 <script type="text/javascript">
 

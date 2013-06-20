@@ -480,17 +480,100 @@
  expression2. Shown below are valid conversion codes:
 </p>
 <table><tr><th>Conversion</th><th>Action</th></tr><tr><td>D{n{c}}</td><td>Converts an internal date to an external date format.</td></tr><tr><td></td><td>The numeric argument n specifies the field width</td></tr><tr><td></td><td>allowed for the year and can be 0 to 4 (default 4).</td></tr><tr><td></td><td>The character 'c' causes the date to be return in the</td></tr><tr><td></td><td>form ddcmmcyyyy. If it is not specified then the month</td></tr><tr><td></td><td>name is returned in abbreviated form.</td></tr><tr><td>DI</td><td>Allows the conversion of an external date to the</td></tr><tr><td></td><td>internal format even though an output conversion</td></tr><tr><td></td><td>is expected.</td></tr><tr><td>DD</td><td>Returns the day in the current month.</td></tr><tr><td>DM</td><td>Returns the number of the month in the year.</td></tr><tr><td>DMA</td><td>Returns the name of the current month.</td></tr><tr><td>DJ</td><td>Returns the number of the day in the year (0-366).</td></tr><tr><td>DQ</td><td>Returns the quarter of the year as a number 1 to 4.</td></tr><tr><td>DW</td><td>Returns the day of the week as a number 1 to 7</td></tr><tr><td></td><td>(Monday is 1).</td></tr><tr><td>DWA</td><td>Returns the name of the day of the week.</td></tr><tr><td>DY{n}</td><td>Returns the year in a field of n characters.</td></tr><tr><td>F</td><td>Given a prospective filename for a command such as</td></tr><tr><td></td><td>CREATE-FILE this conversion will return a filename</td></tr><tr><td></td><td>that is acceptable to the version of UNIX TAFC is</td></tr><tr><td></td><td>running on.</td></tr><tr><td>MCA</td><td>Removes all but alphabetic characters from the input</td></tr><tr><td></td><td>string.</td></tr><tr><td>MC/A</td><td>Removes all but the NON-alphabetic characters in the</td></tr><tr><td></td><td>input string.</td></tr><tr><td>MCN</td><td>Removes all but numeric characters in the input string.</td></tr><tr><td>MC/N</td><td>Removes all but NON numeric characters in the input</td></tr><tr><td></td><td>string.</td></tr><tr><td>MCB</td><td>Returns just the alphabetic and numeric characters from</td></tr><tr><td></td><td>the input string.</td></tr><tr><td>MC/B</td><td>Removes the alphabetic and numeric characters from</td></tr><tr><td></td><td>their input string.</td></tr><tr><td>MCC;s1;s2</td><td>Replaces all occurrences of string s1 with string s2.</td></tr><tr><td>MCL</td><td>Converts all upper case characters in the string to</td></tr><tr><td></td><td>lower case characters.</td></tr><tr><td>MCU</td><td>Converts all lower case characters in the string to</td></tr><tr><td></td><td>upper case characters.</td></tr><tr><td>MCT</td><td>Capitalizes each word in the input string; e.g. JIM</td></tr><tr><td></td><td>converts to Jim.</td></tr><tr><td>MCP{c}</td><td>Converts all non-printable characters to a period</td></tr><tr><td></td><td>character "." in the input string. When supplied use</td></tr><tr><td></td><td>the character</td></tr><tr><td></td><td>"c" in place of the period.</td></tr><tr><td>MCPN{n}</td><td>In the same manner as the MCP conversion, it replaces</td></tr><tr><td></td><td>all non-printable characters. The ASCII hexadecimal</td></tr><tr><td></td><td>value</td></tr><tr><td></td><td>follows the replacing character.</td></tr><tr><td>MCNP{n}</td><td>Performs the opposite conversion to MCPN. The ASCII</td></tr><tr><td></td><td>hexadecimal value following the tilde character</td></tr><tr><td></td><td>converts to its</td></tr><tr><td></td><td>original binary character value.</td></tr><tr><td>MCDX</td><td>Converts the decimal value in the input string to its</td></tr><tr><td></td><td>hexadecimal equivalent.</td></tr><tr><td>MCXD</td><td>Converts the hexadecimal value in the input string to</td></tr><tr><td></td><td>its decimal equivalent.</td></tr><tr><td>Gncx</td><td>Extracts x groups separated by character c skipping n</td></tr><tr><td></td><td>groups, from the input string.</td></tr><tr><td>MT{HS}</td><td>Performs time conversions.</td></tr><tr><td>MD</td><td>Converts the supplied integer value to a decimal value.</td></tr><tr><td>MP</td><td>Converts a packed decimal number to an integer value.</td></tr><tr><td>MX</td><td>Converts ASCII input to hexadecimal characters.</td></tr><tr><td>T</td><td>Performs file translations given a cross-reference</td></tr><tr><td></td><td>table in a record in a file.</td></tr></table>
-<h2>EXAMPLE</h2>
-<pre><span>    <span class="c-5com">* See examples in <span class="c-0fun">FMT</span>() section - most samples form there work both ways -</span>
-</span><span>    <span class="c-5com">* e.g., the following <span class="c-2num">2</span> lines produce equal results:</span>
-</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">FMT</span>( <span class="c-0fun">DATE</span>(), <span class="c-4str">'D4/'</span> )
-</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>( <span class="c-0fun">DATE</span>(), <span class="c-4str">'D4/'</span> )                          ;<span class="c-5com">*  e.g. <span class="c-2num">11</span>/<span class="c-2num">05</span>/<span class="c-2num">2012</span></span>
-</span><span>    <span class="c-5com">* it's not the same for next <span class="c-2num">2</span> lines though...</span>
-</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">DQUOTE</span>( <span class="c-0fun">FMT</span>(<span class="c-2num">123456</span>.<span class="c-2num">78</span>, <span class="c-4str">'R2,$#15'</span>) )             ;<span class="c-5com">*  <span class="c-4str">"    </span>$123,456.78"</span>
-</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">DQUOTE</span>( <span class="c-0fun">OCONV</span>(<span class="c-2num">123456</span>.<span class="c-2num">78</span>, <span class="c-4str">'R2,$#15'</span>) )           ;<span class="c-5com">*  Error in Range Test</span>
-</span><span>    <span class="c-5com">* Example of a "user exit":</span>
-</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>(<span class="c-4str">''</span>, <span class="c-4str">'U50BB'</span>)        ;<span class="c-5com">* port number and user name</span>
-</span></pre><div id="timestamp">Last update: Fri, 01 Feb 2013 08:29 CET</div></div>
+<h2>EXAMPLES</h2>
+<p>Date and time:
+</p>
+<pre><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>(<span class="c-2num">1</span>, <span class="c-4str">'D'</span>)         ;<span class="c-5com">* <span class="c-2num">01</span> JAN <span class="c-2num">1968</span></span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>( <span class="c-0fun">DATE</span>(), <span class="c-4str">'D'</span> )    ;<span class="c-5com">* here and below output for <span class="c-2num">30</span> MAY <span class="c-2num">2013</span></span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>( <span class="c-0fun">DATE</span>(), <span class="c-4str">'D2'</span> )   ;<span class="c-5com">* <span class="c-2num">30</span> MAY <span class="c-2num">13</span></span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>( <span class="c-0fun">DATE</span>(), <span class="c-4str">'D4/'</span> )  ;<span class="c-5com">* <span class="c-2num">05</span>/<span class="c-2num">30</span>/<span class="c-2num">2013</span></span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>( <span class="c-0fun">DATE</span>(), <span class="c-4str">'DY'</span> )   ;<span class="c-5com">* <span class="c-2num">2013</span></span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>( <span class="c-0fun">DATE</span>(), <span class="c-4str">'DY2'</span> )  ;<span class="c-5com">* <span class="c-2num">13</span></span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>( <span class="c-0fun">DATE</span>(), <span class="c-4str">'DQ'</span> )   ;<span class="c-5com">* <span class="c-2num">2</span> (quarter)</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>( <span class="c-0fun">DATE</span>(), <span class="c-4str">'DM'</span> )   ;<span class="c-5com">* <span class="c-2num">5</span> (month number)</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>( <span class="c-0fun">DATE</span>(), <span class="c-4str">'DMA'</span> )  ;<span class="c-5com">* MAY</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>( <span class="c-0fun">DATE</span>(), <span class="c-4str">'DD'</span> )   ;<span class="c-5com">* <span class="c-2num">30</span></span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>( <span class="c-0fun">DATE</span>(), <span class="c-4str">'DJ'</span> )   ;<span class="c-5com">* <span class="c-2num">150</span> (number of a day in the year)</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>( <span class="c-0fun">DATE</span>(), <span class="c-4str">'DW'</span> )   ;<span class="c-5com">* <span class="c-2num">4</span> (day number in a week, starting from Monday)</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>( <span class="c-0fun">DATE</span>(), <span class="c-4str">'DWA'</span> )  ;<span class="c-5com">* THURSDAY</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>( <span class="c-0fun">TIME</span>(), <span class="c-4str">'MT'</span> )   ;<span class="c-5com">* <span class="c-2num">20</span>:<span class="c-2num">04</span></span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>( <span class="c-0fun">TIME</span>(), <span class="c-4str">'MTS'</span> )  ;<span class="c-5com">* <span class="c-2num">20</span>:<span class="c-2num">04</span>:<span class="c-2num">08</span></span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>(<span class="c-2num">1</span>, <span class="c-4str">'MTS'</span>)       ;<span class="c-5com">* <span class="c-2num">00</span>:<span class="c-2num">00</span>:<span class="c-2num">01</span></span>
+</span><span>    <span class="c-5com">* difference of <span class="c-2num">2</span> dates (in days)</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">ICONV</span>(<span class="c-4str">'20121231'</span>, <span class="c-4str">'D'</span>) - <span class="c-0fun">ICONV</span>(<span class="c-4str">'20111231'</span>, <span class="c-4str">'D'</span>)   ;<span class="c-5com">* <span class="c-2num">366</span></span>
+</span><span>    <span class="c-5com">* Check if a year is a leap one</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>( <span class="c-0fun">ICONV</span>(<span class="c-4str">'20131231'</span>, <span class="c-4str">'D4'</span>), <span class="c-4str">'DJ'</span> )    ;<span class="c-5com">*  <span class="c-2num">365</span></span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>( <span class="c-0fun">ICONV</span>(<span class="c-4str">'20161231'</span>, <span class="c-4str">'D4'</span>), <span class="c-4str">'DJ'</span> )    ;<span class="c-5com">*  <span class="c-2num">366</span></span>
+</span></pre>
+<p>Strings:
+</p>
+<pre><span>    <span class="c-5com">* split a string</span>
+</span><span>       the_string = <span class="c-4str">'LONG STRING TO BE SPLIT'</span>
+</span><span>       the_split = <span class="c-0fun">FMT</span>(the_string, <span class="c-4str">'10L'</span>)
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>(the_split, <span class="c-4str">'MCP'</span>)         ;<span class="c-5com">* LONG STRIN.G <span class="c-1com">TO</span> BE SP.LIT</span>
+</span><span>    <span class="c-5com">* hexadecimal output</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>(the_split, <span class="c-4str">'MX'</span>)
+</span><span>    <span class="c-5com">* Output:</span>
+</span><span>    <span class="c-5com">* 4C4F4E4720535452494EFB4720544F204245205350FB4C495420202020202020</span>
+</span><span>    <span class="c-5com">*</span>
+</span><span>    <span class="c-5com">* Remove non-alphabetic symbols:</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>(the_split, <span class="c-4str">'MCA'</span>)     ;<span class="c-5com">* LONGSTRINGTOBESPLIT</span>
+</span><span>    <span class="c-5com">* Remove all alphabetic symbols:</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>( <span class="c-0fun">OCONV</span>(the_split, <span class="c-4str">'MC/A'</span>), <span class="c-4str">'MX'</span> )  ;<span class="c-5com">* 20FB202020FB20202020202020</span>
+</span><span>    <span class="c-5com">* Note FB symbols in the output above.. see what's that</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>(<span class="c-4str">'FB'</span>, <span class="c-4str">'MCXD'</span>)    ;<span class="c-5com">* <span class="c-2num">251</span> a.k.a. <span class="c-3typ">@TM</span></span>
+</span><span>       <span class="c-1com">CHANGE</span> <span class="c-3typ">@TM</span> <span class="c-1com">TO</span> <span class="c-4str">'-&gt'</span> <span class="c-1com">IN</span> the_split ; <span class="c-1com">CRT</span> the_split ;<span class="c-5com">* LONG STRIN-&gtG <span class="c-1com">TO</span> BE SP-&gtLIT</span>
+</span><span>    <span class="c-5com">* Remove non-numeric symbols:</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>(<span class="c-4str">'another 1 bites the dust'</span>, <span class="c-4str">'MCN'</span>)    ;<span class="c-5com">* <span class="c-2num">1</span></span>
+</span><span>    <span class="c-5com">* Remove all numeric symbols:</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>(<span class="c-4str">'another 1 bites the dust'</span>, <span class="c-4str">'MC/N'</span>)   ;<span class="c-5com">* another  bites the dust</span>
+</span><span>    <span class="c-5com">* formatting</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">SQUOTE</span>( <span class="c-0fun">FMT</span>(the_string, <span class="c-4str">'30L'</span>) )    ;<span class="c-5com">* <span class="c-4str">'LONG STRING TO BE SPLIT       '</span></span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">SQUOTE</span>( <span class="c-0fun">FMT</span>(the_string, <span class="c-4str">'30R'</span>) )    ;<span class="c-5com">* <span class="c-4str">'       LONG STRING TO BE SPLIT'</span></span>
+</span><span>    <span class="c-5com">* replace some data</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>(the_string, <span class="c-4str">'MCC;STRING;DATA'</span>)  ;<span class="c-5com">* LONG <span class="c-1com">DATA</span> <span class="c-1com">TO</span> BE SPLIT</span>
+</span><span>    <span class="c-5com">* change case</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>(the_string, <span class="c-4str">'MCL'</span>)  ;<span class="c-5com">* long string to be split</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>(<span class="c-4str">'do it'</span>, <span class="c-4str">'MCU'</span>)     ;<span class="c-5com">* <span class="c-1com">DO</span> IT</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>(the_string, <span class="c-4str">'MCT'</span>)  ;<span class="c-5com">* Long String To Be Split</span>
+</span><span>    <span class="c-5com">* extract delimited fields: skip <span class="c-2num">1</span> space-delimited word, take <span class="c-2num">3</span> from that point</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>(the_string, <span class="c-4str">'G1 3'</span>)  ;<span class="c-5com">* STRING <span class="c-1com">TO</span> BE</span>
+</span></pre>
+<p>Numbers:
+</p>
+<pre><span>    <span class="c-5com">* amounts</span>
+</span><span>       amount_fcy = <span class="c-2num">1234</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">FMT</span>(amount_fcy, <span class="c-4str">'R%7'</span>)   ;<span class="c-5com">*       <span class="c-2num">0001234</span></span>
+</span><span>       amount_fcy += <span class="c-2num">0</span>.<span class="c-2num">56</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">FMT</span>(amount_fcy, <span class="c-4str">'R2*19'</span>)              ;<span class="c-5com">*  ************<span class="c-2num">1234</span>.<span class="c-2num">56</span></span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">SQUOTE</span>( <span class="c-0fun">FMT</span>(amount_fcy, <span class="c-4str">'L2,#19'</span>) )     ;<span class="c-5com">*  <span class="c-4str">'1,234.56           '</span></span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">FMT</span>(-amount_fcy, <span class="c-4str">'R2,C&*$#15'</span>)        ;<span class="c-5com">*           </span>$<span class="c-2num">1</span>,<span class="c-2num">234</span>.56CR
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">FMT</span>(amount_fcy,<span class="c-4str">'L0'</span>)                  ;<span class="c-5com">* <span class="c-2num">1235</span></span>
+</span><span>    <span class="c-5com">* phone numbers</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">FMT</span>(<span class="c-2num">1234567890</span>, <span class="c-4str">'R((###) ###-###)'</span>)       ;<span class="c-5com">* (<span class="c-2num">234</span>) <span class="c-2num">567</span>-<span class="c-2num">890</span></span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">FMT</span>(<span class="c-2num">74952223355</span>, <span class="c-4str">'R(+# (#3) #3-#2-#2)'</span>)   ;<span class="c-5com">* +<span class="c-2num">7</span> (<span class="c-2num">495</span>) <span class="c-2num">222</span>-<span class="c-2num">33</span>-<span class="c-2num">55</span></span>
+</span><span>    <span class="c-5com">* <span class="c-0fun">FMT</span>() and <span class="c-0fun">OCONV</span>() are often interchangeable;</span>
+</span><span>    <span class="c-5com">* though it's not the case for next <span class="c-2num">2</span> lines...</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">DQUOTE</span>( <span class="c-0fun">FMT</span>(<span class="c-2num">123456</span>.<span class="c-2num">78</span>, <span class="c-4str">'R2,$#15'</span>) )           ;<span class="c-5com">*  <span class="c-4str">"    </span>$123,456.78"</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">DQUOTE</span>( <span class="c-0fun">OCONV</span>(<span class="c-2num">123456</span>.<span class="c-2num">78</span>, <span class="c-4str">'R2,$#15'</span>) )         ;<span class="c-5com">*  Error in Range Test</span>
+</span></pre>
+<p>User exits:
+</p>
+<pre><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>("", "U50BB")        ;<span class="c-5com">* port number and user name</span>
+</span><span>       <span class="c-1com">HUSH</span> <span class="c-1com">ON</span>
+</span><span>       <span class="c-1com">EXECUTE</span> <span class="c-4str">'SELECT .'</span>
+</span><span>       <span class="c-1com">HUSH</span> <span class="c-1com">OFF</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>("", "U30E0")        ;<span class="c-5com">* number of items in active <span class="c-1com">SELECT</span> list</span>
+</span><span>    <span class="c-5com">* sleep</span>
+</span><span>       start_time = <span class="c-0fun">TIME</span>()  ;  dummy = <span class="c-0fun">OCONV</span>(<span class="c-2num">3</span>, "U307A")
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">TIME</span>() - start_time        ;<span class="c-5com">* <span class="c-2num">3</span></span>
+</span><span>    <span class="c-5com">* reverse a string</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>(<span class="c-4str">'desrever saw gnirtS'</span>, "U51AA")
+</span><span>    <span class="c-5com">* remove duplicate consecutive characters</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">OCONV</span>(<span class="c-4str">'hhahhahh'</span>, "U31AC")        ;<span class="c-5com">* haha</span>
+</span></pre>
+<p>See also: <a href="fmt.html">FMT</a> function.
+</p><div id="timestamp">Last update: Thu, 20 Jun 2013 10:01 CET</div></div>
 </div>
 <script type="text/javascript">
 

@@ -475,13 +475,16 @@
 </p>
 <h2>EXAMPLES</h2>
 <pre><span>       <span class="c-1com">PRECISION</span> <span class="c-2num">5</span>
-</span><span>    <span class="c-5com">*</span>
-</span><span>       V.ARR = <span class="c-2num">1</span>.<span class="c-2num">45032</span>:<span class="c-3typ">@AM</span>:<span class="c-2num">-3</span>.<span class="c-2num">60441</span>:<span class="c-3typ">@VM</span>:<span class="c-2num">4</span>.<span class="c-2num">29445</span>:<span class="c-3typ">@AM</span>:<span class="c-2num">2</span>.<span class="c-2num">00042</span>:<span class="c-3typ">@SM</span>:<span class="c-2num">-3</span>.<span class="c-2num">90228</span>
-</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">MAXIMUM</span>(V.ARR)      ;<span class="c-5com">* <span class="c-2num">4</span>.<span class="c-2num">29445</span></span>
-</span><span>    <span class="c-5com">*</span>
-</span><span>       V.ARR = <span class="c-2num">1</span>.<span class="c-2num">45032</span>:<span class="c-3typ">@AM</span>:<span class="c-2num">-3</span>.<span class="c-2num">60441</span>:<span class="c-3typ">@VM</span>:<span class="c-2num">4</span>.<span class="c-2num">29445</span>:<span class="c-3typ">@FM</span>:<span class="c-4str">'1,000'</span>:<span class="c-3typ">@AM</span>:<span class="c-2num">2</span>.<span class="c-2num">00042</span>:<span class="c-3typ">@SM</span>:<span class="c-2num">-3</span>.<span class="c-2num">90228</span>
-</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">MAXIMUM</span>(V.ARR)      ;<span class="c-5com">* still <span class="c-2num">4</span>.<span class="c-2num">29445</span></span>
-</span></pre><div id="timestamp">Last update: Fri, 01 Feb 2013 08:29 CET</div></div>
+</span><span>       dyn_array = <span class="c-2num">4</span>.<span class="c-2num">29442</span> :<span class="c-3typ">@AM</span>: <span class="c-2num">-3</span>.<span class="c-2num">60441</span> :<span class="c-3typ">@VM</span> :<span class="c-2num">4</span>.<span class="c-2num">29445</span> :<span class="c-3typ">@AM</span>: <span class="c-2num">2</span>.<span class="c-2num">00042</span>   \
+</span><span>             :<span class="c-3typ">@SM</span>: <span class="c-2num">-33</span>.<span class="c-2num">90228</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">MAXIMUM</span>(dyn_array)           ;<span class="c-5com">* <span class="c-2num">4</span>.<span class="c-2num">29445</span></span>
+</span><span>    <span class="c-5com">* non-numeric elements are ignored</span>
+</span><span>       dyn_array&lt;<span class="c-2num">2</span>,<span class="c-2num">1</span>&gt = <span class="c-4str">'9000,00'</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">MAXIMUM</span>(dyn_array)           ;<span class="c-5com">* still <span class="c-2num">4</span>.<span class="c-2num">29445</span></span>
+</span><span>    <span class="c-5com">* <span class="c-1com">PRECISION</span> matters</span>
+</span><span>       <span class="c-1com">PRECISION</span> <span class="c-2num">2</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">MAXIMUM</span>(dyn_array)           ;<span class="c-5com">* now <span class="c-2num">4</span>.<span class="c-2num">29442</span></span>
+</span></pre><div id="timestamp">Last update: Thu, 20 Jun 2013 10:11 CET</div></div>
 </div>
 <script type="text/javascript">
 

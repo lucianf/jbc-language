@@ -493,31 +493,31 @@
  match any number of characters of the specified type.
 </p>
 <h2>EXAMPLES</h2>
-<pre><span>    <span class="c-5com">* Matches if all characters in a variable are numeric or it's a null string:</span>
-</span><span>       Var = <span class="c-4str">'42'</span>
-</span><span>       Var2 = <span class="c-4str">''</span>
-</span><span>       <span class="c-1com">IF</span> Var <span class="c-1com">MATCHES</span> <span class="c-4str">"0N"</span> <span class="c-1com">THEN</span> <span class="c-1com">CRT</span> <span class="c-4str">"A match!"</span>
-</span><span>       <span class="c-1com">IF</span> Var2 <span class="c-1com">MATCHES</span> <span class="c-4str">"0N"</span> <span class="c-1com">THEN</span> <span class="c-1com">CRT</span> <span class="c-4str">"Another match!"</span>
-</span><span>    <span class="c-5com">* Matches if Var contains any number of numerics followed by the</span>
-</span><span>    <span class="c-5com">* <span class="c-4str">"."</span> character followed by <span class="c-2num">2</span> numeric characters:</span>
-</span><span>       <span class="c-1com">CRT</span> <span class="c-2num">345</span>.<span class="c-2num">65</span> <span class="c-1com">MATCHES</span> <span class="c-4str">"0N<span class="c-4str">'.'</span>2N..."</span>      ;<span class="c-5com">* <span class="c-2num">1</span></span>
-</span><span>       <span class="c-1com">CRT</span> <span class="c-2num">9</span>.<span class="c-2num">99</span> <span class="c-1com">MATCHES</span> <span class="c-4str">"0N<span class="c-4str">'.'</span>2N..."</span>        ;<span class="c-5com">* <span class="c-2num">1</span></span>
-</span><span>    <span class="c-5com">* Matches if the variable Serno consists of a string of <span class="c-2num">4</span> arbitrary</span>
-</span><span>    <span class="c-5com">* characters followed by the <span class="c-4str">":"</span> character then <span class="c-2num">6</span> numerics then</span>
-</span><span>    <span class="c-5com">* the <span class="c-4str">";"</span> character and then <span class="c-2num">2</span> alphabetic characters</span>
-</span><span>       Pattern = <span class="c-4str">"4X<span class="c-4str">':'</span>6N<span class="c-4str">';'</span>2A"</span>
-</span><span>       Serno = <span class="c-4str">'1.2.:123456;AB'</span>
-</span><span>       <span class="c-1com">CRT</span> Serno <span class="c-1com">MATCH</span> Pattern              ;<span class="c-5com">* <span class="c-2num">1</span></span>
-</span><span>       Serno = <span class="c-4str">'17st:456789;FB'</span>
-</span><span>       <span class="c-1com">CRT</span> Serno <span class="c-1com">MATCHES</span> Pattern            ;<span class="c-5com">* <span class="c-2num">1</span></span>
-</span><span>    <span class="c-5com">* More examples:</span>
-</span><span>       V.DATE = <span class="c-4str">'2012-10-25'</span>
-</span><span>       <span class="c-1com">CRT</span> V.DATE <span class="c-1com">MATCHES</span> <span class="c-4str">"4N<span class="c-4str">'-'</span>2N<span class="c-4str">'-'</span>2N"</span>    ;<span class="c-5com">*  <span class="c-2num">1</span></span>
-</span><span>       V.ADDR = <span class="c-4str">'3RD FLOOR, 17A ELM STREET'</span>
-</span><span>       <span class="c-1com">CRT</span> V.ADDR <span class="c-1com">MATCHES</span> <span class="c-4str">"...17A..."</span>       ;<span class="c-5com">*  <span class="c-2num">0</span> - 17A means <span class="c-2num">17</span> alpha characters</span>
-</span><span>       <span class="c-1com">CRT</span> V.ADDR <span class="c-1com">MATCHES</span> <span class="c-4str">"...<span class="c-4str">'17A'</span>..."</span>     ;<span class="c-5com">*  <span class="c-2num">1</span> - here <span class="c-4str">'17A'</span> is a string to search</span>
-</span><span>       <span class="c-1com">CRT</span> <span class="c-4str">'2HQJ4'</span> <span class="c-1com">MATCHES</span> <span class="c-4str">"5C"</span>             ;<span class="c-5com">*  <span class="c-2num">0</span> under prime emulation</span>
-</span></pre><div id="timestamp">Last update: Fri, 01 Feb 2013 08:29 CET</div></div>
+<pre><span>    <span class="c-5com">* T24 IDs matching</span>
+</span><span>       transfer_id = <span class="c-4str">'FT130172HQJ4'</span>
+</span><span>       <span class="c-1com">CRT</span> transfer_id <span class="c-1com">MATCHES</span> <span class="c-4str">"<span class="c-4str">'FT'</span>5N5X"</span>           ;<span class="c-5com">*  <span class="c-2num">1</span></span>
+</span><span>       hist_id = <span class="c-4str">'FT130172HQJ4;1'</span>
+</span><span>       <span class="c-1com">CRT</span> hist_id <span class="c-1com">MATCHES</span> <span class="c-4str">"<span class="c-4str">'FT'</span>5N5X"</span>               ;<span class="c-5com">*  <span class="c-2num">0</span></span>
+</span><span>       <span class="c-1com">CRT</span> hist_id <span class="c-1com">MATCHES</span> <span class="c-4str">"<span class="c-4str">'FT'</span>5N5X;1N"</span>            ;<span class="c-5com">*  <span class="c-2num">1</span></span>
+</span><span>    <span class="c-5com">* date</span>
+</span><span>       start_date = <span class="c-4str">'2011-10-25'</span>
+</span><span>       <span class="c-1com">CRT</span> start_date <span class="c-1com">MATCHES</span> <span class="c-4str">"4N<span class="c-4str">'-'</span>2N<span class="c-4str">'-'</span>2N"</span>        ;<span class="c-5com">*  <span class="c-2num">1</span></span>
+</span><span>    <span class="c-5com">* emulations compatibility</span>
+</span><span>       cust_name = <span class="c-4str">'JOHN DORY'</span>
+</span><span>       <span class="c-1com">CRT</span> cust_name <span class="c-1com">MATCH</span> <span class="c-4str">"JOHN..."</span>            ;<span class="c-5com">*  <span class="c-2num">1</span> under prime, <span class="c-2num">0</span> under jbase</span>
+</span><span>       <span class="c-1com">CRT</span> cust_name <span class="c-1com">MATCH</span> <span class="c-4str">"<span class="c-4str">'JOHN'</span>..."</span>          ;<span class="c-5com">*  <span class="c-2num">1</span> under prime, <span class="c-2num">0</span> under jbase</span>
+</span><span>       <span class="c-1com">CRT</span> cust_name <span class="c-1com">MATCH</span> <span class="c-4str">"<span class="c-4str">'JOHN'</span>0X"</span>           ;<span class="c-5com">*  <span class="c-2num">1</span> under both</span>
+</span><span>       <span class="c-1com">CRT</span> cust_name <span class="c-1com">MATCH</span> <span class="c-4str">"<span class="c-4str">'John'</span>..."</span>          ;<span class="c-5com">*  <span class="c-2num">0</span> under both</span>
+</span><span>    <span class="c-5com">* <span class="c-4str">"C"</span> - alphanumeric - isn't supported at all under prime</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-4str">'2HQJ4'</span> <span class="c-1com">MATCHES</span> <span class="c-4str">"5C"</span>                 ;<span class="c-5com">* <span class="c-2num">1</span> under jbase emulation</span>
+</span><span>    <span class="c-5com">* numbers</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-2num">9</span>.<span class="c-2num">99</span> <span class="c-1com">MATCHES</span> <span class="c-4str">"0N<span class="c-4str">'.'</span>2N"</span>               ;<span class="c-5com">* <span class="c-2num">1</span></span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-4str">'.99'</span> <span class="c-1com">MATCHES</span> <span class="c-4str">"0N<span class="c-4str">'.'</span>2N"</span>              ;<span class="c-5com">* <span class="c-2num">1</span></span>
+</span><span>    <span class="c-5com">* avoid messing up data with patterns (example for prime):</span>
+</span><span>       cust_address = <span class="c-4str">'3RD FLOOR, 17A ELM STREET'</span>
+</span><span>       <span class="c-1com">CRT</span> cust_address <span class="c-1com">MATCH</span> <span class="c-4str">"...17A..."</span>   ;<span class="c-5com">* <span class="c-2num">0</span> - 17A means <span class="c-2num">17</span> alpha characters</span>
+</span><span>       <span class="c-1com">CRT</span> cust_address <span class="c-1com">MATCH</span> <span class="c-4str">"...<span class="c-4str">'17A'</span>..."</span> ;<span class="c-5com">* <span class="c-2num">1</span> - here <span class="c-4str">'17A'</span> is a string to search</span>
+</span></pre><div id="timestamp">Last update: Thu, 20 Jun 2013 10:06 CET</div></div>
 </div>
 <script type="text/javascript">
 

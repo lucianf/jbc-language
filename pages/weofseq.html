@@ -467,24 +467,63 @@
 <p><strong>Statements</strong> are conditional jBC statements.
 </p>
 <h2>NOTES</h2>
-<p>WEOFSEQ forces truncation of the file at the current file pointer
- nothing is actually 'written' to the sequential file.
+<p>WEOFSEQ forces truncation of the file at the current file pointer;
+ nothing is actually written to the sequential file.
 </p>
 <h2>EXAMPLE</h2>
-<pre><span>       V.DIR.OUT = <span class="c-4str">'.'</span>
-</span><span>       V.FILE.OUT = <span class="c-4str">'report.txt'</span>
-</span><span>       <span class="c-1com">OPENSEQ</span> V.DIR.OUT, V.FILE.OUT <span class="c-1com">TO</span> F.FILE.OUT <span class="c-1com">THEN</span>
+<pre><span>       out_dir = <span class="c-4str">'.'</span>
+</span><span>       out_file = <span class="c-4str">'report.txt'</span>
+</span><span>    &nbsp;
+</span><span>       <span class="c-1com">OPENSEQ</span> out_dir, out_file <span class="c-1com">TO</span> f_out <span class="c-1com">THEN</span>
 </span><span>          <span class="c-1com">CRT</span> <span class="c-4str">'TARGET FILE EXISTS. OVERWRITE[Y/N]'</span>:
 </span><span>          <span class="c-1com">CLEARINPUT</span>          ;<span class="c-5com">* don't take anything in advance</span>
-</span><span>          <span class="c-1com">INPUT</span> V.REPLY
-</span><span>          <span class="c-1com">IF</span> <span class="c-0fun">UPCASE</span>(V.REPLY) <span class="c-1com">NE</span> <span class="c-4str">'Y'</span> <span class="c-1com">THEN</span>         ;<span class="c-5com">* y or Y</span>
-</span><span>             <span class="c-1com">STOP</span>
+</span><span>          <span class="c-1com">INPUT</span> reply
+</span><span>          <span class="c-1com">IF</span> <span class="c-0fun">UPCASE</span>(reply) <span class="c-1com">NE</span> <span class="c-4str">'Y'</span> <span class="c-1com">THEN</span>         ;<span class="c-5com">* y or Y</span>
+</span><span>    <span class="c-5com">* exit - user refused to overwrite the file</span>
+</span><span>             <span class="c-1com">STOP</span>             ;<span class="c-5com">* or <span class="c-1com">RETURN</span></span>
 </span><span>          <span class="c-1com">END</span>
-</span><span>          <span class="c-1com">WEOFSEQ</span> F.FILE.OUT  ;<span class="c-5com">* truncate the file</span>
+</span><span>          <span class="c-1com">WEOFSEQ</span> f_out  ;<span class="c-5com">* truncate the file</span>
 </span><span>       <span class="c-1com">END</span>
-</span><span>       <span class="c-1com">WRITESEQ</span> <span class="c-4str">'TEST'</span> <span class="c-1com">TO</span> F.FILE.OUT <span class="c-1com">ELSE</span> <span class="c-1com">NULL</span>
-</span><span>       <span class="c-1com">CLOSESEQ</span> F.FILE.OUT
-</span></pre><div id="timestamp">Last update: Fri, 01 Feb 2013 08:29 CET</div></div>
+</span><span>    &nbsp;
+</span><span>    <span class="c-5com">* We don't need to explicitly create a file; as soon as the first</span>
+</span><span>    <span class="c-5com">* <span class="c-1com">WRITESEQ</span> will be issued - file will be created, otherwise it won't be -</span>
+</span><span>    <span class="c-5com">* <span class="c-4str">"openseq_creates"</span> isn't set to <span class="c-4str">"true"</span> for Prime emulation.</span>
+</span><span>    &nbsp;
+</span><span>    <span class="c-5com">* Processing loop starts</span>
+</span><span>       line_no = <span class="c-2num">0</span>
+</span><span>       <span class="c-1com">LOOP</span>
+</span><span>          line_no ++
+</span><span>    &nbsp;
+</span><span>    <span class="c-5com">* Provide a way to exit a loop</span>
+</span><span>          <span class="c-1com">IF</span> line_no <span class="c-1com">GT</span> <span class="c-2num">7</span> <span class="c-1com">THEN</span> <span class="c-1com">BREAK</span>
+</span><span>    &nbsp;
+</span><span>    <span class="c-5com">* Get an output string into variable and...</span>
+</span><span>          line = <span class="c-4str">'Line '</span> : line_no
+</span><span>    <span class="c-5com">* ...either skip it...</span>
+</span><span>          <span class="c-1com">IF</span> line_no <span class="c-1com">EQ</span> <span class="c-2num">3</span> <span class="c-1com">THEN</span> <span class="c-1com">CONTINUE</span>
+</span><span>    <span class="c-5com">* ...or write it</span>
+</span><span>          <span class="c-1com">WRITESEQ</span> line <span class="c-1com">TO</span> f_out <span class="c-1com">ELSE</span>
+</span><span>    <span class="c-5com">* Write error - notify user and quit the program</span>
+</span><span>             <span class="c-1com">CRT</span> <span class="c-4str">'Write error'</span>
+</span><span>             <span class="c-1com">STOP</span>             ;<span class="c-5com">* or <span class="c-1com">RETURN</span></span>
+</span><span>          <span class="c-1com">END</span>
+</span><span>       <span class="c-1com">REPEAT</span>
+</span><span>    &nbsp;
+</span><span>    <span class="c-5com">* truncate the file at certain position</span>
+</span><span>       <span class="c-1com">SEEK</span> f_out, <span class="c-2num">-5</span>, <span class="c-2num">2</span> <span class="c-1com">ELSE</span> <span class="c-1com">CRT</span> <span class="c-4str">'Seek error'</span>  ;  <span class="c-1com">STOP</span>
+</span><span>       <span class="c-1com">WEOFSEQ</span> f_out
+</span><span>       <span class="c-1com">CLOSESEQ</span> f_out
+</span></pre>
+<p>Contents of file report.txt:
+</p>
+<p><pre>
+     Line 1
+     Line 2
+     Line 4
+     Line 5
+     Line 6
+     Li</pre>
+</p><div id="timestamp">Last update: Thu, 20 Jun 2013 11:04 CET</div></div>
 </div>
 <script type="text/javascript">
 

@@ -476,7 +476,11 @@
 </span><span>    <span class="c-5com">* precedence is quite expected</span>
 </span><span>       <span class="c-1com">CRT</span> <span class="c-2num">7</span> / <span class="c-2num">2</span> + <span class="c-2num">3</span>                                ;<span class="c-5com">* <span class="c-2num">6</span>.<span class="c-2num">5</span></span>
 </span><span>       <span class="c-1com">CRT</span> <span class="c-2num">7</span> / (<span class="c-2num">2</span> + <span class="c-2num">3</span>)                              ;<span class="c-5com">* <span class="c-2num">1</span>.<span class="c-2num">4</span></span>
-</span></pre><div id="timestamp">Last update: Fri, 01 Feb 2013 08:29 CET</div></div>
+</span><span>    <span class="c-5com">* Dot, plus, minus are considered non-numeric - in all emulations</span>
+</span><span>    <span class="c-5com">* dot_not_numeric = true:</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">ISDIGIT</span>(<span class="c-2num">-1</span>)                         ;<span class="c-5com">* <span class="c-2num">0</span></span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">ISDIGIT</span>(<span class="c-2num">1</span>.<span class="c-2num">234</span>)                      ;<span class="c-5com">* <span class="c-2num">0</span></span>
+</span></pre><div id="timestamp">Last update: Thu, 20 Jun 2013 09:42 CET</div></div>
 </div>
 <script type="text/javascript">
 

@@ -495,13 +495,14 @@
 </span><span>       <span class="c-1com">EQUATE</span> PRICE <span class="c-1com">TO</span> NV_LINE(<span class="c-2num">7</span>), TAX <span class="c-1com">TO</span> <span class="c-2num">0</span>.<span class="c-2num">175</span>
 </span><span>       <span class="c-1com">EQUATE</span> DASHES <span class="c-1com">TO</span> <span class="c-4str">"-------"</span>
 </span><span>       <span class="c-1com">IF</span> NO_CHARGE = TRUE <span class="c-1com">THEN</span> PRICE = <span class="c-2num">0</span>
-</span><span>       <span class="c-1com">CRT</span> "Tax =":PRICE * TAX:CR:DASHES
+</span><span>       <span class="c-1com">CRT</span> "Tax = ":PRICE * TAX:CR:DASHES
 </span></pre>
 <p>Output:
 </p>
-<pre><span>    Tax =<span class="c-2num">17</span>.<span class="c-2num">5</span>
-</span><span>    -------
-</span></pre><div id="timestamp">Last update: Fri, 01 Feb 2013 08:29 CET</div></div>
+<p><pre>
+     Tax = 17.5
+     -------</pre>
+</p><div id="timestamp">Last update: Thu, 20 Jun 2013 12:07 CET</div></div>
 </div>
 <script type="text/javascript">
 

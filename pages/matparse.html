@@ -496,43 +496,49 @@
  section for detailed instructions on calculating element numbers.
 </p>
 <h2>EXAMPLES</h2>
-<pre><span>       <span class="c-1com">DIM</span> V.DIM.ARRAY(<span class="c-2num">100</span>)
-</span><span>       V.DYN.ARRAY = <span class="c-4str">''</span>
-</span><span>       <span class="c-1com">FOR</span> V.I = <span class="c-2num">1</span> <span class="c-1com">TO</span> <span class="c-2num">100</span>
-</span><span>          V.DYN.ARRAY&lt;<span class="c-2num">-1</span>&gt = V.I
-</span><span>       <span class="c-1com">NEXT</span> V.I
+<pre><span>       <span class="c-1com">DIM</span> dim_array(<span class="c-2num">100</span>)
+</span><span>       dyn_array = <span class="c-4str">''</span>   ;     delim_array = <span class="c-4str">''</span>
+</span><span>       <span class="c-1com">FOR</span> i = <span class="c-2num">1</span> <span class="c-1com">TO</span> <span class="c-2num">100</span>
+</span><span>          dyn_array&lt;<span class="c-2num">-1</span>&gt = i
+</span><span>          delim_array := i*<span class="c-2num">2</span> : <span class="c-4str">'-'</span>
+</span><span>       <span class="c-1com">NEXT</span> i
 </span><span>    <span class="c-5com">* Full copy</span>
-</span><span>       <span class="c-1com">MATPARSE</span> V.DIM.ARRAY <span class="c-1com">FROM</span> V.DYN.ARRAY
-</span><span>       <span class="c-1com">CRT</span> V.DIM.ARRAY(<span class="c-2num">1</span>)                 ;<span class="c-5com">* <span class="c-2num">1</span></span>
-</span><span>       <span class="c-1com">CRT</span> V.DIM.ARRAY(<span class="c-2num">100</span>)               ;<span class="c-5com">* <span class="c-2num">100</span></span>
+</span><span>       <span class="c-1com">MATPARSE</span> dim_array <span class="c-1com">FROM</span> dyn_array
+</span><span>       <span class="c-1com">CRT</span> dim_array(<span class="c-2num">1</span>)                 ;<span class="c-5com">* <span class="c-2num">1</span></span>
+</span><span>       <span class="c-1com">CRT</span> dim_array(<span class="c-2num">100</span>)               ;<span class="c-5com">* <span class="c-2num">100</span></span>
+</span><span>    <span class="c-5com">* Using different array delimiter</span>
+</span><span>       <span class="c-1com">MAT</span> dim_array = <span class="c-4str">'Default'</span>
+</span><span>       <span class="c-1com">MATPARSE</span> dim_array <span class="c-1com">FROM</span> delim_array <span class="c-1com">USING</span> <span class="c-4str">'-'</span>
+</span><span>       <span class="c-1com">CRT</span> dim_array(<span class="c-2num">1</span>)                 ;<span class="c-5com">* <span class="c-2num">2</span></span>
+</span><span>       <span class="c-1com">CRT</span> dim_array(<span class="c-2num">100</span>)               ;<span class="c-5com">* <span class="c-2num">200</span></span>
 </span><span>    <span class="c-5com">* Partial copy</span>
-</span><span>       <span class="c-1com">MAT</span> V.DIM.ARRAY = <span class="c-4str">'Default'</span>
-</span><span>       <span class="c-1com">MATPARSE</span> V.DIM.ARRAY, <span class="c-2num">3</span>, <span class="c-2num">7</span> <span class="c-1com">FROM</span> V.DYN.ARRAY
-</span><span>       <span class="c-1com">CRT</span> V.DIM.ARRAY(<span class="c-2num">1</span>)                 ;<span class="c-5com">* Default</span>
-</span><span>       <span class="c-1com">CRT</span> V.DIM.ARRAY(<span class="c-2num">3</span>)                 ;<span class="c-5com">* <span class="c-2num">1</span></span>
-</span><span>       <span class="c-1com">CRT</span> V.DIM.ARRAY(<span class="c-2num">5</span>)                 ;<span class="c-5com">* <span class="c-2num">3</span></span>
-</span><span>       <span class="c-1com">CRT</span> V.DIM.ARRAY(<span class="c-2num">100</span>)               ;<span class="c-5com">* Default</span>
+</span><span>       <span class="c-1com">MAT</span> dim_array = <span class="c-4str">'Default'</span>
+</span><span>       <span class="c-1com">MATPARSE</span> dim_array, <span class="c-2num">3</span>, <span class="c-2num">7</span> <span class="c-1com">FROM</span> dyn_array
+</span><span>       <span class="c-1com">CRT</span> dim_array(<span class="c-2num">1</span>)                 ;<span class="c-5com">* Default</span>
+</span><span>       <span class="c-1com">CRT</span> dim_array(<span class="c-2num">3</span>)                 ;<span class="c-5com">* <span class="c-2num">1</span></span>
+</span><span>       <span class="c-1com">CRT</span> dim_array(<span class="c-2num">5</span>)                 ;<span class="c-5com">* <span class="c-2num">3</span></span>
+</span><span>       <span class="c-1com">CRT</span> dim_array(<span class="c-2num">100</span>)               ;<span class="c-5com">* Default</span>
 </span><span>    <span class="c-5com">* <span class="c-4str">"Over-copy"</span></span>
-</span><span>       <span class="c-1com">FOR</span> V.I = <span class="c-2num">101</span> <span class="c-1com">TO</span> <span class="c-2num">103</span>               ;<span class="c-5com">* add <span class="c-2num">3</span> elements to dynamic array</span>
-</span><span>          V.DYN.ARRAY&lt;<span class="c-2num">-1</span>&gt = V.I
-</span><span>       <span class="c-1com">NEXT</span> V.I
-</span><span>       <span class="c-1com">MAT</span> V.DIM.ARRAY = <span class="c-4str">'Default'</span>
-</span><span>       <span class="c-1com">MATPARSE</span> V.DIM.ARRAY <span class="c-1com">FROM</span> V.DYN.ARRAY
-</span><span>       <span class="c-1com">CRT</span> V.DIM.ARRAY(<span class="c-2num">1</span>)                 ;<span class="c-5com">* <span class="c-2num">1</span></span>
-</span><span>       <span class="c-1com">CRT</span> V.DIM.ARRAY(<span class="c-2num">100</span>)               ;<span class="c-5com">* <span class="c-2num">100</span></span>
-</span><span>       V.ADDON = V.DIM.ARRAY(<span class="c-2num">0</span>)           ;<span class="c-5com">* all excess elements are here</span>
-</span><span>       <span class="c-1com">CHANGE</span> <span class="c-3typ">@FM</span> <span class="c-1com">TO</span> <span class="c-4str">'&gt&gt&gt'</span> <span class="c-1com">IN</span> V.ADDON
-</span><span>       <span class="c-1com">CRT</span> V.ADDON                        ;<span class="c-5com">* <span class="c-2num">101</span>&gt&gt&gt102&gt&gt&gt103</span>
+</span><span>       <span class="c-1com">FOR</span> i = <span class="c-2num">101</span> <span class="c-1com">TO</span> <span class="c-2num">103</span>               ;<span class="c-5com">* add <span class="c-2num">3</span> elements to dynamic array</span>
+</span><span>          dyn_array&lt;<span class="c-2num">-1</span>&gt = i
+</span><span>       <span class="c-1com">NEXT</span> i
+</span><span>       <span class="c-1com">MAT</span> dim_array = <span class="c-4str">'Default'</span>
+</span><span>       <span class="c-1com">MATPARSE</span> dim_array <span class="c-1com">FROM</span> dyn_array
+</span><span>       <span class="c-1com">CRT</span> dim_array(<span class="c-2num">1</span>)                 ;<span class="c-5com">* <span class="c-2num">1</span></span>
+</span><span>       <span class="c-1com">CRT</span> dim_array(<span class="c-2num">100</span>)               ;<span class="c-5com">* <span class="c-2num">100</span></span>
+</span><span>       the_extra = dim_array(<span class="c-2num">0</span>)           ;<span class="c-5com">* all excess elements are here</span>
+</span><span>       <span class="c-1com">CHANGE</span> <span class="c-3typ">@FM</span> <span class="c-1com">TO</span> <span class="c-4str">'&gt&gt&gt'</span> <span class="c-1com">IN</span> the_extra
+</span><span>       <span class="c-1com">CRT</span> the_extra                        ;<span class="c-5com">* <span class="c-2num">101</span>&gt&gt&gt102&gt&gt&gt103</span>
 </span><span>    <span class="c-5com">* <span class="c-2num">2</span>-dimensioned array population: "left-to-right":</span>
-</span><span>       <span class="c-1com">DIM</span> V.TWODIM.ARRAY(<span class="c-2num">100</span>,<span class="c-2num">2</span>)
-</span><span>       <span class="c-1com">MATPARSE</span> V.TWODIM.ARRAY <span class="c-1com">FROM</span> V.DYN.ARRAY
-</span><span>       <span class="c-1com">CRT</span> V.TWODIM.ARRAY(<span class="c-2num">1</span>,<span class="c-2num">1</span>)                 ;<span class="c-5com">* <span class="c-2num">1</span></span>
-</span><span>       <span class="c-1com">CRT</span> V.TWODIM.ARRAY(<span class="c-2num">1</span>,<span class="c-2num">2</span>)                 ;<span class="c-5com">* <span class="c-2num">2</span></span>
-</span><span>       <span class="c-1com">CRT</span> V.TWODIM.ARRAY(<span class="c-2num">2</span>,<span class="c-2num">1</span>)                 ;<span class="c-5com">* <span class="c-2num">3</span></span>
-</span><span>       <span class="c-1com">CRT</span> V.TWODIM.ARRAY(<span class="c-2num">2</span>,<span class="c-2num">2</span>)                 ;<span class="c-5com">* <span class="c-2num">4</span></span>
-</span><span>       <span class="c-1com">CRT</span> V.TWODIM.ARRAY(<span class="c-2num">50</span>,<span class="c-2num">2</span>)                ;<span class="c-5com">* <span class="c-2num">100</span></span>
-</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">DQUOTE</span>(V.TWODIM.ARRAY(<span class="c-2num">100</span>,<span class="c-2num">1</span>))       ;<span class="c-5com">* <span class="c-4str">""</span></span>
-</span></pre><div id="timestamp">Last update: Fri, 01 Feb 2013 08:29 CET</div></div>
+</span><span>       <span class="c-1com">DIM</span> two_dim_array(<span class="c-2num">100</span>,<span class="c-2num">2</span>)
+</span><span>       <span class="c-1com">MATPARSE</span> two_dim_array <span class="c-1com">FROM</span> dyn_array
+</span><span>       <span class="c-1com">CRT</span> two_dim_array(<span class="c-2num">1</span>,<span class="c-2num">1</span>)                 ;<span class="c-5com">* <span class="c-2num">1</span></span>
+</span><span>       <span class="c-1com">CRT</span> two_dim_array(<span class="c-2num">1</span>,<span class="c-2num">2</span>)                 ;<span class="c-5com">* <span class="c-2num">2</span></span>
+</span><span>       <span class="c-1com">CRT</span> two_dim_array(<span class="c-2num">2</span>,<span class="c-2num">1</span>)                 ;<span class="c-5com">* <span class="c-2num">3</span></span>
+</span><span>       <span class="c-1com">CRT</span> two_dim_array(<span class="c-2num">2</span>,<span class="c-2num">2</span>)                 ;<span class="c-5com">* <span class="c-2num">4</span></span>
+</span><span>       <span class="c-1com">CRT</span> two_dim_array(<span class="c-2num">50</span>,<span class="c-2num">2</span>)                ;<span class="c-5com">* <span class="c-2num">100</span></span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">DQUOTE</span>(two_dim_array(<span class="c-2num">100</span>,<span class="c-2num">1</span>))       ;<span class="c-5com">* <span class="c-4str">""</span></span>
+</span></pre><div id="timestamp">Last update: Thu, 20 Jun 2013 10:09 CET</div></div>
 </div>
 <script type="text/javascript">
 

@@ -456,7 +456,8 @@
 <div id="scrollable">
 <div id="content"><h1>NEGS</h1>
 <p>NEGS function returns the negative values for all the elements in a
- dynamic array.
+ dynamic array. NEG() function returns the negative value for a variable
+ or an expression.
 </p>
 <h2>COMMAND SYNTAX</h2>
 <pre><span>    <span class="c-0fun">NEGS</span>(dynamic.array)
@@ -466,17 +467,30 @@
  is null, null is returned for that element.
 </p>
 <h2>EXAMPLE</h2>
-<pre><span>       V.IN = <span class="c-0fun">NEGS</span>(<span class="c-2num">1</span>:<span class="c-3typ">@FM</span>:<span class="c-2num">2</span>:<span class="c-3typ">@FM</span>:<span class="c-2num">3</span>)
-</span><span>       <span class="c-1com">GOSUB</span> SCROUTP                               ;<span class="c-5com">* <span class="c-2num">-1</span>^<span class="c-2num">-2</span>^<span class="c-2num">-3</span></span>
-</span><span>       V.IN = <span class="c-0fun">NEGS</span>(<span class="c-2num">-1</span>:<span class="c-3typ">@FM</span>:<span class="c-2num">-2</span>:<span class="c-3typ">@FM</span>:<span class="c-2num">-3</span>)
-</span><span>       <span class="c-1com">GOSUB</span> SCROUTP                               ;<span class="c-5com">*  <span class="c-2num">1</span>^<span class="c-2num">2</span>^<span class="c-2num">3</span></span>
-</span><span>       V.IN = <span class="c-0fun">NEGS</span>(<span class="c-2num">1</span>:<span class="c-3typ">@FM</span>:<span class="c-2num">-2</span>:<span class="c-3typ">@FM</span>:<span class="c-2num">3</span>)
-</span><span>       <span class="c-1com">GOSUB</span> SCROUTP                               ;<span class="c-5com">*  <span class="c-2num">-1</span>^<span class="c-2num">2</span>^<span class="c-2num">-3</span></span>
+<pre><span>       dyn_array = <span class="c-2num">1</span> :<span class="c-3typ">@FM</span>: <span class="c-2num">2</span> :<span class="c-3typ">@VM</span> :<span class="c-2num">3</span>
+</span><span>       <span class="c-1com">GOSUB</span> PROC.IT                              ;<span class="c-5com">* <span class="c-2num">-1</span>^<span class="c-2num">-2</span>]<span class="c-2num">-3</span></span>
+</span><span>       dyn_array = <span class="c-2num">1</span> :<span class="c-3typ">@FM</span>: <span class="c-4str">''</span> :<span class="c-3typ">@VM</span> :<span class="c-2num">3</span>
+</span><span>       <span class="c-1com">GOSUB</span> PROC.IT                              ;<span class="c-5com">* <span class="c-2num">-1</span>^<span class="c-2num">0</span>]<span class="c-2num">-3</span></span>
+</span><span>       dyn_array = <span class="c-2num">-1</span> :<span class="c-3typ">@FM</span>: <span class="c-2num">-2</span> :<span class="c-3typ">@VM</span>: <span class="c-2num">-3</span>
+</span><span>       <span class="c-1com">GOSUB</span> PROC.IT                              ;<span class="c-5com">*  <span class="c-2num">1</span>^<span class="c-2num">2</span>]<span class="c-2num">3</span></span>
+</span><span>       dyn_array = <span class="c-2num">1</span> :<span class="c-3typ">@SM</span>: <span class="c-2num">-2</span> :<span class="c-3typ">@FM</span>: <span class="c-2num">3</span>
+</span><span>       <span class="c-1com">GOSUB</span> PROC.IT                              ;<span class="c-5com">*  <span class="c-2num">-1</span>\<span class="c-2num">2</span>^<span class="c-2num">-3</span></span>
+</span><span>       dyn_array&lt;<span class="c-2num">-1</span>&gt = <span class="c-4str">'A text'</span>
+</span><span>       <span class="c-1com">GOSUB</span> PROC.IT                            ;<span class="c-5com">* Non-numeric value -- ZERO USED</span>
+</span><span>                                                ;<span class="c-5com">* <span class="c-2num">-1</span>\<span class="c-2num">2</span>^<span class="c-2num">-3</span>^<span class="c-2num">0</span></span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">NEG</span>(<span class="c-2num">0</span>)                               ;<span class="c-5com">* <span class="c-2num">0</span></span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">NEG</span>(<span class="c-2num">100</span>)                             ;<span class="c-5com">* <span class="c-2num">-100</span></span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">NEG</span>(dyn_array&lt;<span class="c-2num">1</span>&gt <span class="c-1com">LT</span> dyn_array&lt;<span class="c-2num">2</span>&gt)    ;<span class="c-5com">* <span class="c-2num">-1</span> (negative of "true")</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">NEG</span>(<span class="c-2num">-1000</span>)                           ;<span class="c-5com">* <span class="c-2num">1000</span></span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">NEG</span>(<span class="c-4str">'qwert'</span>)                         ;<span class="c-5com">* Non-numeric value -- ZERO USED</span>
+</span><span>                                                ;<span class="c-5com">* <span class="c-2num">0</span></span>
 </span><span>       <span class="c-1com">STOP</span>
-</span><span>    SCROUTP:
-</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">FMT</span>(V.IN, <span class="c-4str">'MCP'</span>)
+</span><span>       &nbsp;
+</span><span>    PROC.IT:
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">FMT</span>( <span class="c-0fun">NEGS</span>(dyn_array), <span class="c-4str">'MCP'</span> )
 </span><span>       <span class="c-1com">RETURN</span>
-</span></pre><div id="timestamp">Last update: Fri, 01 Feb 2013 08:29 CET</div></div>
+</span><span>    <span class="c-1com">END</span>
+</span></pre><div id="timestamp">Last update: Thu, 20 Jun 2013 11:18 CET</div></div>
 </div>
 <script type="text/javascript">
 
