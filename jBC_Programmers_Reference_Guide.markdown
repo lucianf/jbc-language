@@ -15,6 +15,8 @@ jBASE and the jBASE logo (dove) are registered trademarks of T-jBASE SA, a compa
 
 ### Latest changes
 
+Thursday, 20 Jun 2013: chapters [Numeric variables](#Numeric_variables), [Other notes](#Other_notes), [CLEAR](#CLEAR), [CLEARCOMMON](#CLEARCOMMON), [COLLECTDATA](#COLLECTDATA), [COMMON](#COMMON), [CONVERT](#CONVERT), [CLEARDATA](#CLEARDATA), [FDIV](#FDIV), [LOCALDATE](#LOCALDATE), [MATCHES](#MATCHES), [MATPARSE](#MATPARSE), [MAXIMUM](#MAXIMUM), [MSLEEP](#MSLEEP), [NEGS](#NEGS), [OCONV](#OCONV), [READL](#READL), [SENTENCE](#SENTENCE), [WEOFSEQ](#WEOFSEQ) and [XTD](#XTD) updated. Minor formatting corrections in many others.
+
 Tuesday, 21 May 2013: chapters [BITNOT](#BITNOT), [BITTEST](#BITTEST), [CATS](#CATS), [CHDIR](#CHDIR), [CHECKSUM](#CHECKSUM), [CREATE](#CREATE), [STATUS](#STATUS) and [XTD](#XTD) updated.
 
 Monday, 20 May 2013: chapter [INPUT](#INPUT) updated.
@@ -22,8 +24,6 @@ Monday, 20 May 2013: chapter [INPUT](#INPUT) updated.
 Tuesday, 16 Apr 2013: new example for [WRITEV](#WRITEV).
 
 Tuesday, 02 Apr 2013: new examples for [@TIME](#@TIME) and [ASCII](#ASCII); formatting of some chapters improved.
-
-Wednesday, 20 Mar 2013: chapter ["Several statements on the same line"](#Several_statements_on_the_same_line) updated.
 
 ## What is TAFC
 
@@ -265,6 +265,10 @@ Other common string operations:
     * precedence is quite expected
        CRT 7 / 2 + 3                                ;* 6.5
        CRT 7 / (2 + 3)                              ;* 1.4
+    * Dot, plus, minus are considered non-numeric - in all emulations
+    * dot_not_numeric = true:
+       CRT ISDIGIT(-1)                         ;* 0
+       CRT ISDIGIT(1.234)                      ;* 0
 
 ## Boolean variables
 
@@ -491,6 +495,11 @@ Compilation under **jbase** emulation:
 
 *Setting in Config_EMULATE: ***resize_array = false|true**
 
+Another example:
+
+<!--jBC-->
+    * number of seconds past midnight
+       CRT SYSTEM(12)   ;* e.g. 30938703.4097 under prime, 309387 under ros
 
 For more settings see *Config_EMULATE* and *Config_EMULATE.txt*
 files in your TAFC/config folder.
@@ -3092,7 +3101,8 @@ If using .NET SDK (instead of the IDE) to compile class libraries
 into a 'DLL' file, the  'csc' (C# Compiler) or 'vbc' (Visual Basic
 .NET compiler) command can be used from the command line:
 
-    csc /out:myNameSpace.dll /target:library sourcefile.cs
+<pre>
+    csc /out:myNameSpace.dll /target:library sourcefile.cs</pre>
 
 The name of the '.DLL' created must be the same as the 'namespace'
 as used in the class library t locate the 'dotNetWrapper.dll' library:
@@ -3674,7 +3684,8 @@ executables and directories.
 
 The format of the CATALOG command is as follows.
 
-    CATALOG SourceFilename Itemlist
+<pre>
+    CATALOG SourceFilename Itemlist</pre>
 
 When first invoked the CATALOG command will create a $HOME/bin directory
 into which the UNIX executables will be placed. A $HOME/lib directory
@@ -4072,7 +4083,7 @@ This algorithm doesn't really supply reliable result - see the example below.
 
 <a name="CLEAR"/>
 
-The CLEAR statement will initialize all the variables to numeric 0.
+The CLEAR statement will initialize all local variables to numeric 0.
 
 ### COMMAND SYNTAX
 
@@ -4084,10 +4095,15 @@ Use CLEAR at any time during the execution of the program.
 
 ### EXAMPLE
 
-       V.VAR = 5            ;   CRT V.VAR           ;* 5
-       V.VAR ++             ;   CRT V.VAR           ;* 6
+<!--jBC-->
+       COMMON /MY.COMM/ global_var
+       global_var = 1000
+       var = 5            ;   CRT var           ;* 5
+       var ++             ;   CRT var           ;* 6
        CLEAR
-       CRT V.VAR                                    ;* 0
+    * only regular variables will be cleared
+       CRT var                                  ;* 0
+       CRT global_var                           ;* 1000
 
 ## CLEARCOMMON
 
@@ -4102,20 +4118,15 @@ a value of zero.
 
 ### EXAMPLE
 
-Subroutine:
-
-       SUBROUTINE TEST.SUB
-       COMMON V.VAR1, V.VAR2
+<!--jBC-->
+       COMMON /MY.COMM/ global_var
+       COMMON gl_unnamed
+       global_var = 1000
+       gl_unnamed = 1001
        CLEARCOMMON
-       RETURN
-    END
-
-Calling program:
-
-       COMMON V.VAR.ONE, V.VAR.TWO
-       V.VAR.ONE = 1  ;  V.VAR.TWO = 2
-       CALL TEST.SUB
-       CRT V.VAR.ONE, V.VAR.TWO          ;* 0  0
+    * only unnamed common will be cleared
+       CRT global_var                           ;* 1000
+       CRT gl_unnamed                           ;* 0
 
 ## CLEARDATA
 
@@ -4133,13 +4144,14 @@ None
 
 ### EXAMPLE
 
+<!--jBC-->
+    * SYSTEM(14) returns the number of characters available in input buffer
        CRT SYSTEM(14)        ;*  0
        DATA '123'
        DATA '456'
-       CRT SYSTEM(14)        ;*  8
+       CRT SYSTEM(14)        ;*  8 (including 2 line end characters)
        CLEARDATA
        CRT SYSTEM(14)        ;*  0
-
 
 ## CLEARFILE
 
@@ -4248,7 +4260,8 @@ are specified then it clears the default list (0).
 
 This program displays:
 
-    good night
+<pre>
+    good night</pre>
 
 ## CLOSE
 
@@ -4362,19 +4375,22 @@ value of null.
 
 ### EXAMPLE
 
-Program 1:
+Program test.b:
 
-    001 EXECUTE "RUN JBASIC_PROGS SECOND" PASSDATA "Handover"
+       EXECUTE './test2' PASSDATA SYSTEM(40)
 
-Program 2:
+Program test2.b:
 
-    001 COLLECTDATA PassedMessage
-    002 CRT PassedMessage
+       COLLECTDATA the_parent
+       CRT 'Executed from ' : the_parent
 
-In the above example, program 1 will EXECUTE program 2 and
-will pass the string "Handover" in the PASSDATA clause. Program 2
-retrieves the string to a variable PassedMessage and prints the string
-on the Terminal screen.
+Program test2 executed by itself outputs "Executed from "; execution of program test
+will output "Executed from test".
+
+### NOTE
+
+Compile both programs without "-E" switch so shared libraries will be created,
+otherwise the data wouldn't be passed between programs.
 
 ## COMMON
 
@@ -4408,8 +4424,7 @@ common is controlled in the Config_EMULATE file.
 Variables declared without naming the common area may only be shared
 between the program and its subroutines (unless CHAIN is used).
 Variables declared in a named common area may be shared across program
-boundaries. When any common area is shared, all programs using it should
-have declared the same number of variables within it.
+boundaries.
 
 Dimensioned arrays are declared and dimensioned within the COMMON
 statement.
@@ -4423,6 +4438,70 @@ statement.
        CRT ASSIGNED(V.VAR2)   ;* 0
        V.VAR1 = 'YES'
        V.VAR2 = 'NO'
+
+### NOTE
+
+When a COMMON area is used in different programs or subroutines, it has to be
+declared in each of them. Variable names can be different but their number has to be the same.
+
+### EXAMPLE
+
+Program test.b:
+
+       COMMON /MY.AREA/ global_var, global_dyn_array
+       global_var = 42
+       EXECUTE 'test2'
+
+Program test2.b:
+
+       COMMON /MY.AREA/ my_var, my_dyn_array
+       CRT my_var
+
+Run program test:
+
+<pre>
+    42</pre>
+
+### NOTE
+
+It's a good idea to put COMMON areas declaration for particular task to an insert file and include it
+into every relevant source file.
+
+### EXAMPLE
+
+File I_MYTASK.COMMON:
+
+       COMMON /MY.AREA/ global_var, global_dyn_array
+
+Program test.b:
+
+       $INSERT I_MYTASK.COMMON
+       &nbsp;
+       global_var = 42
+       EXECUTE 'test2'
+
+Program test2.b:
+
+       $INSERT I_MYTASK.COMMON
+       &nbsp;
+       CRT global_var
+       CRT ASSIGNED(global_dyn_array)
+
+Run program test (**prime** emulation):
+
+<pre>
+    42
+    1</pre>
+
+**r83** emulation:
+
+<pre>
+    42
+    0</pre>
+
+### NOTE
+
+If number of variables in COMMON area changes, all relevant source files are to be recompiled.
 
 ## COMPARE
 
@@ -4530,10 +4609,22 @@ expression1.
 
 See also: [CONVERT STATEMENT](#CONVERTSTATEMENT)
 
-### EXAMPLE (prime emulation)
+### EXAMPLE
 
-       CRT CONVERT('axbxcx', 'abc', 'ABC')   ;* ABC - incorrect for PRIME emulation
-       CRT CONVERT('abc', 'ABC', 'axbxcx')   ;* AxBxCx - correct
+    * compile this program under same emulation that you're testing
+       IF NOT(GETENV('JBCEMULATE', jbc_emu)) THEN
+          CRT 'Emulation setting not found'
+          STOP
+       END
+       *
+       the_string = 'ABCCCDEFCDYZ'
+       IF jbc_emu = 'prime' THEN
+          the_result = CONVERT('CEY', '+-*', the_string)
+       END ELSE
+          the_result = CONVERT(the_string, 'CEY', '+-*')
+       END
+       *
+       CRT jbc_emu, the_result                ;* e.g. prime AB+++D-F+D*Z
 
 ## CONVERT (STATEMENT)
 
@@ -4572,8 +4663,9 @@ See also: [CONVERT](#CONVERT)
 
 Output:
 
+<pre>
     Original:   ABCDEFGHIJ
-    Converted: A^CD!FGHI+
+    Converted: A^CD!FGHI+</pre>
 
 ## COS
 
@@ -5994,12 +6086,13 @@ to change one line in your program.
        EQUATE PRICE TO NV_LINE(7), TAX TO 0.175
        EQUATE DASHES TO "-------"
        IF NO_CHARGE = TRUE THEN PRICE = 0
-       CRT "Tax =":PRICE * TAX:CR:DASHES
+       CRT "Tax = ":PRICE * TAX:CR:DASHES
 
 Output:
 
-    Tax =17.5
-    -------
+<pre>
+    Tax = 17.5
+    -------</pre>
 
 ## EREPLACE
 
@@ -6289,11 +6382,12 @@ displays 24.2334002
 <a name="FDIV"/>
 
 The FDIV function performs floating point division on two numeric
-values.
+values. (Similarly, FMUL does the multiplication.)
 
 ### COMMAND SYNTAX
 
     FDIV(expression1, expression2)
+    FMUL(expression1, expression2)
 
 ### SYNTAX ELEMENTS
 
@@ -6312,9 +6406,8 @@ The calculation is not subject to the PRECISION setting.
 
 ### EXAMPLE
 
-        CRT FDIV(1,7)
-
-displays 0.1428571429
+        CRT FDIV(1, 7)                   ;* 0.1428571429
+        CRT FMUL(2.54, 5.703358)         ;* 14.48652932
 
 ## FIELD
 
@@ -9140,7 +9233,7 @@ JBASETHREADStatus command shows the status of all running threads.
 
 ### COMMAND SYNTAX
 
-JBASETHREADStatus(ThreadList)
+    JBASETHREADStatus(ThreadList)
 
 ### SYNTAX ELEMENTS
 
@@ -9649,6 +9742,14 @@ The LOCALDATE function uses the specified timestamp and adjusts the
 value by the specified time zone to return the date value in internal
 date format.
 
+### EXAMPLE
+
+<!--jBC-->
+    start_time = MAKETIMESTAMP(DATE(), TIME(), '')
+    time_shift = 100  ;  time_shift<8> = ''    ;* add 100 years to current date
+    end_time = CHANGETIMESTAMP(start_time, time_shift)
+    CRT OCONV(LOCALDATE(end_time, ''), 'D')               ;* e.g. 20 JUN 2113
+
 ## LOCALTIME
 
 LOCALTIME returns an internal time using the specified Timestamp and
@@ -10079,30 +10180,30 @@ match any number of characters of the specified type.
 
 ### EXAMPLES
 
-    * Matches if all characters in a variable are numeric or it's a null string:
-       Var = '42'
-       Var2 = ''
-       IF Var MATCHES "0N" THEN CRT "A match!"
-       IF Var2 MATCHES "0N" THEN CRT "Another match!"
-    * Matches if Var contains any number of numerics followed by the
-    * "." character followed by 2 numeric characters:
-       CRT 345.65 MATCHES "0N'.'2N..."      ;* 1
-       CRT 9.99 MATCHES "0N'.'2N..."        ;* 1
-    * Matches if the variable Serno consists of a string of 4 arbitrary
-    * characters followed by the ":" character then 6 numerics then
-    * the ";" character and then 2 alphabetic characters
-       Pattern = "4X':'6N';'2A"
-       Serno = '1.2.:123456;AB'
-       CRT Serno MATCH Pattern              ;* 1
-       Serno = '17st:456789;FB'
-       CRT Serno MATCHES Pattern            ;* 1
-    * More examples:
-       V.DATE = '2012-10-25'
-       CRT V.DATE MATCHES "4N'-'2N'-'2N"    ;*  1
-       V.ADDR = '3RD FLOOR, 17A ELM STREET'
-       CRT V.ADDR MATCHES "...17A..."       ;*  0 - 17A means 17 alpha characters
-       CRT V.ADDR MATCHES "...'17A'..."     ;*  1 - here '17A' is a string to search
-       CRT '2HQJ4' MATCHES "5C"             ;*  0 under prime emulation
+    * T24 IDs matching
+       transfer_id = 'FT130172HQJ4'
+       CRT transfer_id MATCHES "'FT'5N5X"           ;*  1
+       hist_id = 'FT130172HQJ4;1'
+       CRT hist_id MATCHES "'FT'5N5X"               ;*  0
+       CRT hist_id MATCHES "'FT'5N5X;1N"            ;*  1
+    * date
+       start_date = '2011-10-25'
+       CRT start_date MATCHES "4N'-'2N'-'2N"        ;*  1
+    * emulations compatibility
+       cust_name = 'JOHN DORY'
+       CRT cust_name MATCH "JOHN..."            ;*  1 under prime, 0 under jbase
+       CRT cust_name MATCH "'JOHN'..."          ;*  1 under prime, 0 under jbase
+       CRT cust_name MATCH "'JOHN'0X"           ;*  1 under both
+       CRT cust_name MATCH "'John'..."          ;*  0 under both
+    * "C" - alphanumeric - isn't supported at all under prime
+       CRT '2HQJ4' MATCHES "5C"                 ;* 1 under jbase emulation
+    * numbers
+       CRT 9.99 MATCHES "0N'.'2N"               ;* 1
+       CRT '.99' MATCHES "0N'.'2N"              ;* 1
+    * avoid messing up data with patterns (example for prime):
+       cust_address = '3RD FLOOR, 17A ELM STREET'
+       CRT cust_address MATCH "...17A..."   ;* 0 - 17A means 17 alpha characters
+       CRT cust_address MATCH "...'17A'..." ;* 1 - here '17A' is a string to search
 
 ## MATCHFIELD
 
@@ -10206,42 +10307,48 @@ section for detailed instructions on calculating element numbers.
 
 ### EXAMPLES
 
-       DIM V.DIM.ARRAY(100)
-       V.DYN.ARRAY = ''
-       FOR V.I = 1 TO 100
-          V.DYN.ARRAY<-1> = V.I
-       NEXT V.I
+       DIM dim_array(100)
+       dyn_array = ''   ;     delim_array = ''
+       FOR i = 1 TO 100
+          dyn_array<-1> = i
+          delim_array := i*2 : '-'
+       NEXT i
     * Full copy
-       MATPARSE V.DIM.ARRAY FROM V.DYN.ARRAY
-       CRT V.DIM.ARRAY(1)                 ;* 1
-       CRT V.DIM.ARRAY(100)               ;* 100
+       MATPARSE dim_array FROM dyn_array
+       CRT dim_array(1)                 ;* 1
+       CRT dim_array(100)               ;* 100
+    * Using different array delimiter
+       MAT dim_array = 'Default'
+       MATPARSE dim_array FROM delim_array USING '-'
+       CRT dim_array(1)                 ;* 2
+       CRT dim_array(100)               ;* 200
     * Partial copy
-       MAT V.DIM.ARRAY = 'Default'
-       MATPARSE V.DIM.ARRAY, 3, 7 FROM V.DYN.ARRAY
-       CRT V.DIM.ARRAY(1)                 ;* Default
-       CRT V.DIM.ARRAY(3)                 ;* 1
-       CRT V.DIM.ARRAY(5)                 ;* 3
-       CRT V.DIM.ARRAY(100)               ;* Default
+       MAT dim_array = 'Default'
+       MATPARSE dim_array, 3, 7 FROM dyn_array
+       CRT dim_array(1)                 ;* Default
+       CRT dim_array(3)                 ;* 1
+       CRT dim_array(5)                 ;* 3
+       CRT dim_array(100)               ;* Default
     * "Over-copy"
-       FOR V.I = 101 TO 103               ;* add 3 elements to dynamic array
-          V.DYN.ARRAY<-1> = V.I
-       NEXT V.I
-       MAT V.DIM.ARRAY = 'Default'
-       MATPARSE V.DIM.ARRAY FROM V.DYN.ARRAY
-       CRT V.DIM.ARRAY(1)                 ;* 1
-       CRT V.DIM.ARRAY(100)               ;* 100
-       V.ADDON = V.DIM.ARRAY(0)           ;* all excess elements are here
-       CHANGE @FM TO '>>>' IN V.ADDON
-       CRT V.ADDON                        ;* 101>>>102>>>103
+       FOR i = 101 TO 103               ;* add 3 elements to dynamic array
+          dyn_array<-1> = i
+       NEXT i
+       MAT dim_array = 'Default'
+       MATPARSE dim_array FROM dyn_array
+       CRT dim_array(1)                 ;* 1
+       CRT dim_array(100)               ;* 100
+       the_extra = dim_array(0)           ;* all excess elements are here
+       CHANGE @FM TO '>>>' IN the_extra
+       CRT the_extra                        ;* 101>>>102>>>103
     * 2-dimensioned array population: "left-to-right":
-       DIM V.TWODIM.ARRAY(100,2)
-       MATPARSE V.TWODIM.ARRAY FROM V.DYN.ARRAY
-       CRT V.TWODIM.ARRAY(1,1)                 ;* 1
-       CRT V.TWODIM.ARRAY(1,2)                 ;* 2
-       CRT V.TWODIM.ARRAY(2,1)                 ;* 3
-       CRT V.TWODIM.ARRAY(2,2)                 ;* 4
-       CRT V.TWODIM.ARRAY(50,2)                ;* 100
-       CRT DQUOTE(V.TWODIM.ARRAY(100,1))       ;* ""
+       DIM two_dim_array(100,2)
+       MATPARSE two_dim_array FROM dyn_array
+       CRT two_dim_array(1,1)                 ;* 1
+       CRT two_dim_array(1,2)                 ;* 2
+       CRT two_dim_array(2,1)                 ;* 3
+       CRT two_dim_array(2,2)                 ;* 4
+       CRT two_dim_array(50,2)                ;* 100
+       CRT DQUOTE(two_dim_array(100,1))       ;* ""
 
 ## MATREAD
 
@@ -10568,12 +10675,15 @@ See also: [MINIMUM](#MINIMUM)
 ### EXAMPLES
 
        PRECISION 5
-    *
-       V.ARR = 1.45032:@AM:-3.60441:@VM:4.29445:@AM:2.00042:@SM:-3.90228
-       CRT MAXIMUM(V.ARR)      ;* 4.29445
-    *
-       V.ARR = 1.45032:@AM:-3.60441:@VM:4.29445:@FM:'1,000':@AM:2.00042:@SM:-3.90228
-       CRT MAXIMUM(V.ARR)      ;* still 4.29445
+       dyn_array = 4.29442 :@AM: -3.60441 :@VM :4.29445 :@AM: 2.00042   \
+             :@SM: -33.90228
+       CRT MAXIMUM(dyn_array)           ;* 4.29445
+    * non-numeric elements are ignored
+       dyn_array<2,1> = '9000,00'
+       CRT MAXIMUM(dyn_array)           ;* still 4.29445
+    * PRECISION matters
+       PRECISION 2
+       CRT MAXIMUM(dyn_array)           ;* now 4.29442
 
 ## MINIMUM
 
@@ -10702,12 +10812,21 @@ until a specified time.
 
 ### EXAMPLES
 
-Sleep for 1/10th of a second...
-
-    MSLEEP 100
-    *
-    * 40 winks...
-    MSLEEP 40000
+       CRT MAKETIMESTAMP( DATE(), TIME(), '' )           ;*  e.g. 1353068005.934
+       MSLEEP(100)      ;* 0.1 sec
+       CRT MAKETIMESTAMP( DATE(), TIME(), '' )           ;*  e.g. 1353068006.044
+       MSLEEP(3000)      ;* 3 sec
+       CRT MAKETIMESTAMP( DATE(), TIME(), '' )           ;*  e.g. 1353068009.039
+       MSLEEP 3000       ;* this syntax also works
+       CRT MAKETIMESTAMP( DATE(), TIME(), '' )           ;*  e.g. 1353068012.035
+    * Sleep until the beginning of the next hour
+       time = OCONV( TIME(), 'MT' )
+       sleep_until = time[1, 2] + 1
+       IF sleep_until EQ 24 THEN sleep_until = '00'
+       sleep_until := ':00'
+       CRT "I'll be back at " : sleep_until   ;*  e.g. I'll be back at 13:00
+       SLEEP sleep_until
+       CRT OCONV( TIME(), 'MTS' ), ',', "I'm back as promised"
 
 ## MULS##
 
@@ -10734,7 +10853,8 @@ for that element.
 ## NEGS
 
 NEGS function returns the negative values for all the elements in a
-dynamic array.
+dynamic array. NEG() function returns the negative value for a variable
+or an expression.
 
 ### COMMAND SYNTAX
 
@@ -10746,16 +10866,29 @@ is null, null is returned for that element.
 
 ### EXAMPLE
 
-       V.IN = NEGS(1:@FM:2:@FM:3)
-       GOSUB SCROUTP                               ;* -1^-2^-3
-       V.IN = NEGS(-1:@FM:-2:@FM:-3)
-       GOSUB SCROUTP                               ;*  1^2^3
-       V.IN = NEGS(1:@FM:-2:@FM:3)
-       GOSUB SCROUTP                               ;*  -1^2^-3
+       dyn_array = 1 :@FM: 2 :@VM :3
+       GOSUB PROC.IT                              ;* -1^-2]-3
+       dyn_array = 1 :@FM: '' :@VM :3
+       GOSUB PROC.IT                              ;* -1^0]-3
+       dyn_array = -1 :@FM: -2 :@VM: -3
+       GOSUB PROC.IT                              ;*  1^2]3
+       dyn_array = 1 :@SM: -2 :@FM: 3
+       GOSUB PROC.IT                              ;*  -1\2^-3
+       dyn_array<-1> = 'A text'
+       GOSUB PROC.IT                            ;* Non-numeric value -- ZERO USED
+                                                ;* -1\2^-3^0
+       CRT NEG(0)                               ;* 0
+       CRT NEG(100)                             ;* -100
+       CRT NEG(dyn_array<1> LT dyn_array<2>)    ;* -1 (negative of "true")
+       CRT NEG(-1000)                           ;* 1000
+       CRT NEG('qwert')                         ;* Non-numeric value -- ZERO USED
+                                                ;* 0
        STOP
-    SCROUTP:
-       CRT FMT(V.IN, 'MCP')
+       &nbsp;
+    PROC.IT:
+       CRT FMT( NEGS(dyn_array), 'MCP' )
        RETURN
+    END
 
 ## NES
 
@@ -11097,17 +11230,102 @@ expression2. Shown below are valid conversion codes:
 |T            |   Performs file translations given a cross-reference     |
 |             |   table in a record in a file.                           |
 
-### EXAMPLE
+### EXAMPLES
 
-    * See examples in FMT() section - most samples form there work both ways -
-    * e.g., the following 2 lines produce equal results:
-       CRT FMT( DATE(), 'D4/' )
-       CRT OCONV( DATE(), 'D4/' )                          ;*  e.g. 11/05/2012
-    * it's not the same for next 2 lines though...
-       CRT DQUOTE( FMT(123456.78, 'R2,$#15') )             ;*  "    $123,456.78"
-       CRT DQUOTE( OCONV(123456.78, 'R2,$#15') )           ;*  Error in Range Test
-    * Example of a "user exit":
-       CRT OCONV('', 'U50BB')        ;* port number and user name
+Date and time:
+
+       CRT OCONV(1, 'D')         ;* 01 JAN 1968
+       CRT OCONV( DATE(), 'D' )    ;* here and below output for 30 MAY 2013
+       CRT OCONV( DATE(), 'D2' )   ;* 30 MAY 13
+       CRT OCONV( DATE(), 'D4/' )  ;* 05/30/2013
+       CRT OCONV( DATE(), 'DY' )   ;* 2013
+       CRT OCONV( DATE(), 'DY2' )  ;* 13
+       CRT OCONV( DATE(), 'DQ' )   ;* 2 (quarter)
+       CRT OCONV( DATE(), 'DM' )   ;* 5 (month number)
+       CRT OCONV( DATE(), 'DMA' )  ;* MAY
+       CRT OCONV( DATE(), 'DD' )   ;* 30
+       CRT OCONV( DATE(), 'DJ' )   ;* 150 (number of a day in the year)
+       CRT OCONV( DATE(), 'DW' )   ;* 4 (day number in a week, starting from Monday)
+       CRT OCONV( DATE(), 'DWA' )  ;* THURSDAY
+       CRT OCONV( TIME(), 'MT' )   ;* 20:04
+       CRT OCONV( TIME(), 'MTS' )  ;* 20:04:08
+       CRT OCONV(1, 'MTS')       ;* 00:00:01
+    * difference of 2 dates (in days)
+       CRT ICONV('20121231', 'D') - ICONV('20111231', 'D')   ;* 366
+    * Check if a year is a leap one
+       CRT OCONV( ICONV('20131231', 'D4'), 'DJ' )    ;*  365
+       CRT OCONV( ICONV('20161231', 'D4'), 'DJ' )    ;*  366
+
+Strings:
+
+    * split a string
+       the_string = 'LONG STRING TO BE SPLIT'
+       the_split = FMT(the_string, '10L')
+       CRT OCONV(the_split, 'MCP')         ;* LONG STRIN.G TO BE SP.LIT
+    * hexadecimal output
+       CRT OCONV(the_split, 'MX')
+    * Output:
+    * 4C4F4E4720535452494EFB4720544F204245205350FB4C495420202020202020
+    *
+    * Remove non-alphabetic symbols:
+       CRT OCONV(the_split, 'MCA')     ;* LONGSTRINGTOBESPLIT
+    * Remove all alphabetic symbols:
+       CRT OCONV( OCONV(the_split, 'MC/A'), 'MX' )  ;* 20FB202020FB20202020202020
+    * Note FB symbols in the output above.. see what's that
+       CRT OCONV('FB', 'MCXD')    ;* 251 a.k.a. @TM
+       CHANGE @TM TO '->' IN the_split ; CRT the_split ;* LONG STRIN->G TO BE SP->LIT
+    * Remove non-numeric symbols:
+       CRT OCONV('another 1 bites the dust', 'MCN')    ;* 1
+    * Remove all numeric symbols:
+       CRT OCONV('another 1 bites the dust', 'MC/N')   ;* another  bites the dust
+    * formatting
+       CRT SQUOTE( FMT(the_string, '30L') )    ;* 'LONG STRING TO BE SPLIT       '
+       CRT SQUOTE( FMT(the_string, '30R') )    ;* '       LONG STRING TO BE SPLIT'
+    * replace some data
+       CRT OCONV(the_string, 'MCC;STRING;DATA')  ;* LONG DATA TO BE SPLIT
+    * change case
+       CRT OCONV(the_string, 'MCL')  ;* long string to be split
+       CRT OCONV('do it', 'MCU')     ;* DO IT
+       CRT OCONV(the_string, 'MCT')  ;* Long String To Be Split
+    * extract delimited fields: skip 1 space-delimited word, take 3 from that point
+       CRT OCONV(the_string, 'G1 3')  ;* STRING TO BE
+
+Numbers:
+
+    * amounts
+       amount_fcy = 1234
+       CRT FMT(amount_fcy, 'R%7')   ;*       0001234
+       amount_fcy += 0.56
+       CRT FMT(amount_fcy, 'R2*19')              ;*  ************1234.56
+       CRT SQUOTE( FMT(amount_fcy, 'L2,#19') )     ;*  '1,234.56           '
+       CRT FMT(-amount_fcy, 'R2,C&*$#15')        ;*           $1,234.56CR
+       CRT FMT(amount_fcy,'L0')                  ;* 1235
+    * phone numbers
+       CRT FMT(1234567890, 'R((###) ###-###)')       ;* (234) 567-890
+       CRT FMT(74952223355, 'R(+# (#3) #3-#2-#2)')   ;* +7 (495) 222-33-55
+    * FMT() and OCONV() are often interchangeable;
+    * though it's not the case for next 2 lines...
+       CRT DQUOTE( FMT(123456.78, 'R2,$#15') )           ;*  "    $123,456.78"
+       CRT DQUOTE( OCONV(123456.78, 'R2,$#15') )         ;*  Error in Range Test
+
+User exits:
+
+       CRT OCONV("", "U50BB")        ;* port number and user name
+       HUSH ON
+       EXECUTE 'SELECT .'
+       HUSH OFF
+       CRT OCONV("", "U30E0")        ;* number of items in active SELECT list
+    * sleep
+       start_time = TIME()  ;  dummy = OCONV(3, "U307A")
+       CRT TIME() - start_time        ;* 3
+    * reverse a string
+       CRT OCONV('desrever saw gnirtS', "U51AA")
+    * remove duplicate consecutive characters
+       CRT OCONV('hhahhahh', "U31AC")        ;* haha
+
+
+See also: [FMT](#FMT) function.
+
 
 ## OCONVS
 
@@ -12726,6 +12944,23 @@ that file are released, including locks taken in a calling program.
 Files that are opened to [COMMON](#COMMON) variables are not closed
 so the locks remain intact.
 
+### EXAMPLE
+
+       OPEN 'F.TEMP' TO f_temp ELSE
+          EXECUTE 'CREATE-FILE DATA F.TEMP 1 101 TYPE=J4'
+          OPEN 'F.TEMP' TO f_temp ELSE
+             CRT 'OPEN FAILED'
+             STOP
+          END
+       END
+       rec_id = 'REC1'
+       READL record FROM f_temp, rec_id LOCKED
+          CRT 'Lock failure'
+          STOP
+       END ELSE NULL
+       CRT RECORDLOCKED(f_temp, rec_id)  ;* 2 under Windows, 1 under Unix
+
+
 See also: [WRITE](#WRITE), [WRITEU](#WRITEU), [MATWRITE](#MATWRITE),
 [MATWRITEU](#MATWRITEU), [RELEASE](#RELEASE), and [DELETE](#DELETE)
 
@@ -13516,8 +13751,8 @@ was invalid then the function returns -1.
 
 ### EXAMPLES
 
-       String = "jBASE Software Inc."          ;* position of the character "t"
-       CRT REGEXP(String, 'S[^t]*')            ;* in "Software" = 4
+       String = "jBASE Software Inc."    ;* 4 (position of matching pattern -
+       CRT REGEXP(String, 'S[^t]*')      ;*   "S" followed by "t" later on)
     * find an exact value in a list
        CRT REGEXP('051', '^(050|5001|051|053|265|4007|5007|037|060|098)$')   ;* 1
        CRT REGEXP('05123', '^(050|5001|051|053|265|4007|5007|037|060|098)$') ;* 0
@@ -14203,11 +14438,21 @@ delimited.
 
 ### EXAMPLES
 
-    DIM Parm(4)
-    ProgName = SENTENCE(0) ;* program is?
-    FOR I = 1 TO 4
-       Parm(I) = SENTENCE(I) ;* get parameters
-    NEXT I
+       DIM Parm(4)
+       ProgName = SENTENCE(0) ;* program is?
+       FOR I = 1 TO 4
+          Parm(I) = SENTENCE(I) ;* get parameters
+       NEXT I
+
+       this_prog = SENTENCE(0)    ;* name of this program
+       phrase_part = 'to understand recursion '
+       IF SENTENCE(1) EQ '-2' THEN              ;* first parameter
+          CRT TRIM( SENTENCE(2), '"', 'B' ):    ;* 2nd parameter
+          CRT phrase_part
+       END ELSE
+          CRT phrase_part:
+          EXECUTE this_prog : ' -2 "you firstly need "'
+       END
 
 ## SEQ
 
@@ -16313,24 +16558,63 @@ sequential access.
 
 ### NOTES
 
-WEOFSEQ forces truncation of the file at the current file pointer
-nothing is actually 'written' to the sequential file.
+WEOFSEQ forces truncation of the file at the current file pointer;
+nothing is actually written to the sequential file.
 
 ### EXAMPLE
 
-       V.DIR.OUT = '.'
-       V.FILE.OUT = 'report.txt'
-       OPENSEQ V.DIR.OUT, V.FILE.OUT TO F.FILE.OUT THEN
+       out_dir = '.'
+       out_file = 'report.txt'
+    &nbsp;
+       OPENSEQ out_dir, out_file TO f_out THEN
           CRT 'TARGET FILE EXISTS. OVERWRITE[Y/N]':
           CLEARINPUT          ;* don't take anything in advance
-          INPUT V.REPLY
-          IF UPCASE(V.REPLY) NE 'Y' THEN         ;* y or Y
-             STOP
+          INPUT reply
+          IF UPCASE(reply) NE 'Y' THEN         ;* y or Y
+    * exit - user refused to overwrite the file
+             STOP             ;* or RETURN
           END
-          WEOFSEQ F.FILE.OUT  ;* truncate the file
+          WEOFSEQ f_out  ;* truncate the file
        END
-       WRITESEQ 'TEST' TO F.FILE.OUT ELSE NULL
-       CLOSESEQ F.FILE.OUT
+    &nbsp;
+    * We don't need to explicitly create a file; as soon as the first
+    * WRITESEQ will be issued - file will be created, otherwise it won't be -
+    * "openseq_creates" isn't set to "true" for Prime emulation.
+    &nbsp;
+    * Processing loop starts
+       line_no = 0
+       LOOP
+          line_no ++
+    &nbsp;
+    * Provide a way to exit a loop
+          IF line_no GT 7 THEN BREAK
+    &nbsp;
+    * Get an output string into variable and...
+          line = 'Line ' : line_no
+    * ...either skip it...
+          IF line_no EQ 3 THEN CONTINUE
+    * ...or write it
+          WRITESEQ line TO f_out ELSE
+    * Write error - notify user and quit the program
+             CRT 'Write error'
+             STOP             ;* or RETURN
+          END
+       REPEAT
+    &nbsp;
+    * truncate the file at certain position
+       SEEK f_out, -5, 2 ELSE CRT 'Seek error'  ;  STOP
+       WEOFSEQ f_out
+       CLOSESEQ f_out
+
+Contents of file report.txt:
+
+<pre>
+    Line 1
+    Line 2
+    Line 4
+    Line 5
+    Line 6
+    Li</pre>
 
 ## WRITE
 
@@ -16800,12 +17084,12 @@ record, do so explicitly with the WRITEVU statement.
           CRT 'WRITEV error'
           STOP
        END
-       EXECUTE "I-DUMP F.TEMP 'REC1'"     ;* REC1^LINE 1^LINE 2v2^LINE 3^
+       EXECUTE "I-DUMP F.TEMP 'REC1'"     ;* "REC1^LINE 1^LINE 2v2^LINE 3^"
        WRITEV 'LINE 7' TO f_temp, 'REC1', 7 ON ERROR
           CRT 'WRITEV error'
           STOP
        END
-       EXECUTE "I-DUMP F.TEMP 'REC1'"     ;* REC1^LINE 1^LINE 2v2^LINE 3^^^^LINE 7^
+       EXECUTE "I-DUMP F.TEMP 'REC1'"     ;* "REC1^LINE 1^LINE 2v2^LINE 3^^^^LINE 7^"
 
 ## WRITEVU
 
@@ -17137,11 +17421,16 @@ See also: [DTX](#DTX).
 
 ### EXAMPLES
 
-       CRT XTD('BADBEEF')     ;*  195935983 (00001011101011011011111011101111)
-       CRT XTD('DEADBEEF')    ;* -559038737 (11011110101011011011111011101111)
-       CRT XTD('GHI')         ;* 0
+       CRT XTD('FF')                                          ;* 255
+       CRT FMT( DTX(13), 'R%2' ) : FMT( DTX(10), 'R%2' )      ;* 0D0A
+       CRT XTD('BADBEEF')  ;*  195935983 (binary: 00001011101011011011111011101111)
+       CRT XTD('DEADBEEF') ;* -559038737 (binary: 11011110101011011011111011101111)
+       CRT XTD('1aGHI')    ;* 26 - stopped after processing "1a"
+       CRT XTD('GHI')      ;* 0
 
-Negative result in line 2 is caused by the first bit of binary result
+### NOTE
+
+Negative result in line 4 is caused by the first bit of binary result
 being set.
 
 # Embedded SQL for jBC
