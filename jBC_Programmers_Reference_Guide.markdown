@@ -15,6 +15,8 @@ jBASE and the jBASE logo (dove) are registered trademarks of T-jBASE SA, a compa
 
 ### Latest changes
 
+Monday, 08 Jul 2013. Minor formatting issues and several broken links corrected.
+
 Thursday, 20 Jun 2013: chapters [Numeric variables](#Numeric_variables), [Other notes](#Other_notes), [CLEAR](#CLEAR), [CLEARCOMMON](#CLEARCOMMON), [COLLECTDATA](#COLLECTDATA), [COMMON](#COMMON), [CONVERT](#CONVERT), [CLEARDATA](#CLEARDATA), [FDIV](#FDIV), [LOCALDATE](#LOCALDATE), [MATCHES](#MATCHES), [MATPARSE](#MATPARSE), [MAXIMUM](#MAXIMUM), [MSLEEP](#MSLEEP), [NEGS](#NEGS), [OCONV](#OCONV), [READL](#READL), [SENTENCE](#SENTENCE), [WEOFSEQ](#WEOFSEQ) and [XTD](#XTD) updated. Minor formatting corrections in many others.
 
 Tuesday, 21 May 2013: chapters [BITNOT](#BITNOT), [BITTEST](#BITTEST), [CATS](#CATS), [CHDIR](#CHDIR), [CHECKSUM](#CHECKSUM), [CREATE](#CREATE), [STATUS](#STATUS) and [XTD](#XTD) updated.
@@ -22,8 +24,6 @@ Tuesday, 21 May 2013: chapters [BITNOT](#BITNOT), [BITTEST](#BITTEST), [CATS](#C
 Monday, 20 May 2013: chapter [INPUT](#INPUT) updated.
 
 Tuesday, 16 Apr 2013: new example for [WRITEV](#WRITEV).
-
-Tuesday, 02 Apr 2013: new examples for [@TIME](#@TIME) and [ASCII](#ASCII); formatting of some chapters improved.
 
 ## What is TAFC
 
@@ -1621,7 +1621,7 @@ terminal screen
 
 ### COMMAND SYNTAX
 
-@ (col{,row})
+    @ (col{,row})
 
 ### SYNTAX ELEMENTS
 
@@ -1664,7 +1664,7 @@ capabilities of the terminal
 
 ### COMMAND SYNTAX
 
-@ (ScreenCode)
+    @ (ScreenCode)
 
 ### SYNTAX ELEMENTS
 
@@ -2168,7 +2168,7 @@ specified by any numeric expression.
 
     BITNOT(expression)
 
-DESCRIPTION
+### DESCRIPTION
 
 If expression evaluates to the null value, null is returned.
 
@@ -4559,6 +4559,8 @@ without arguments.
 
 ### COMMAND SYNTAX
 
+    CONTINUE
+
 Use the statement within a loop to skip the remaining code in the current
 iteration and proceed directly on to the next iteration.
 
@@ -4607,7 +4609,7 @@ expression1.
 
 **expression3** is the string to which the conversion will apply.
 
-See also: [CONVERT STATEMENT](#CONVERTSTATEMENT)
+See also: [CONVERT (STATEMENT)](#CONVERT_(STATEMENT))
 
 ### EXAMPLE
 
@@ -4690,9 +4692,12 @@ Assumes the value returned by expression is in degrees.
 
 ### EXAMPLES
 
-    FOR I = 1 TO 360
-         CRT COS(I) ;* print cos i for 1 to 360 degrees
-    NEXT I
+       * print cos i for 1 to 360 degrees
+       FOR I = 1 TO 360
+          cos_i = COS(I)
+          CRT cos_i
+          IF ABS(cos_i) GT 1 THEN CRT "It's wartime"
+       NEXT I
 
 ## COUNT
 
@@ -5014,11 +5019,9 @@ run-time versions of  cataloged jBC programs.
 
 ### COMMAND SYNTAX
 
-<pre>
-    DECATALOG SourceFilename ProgramName</pre>
+    DECATALOG SourceFilename ProgramName
 
-<pre>
-    DECATALOG ProgramName</pre>
+    DECATALOG ProgramName
 
 ## DECRYPT##
 
@@ -9774,7 +9777,7 @@ dimension of a dynamic array.
 
 ### COMMAND SYNTAX
 
-    LOCATE expression1 IN expression2{<expression3{,expression4}>}, {, expression5}  \
+    LOCATE expression1 IN expression2{<expression3{,expression4}>},{, expression5} \
            { BY expression6 } SETTING Var THEN | ELSE statement(s)
 
 ### SYNTAX ELEMENTS
@@ -12288,10 +12291,6 @@ the decimal point.
 
     PRECISION integer
 
-### SYNTAX ELEMENTS
-
-**integer** should be in the range 0 to 9.
-
 ### NOTES
 
 A PRECISION statement can be specified any number of times in a source file.
@@ -12314,16 +12313,16 @@ will print the value 0.666666 (note: truncation not rounding!).
 
 ### EXAMPLE 2
 
-       V.1 = '0.123456789012345678901234567890123456789012345678901234567890'
-       V.2 = '0.1234567890123456789012345678901234567890123456789012345678901'
+       var_1 = '0.123456789012345678901234567890123456789012345678901234567890'
+       var_2 = '0.1234567890123456789012345678901234567890123456789012345678901'
        PRECISION 13
        GOSUB TEST                ;* 1
        PRECISION 17
        GOSUB TEST                ;* 0
        STOP
     TEST:
-       V.3 = (V.1 = V.2)
-       CRT V.3
+       var_3 = (var_1 = var_2)
+       CRT var_3
        RETURN
     END
 
@@ -15344,7 +15343,7 @@ no outstanding [GOSUB](#GOSUB) statement.
 The control will not be returned to the calling program
 if a [STOP](#STOP) or [ABORT](#ABORT) statement is executed.
 
-See also: [CALL](#CALL), [CATALOG](#CATALOG), [COMMON](#COMMON),
+See also: [CALL](#CALL), [CATALOG Command](#CATALOG_Command), [COMMON](#COMMON),
 [RETURN](#RETURN).
 
 ### EXAMPLES
@@ -16855,7 +16854,7 @@ sequential processing, and to ensure that data is physically written to
 disk (that is, not buffered) before the next statement in the program is
 executed.
 
-### SYNTAX
+### COMMAND SYNTAX
 
     WRITESEQF expression { ON | TO } file.variable [ ON ERROR statements ]  \
               { THEN statements [ ELSE statements ] | ELSE statements }
