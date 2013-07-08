@@ -463,9 +463,6 @@
 <h2>COMMAND SYNTAX</h2>
 <pre><span>    <span class="c-1com">PRECISION</span> integer
 </span></pre>
-<h2>SYNTAX ELEMENTS</h2>
-<p><strong>integer</strong> should be in the range 0 to 9.
-</p>
 <h2>NOTES</h2>
 <p>A PRECISION statement can be specified any number of times in a source file.
  Only the most recently defined precision will be active at any one time.
@@ -485,19 +482,19 @@
 <p>will print the value 0.666666 (note: truncation not rounding!).
 </p>
 <h2>EXAMPLE 2</h2>
-<pre><span>       V.<span class="c-2num">1</span> = <span class="c-4str">'0.123456789012345678901234567890123456789012345678901234567890'</span>
-</span><span>       V.<span class="c-2num">2</span> = <span class="c-4str">'0.1234567890123456789012345678901234567890123456789012345678901'</span>
+<pre><span>       var_1 = <span class="c-4str">'0.123456789012345678901234567890123456789012345678901234567890'</span>
+</span><span>       var_2 = <span class="c-4str">'0.1234567890123456789012345678901234567890123456789012345678901'</span>
 </span><span>       <span class="c-1com">PRECISION</span> <span class="c-2num">13</span>
 </span><span>       <span class="c-1com">GOSUB</span> TEST                ;<span class="c-5com">* <span class="c-2num">1</span></span>
 </span><span>       <span class="c-1com">PRECISION</span> <span class="c-2num">17</span>
 </span><span>       <span class="c-1com">GOSUB</span> TEST                ;<span class="c-5com">* <span class="c-2num">0</span></span>
 </span><span>       <span class="c-1com">STOP</span>
 </span><span>    TEST:
-</span><span>       V.<span class="c-2num">3</span> = (V.<span class="c-2num">1</span> = V.<span class="c-2num">2</span>)
-</span><span>       <span class="c-1com">CRT</span> V.<span class="c-2num">3</span>
+</span><span>       var_3 = (var_1 = var_2)
+</span><span>       <span class="c-1com">CRT</span> var_3
 </span><span>       <span class="c-1com">RETURN</span>
 </span><span>    <span class="c-1com">END</span>
-</span></pre><div id="timestamp">Last update: Fri, 01 Feb 2013 08:29 CET</div></div>
+</span></pre><div id="timestamp">Last update: Mon, 08 Jul 2013 14:29 CET</div></div>
 </div>
 <script type="text/javascript">
 
