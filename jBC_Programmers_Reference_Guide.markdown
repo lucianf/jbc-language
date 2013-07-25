@@ -15,6 +15,8 @@ jBASE and the jBASE logo (dove) are registered trademarks of T-jBASE SA, a compa
 
 ### Latest changes
 
+Thursday, 25 Jul 2013. Added example for [PAUSE](#PAUSE) / [WAKE](#WAKE).
+
 Monday, 08 Jul 2013. Minor formatting issues and several broken links corrected.
 
 Thursday, 20 Jun 2013: chapters [Numeric variables](#Numeric_variables), [Other notes](#Other_notes), [CLEAR](#CLEAR), [CLEARCOMMON](#CLEARCOMMON), [COLLECTDATA](#COLLECTDATA), [COMMON](#COMMON), [CONVERT](#CONVERT), [CLEARDATA](#CLEARDATA), [FDIV](#FDIV), [LOCALDATE](#LOCALDATE), [MATCHES](#MATCHES), [MATPARSE](#MATPARSE), [MAXIMUM](#MAXIMUM), [MSLEEP](#MSLEEP), [NEGS](#NEGS), [OCONV](#OCONV), [READL](#READL), [SENTENCE](#SENTENCE), [WEOFSEQ](#WEOFSEQ) and [XTD](#XTD) updated. Minor formatting corrections in many others.
@@ -22,8 +24,6 @@ Thursday, 20 Jun 2013: chapters [Numeric variables](#Numeric_variables), [Other 
 Tuesday, 21 May 2013: chapters [BITNOT](#BITNOT), [BITTEST](#BITTEST), [CATS](#CATS), [CHDIR](#CHDIR), [CHECKSUM](#CHECKSUM), [CREATE](#CREATE), [STATUS](#STATUS) and [XTD](#XTD) updated.
 
 Monday, 20 May 2013: chapter [INPUT](#INPUT) updated.
-
-Tuesday, 16 Apr 2013: new example for [WRITEV](#WRITEV).
 
 ## What is TAFC
 
@@ -73,7 +73,7 @@ extensions can be developed in (but not limited to) jBC.
 - Dimensioned and dynamic arrays.
 - String, number, and date data conversion.
 - Patterns matching.
-- Unary operators suport.
+- Unary operators support.
 - Single- and multi-byte character sets support.
 - Bitwise operations.
 - Standard industry encryption algorithms support.
@@ -12274,6 +12274,35 @@ If a [WAKE](#WAKE) statement is executed before a PAUSE statement, then
 the PAUSE will be ignored and processing will continue until a subsequent
 PAUSE statement.
 
+### EXAMPLE
+
+Pausing program:
+
+       @USER.ROOT = 'Sleeping beauty'
+       start_time = TIME()
+       CRT 'Pausing...'
+       PAUSE 20
+       IF TIME() - start_time LT 20 THEN CRT "Who's there?"
+       ELSE CRT 'Resuming...'
+
+Waking program:
+
+    INCLUDE JBC.h
+       OPEN SYSTEM(1027) TO PROC ELSE STOP 201, SYSTEM(1027)
+       SELECT PROC
+       *
+       LOOP WHILE READNEXT key DO
+          READ rec FROM PROC, key THEN
+             IF rec<USER_PROC_USER_ROOT> EQ 'Sleeping beauty' THEN
+                CRT 'Found...' :
+                WAKE rec<USER_PROC_PORT_NUMBER>
+                CRT 'and awoken'
+                STOP
+             END
+          END
+       REPEAT
+       CRT 'Nobody sleeps'
+
 ## PERFORM
 
 <a name="PERFORM"/>
@@ -16489,7 +16518,7 @@ To run this example the following environment variables are to be set:
 <a name="WAKE"/>
 
 WAKE statement is used to wake a suspended process, which has
-executed a PAUSE statement.
+executed a [PAUSE](#PAUSE) statement.
 
 ### COMMAND SYNTAX
 
