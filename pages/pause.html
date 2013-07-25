@@ -475,7 +475,35 @@
 <p>If a <a href="wake.html">WAKE</a> statement is executed before a PAUSE statement, then
  the PAUSE will be ignored and processing will continue until a subsequent
  PAUSE statement.
-</p><div id="timestamp">Last update: Fri, 01 Feb 2013 08:29 CET</div></div>
+</p>
+<h2>EXAMPLE</h2>
+<p>Pausing program:
+</p>
+<pre><span>       <span class="c-3typ">@USER.ROOT</span> = <span class="c-4str">'Sleeping beauty'</span>
+</span><span>       start_time = <span class="c-0fun">TIME</span>()
+</span><span>       <span class="c-1com">CRT</span> <span class="c-4str">'Pausing...'</span>
+</span><span>       <span class="c-1com">PAUSE</span> <span class="c-2num">20</span>
+</span><span>       <span class="c-1com">IF</span> <span class="c-0fun">TIME</span>() - start_time <span class="c-1com">LT</span> <span class="c-2num">20</span> <span class="c-1com">THEN</span> <span class="c-1com">CRT</span> <span class="c-4str">"Who's there?"</span>
+</span><span>       <span class="c-1com">ELSE</span> <span class="c-1com">CRT</span> <span class="c-4str">'Resuming...'</span>
+</span></pre>
+<p>Waking program:
+</p>
+<pre><span>    <span class="c-1com">INCLUDE</span> JBC.h
+</span><span>       <span class="c-1com">OPEN</span> <span class="c-0fun">SYSTEM</span>(<span class="c-2num">1027</span>) <span class="c-1com">TO</span> PROC <span class="c-1com">ELSE</span> <span class="c-1com">STOP</span> <span class="c-2num">201</span>, <span class="c-0fun">SYSTEM</span>(<span class="c-2num">1027</span>)
+</span><span>       <span class="c-1com">SELECT</span> PROC
+</span><span>       <span class="c-5com">*</span>
+</span><span>       <span class="c-1com">LOOP</span> <span class="c-1com">WHILE</span> <span class="c-1com">READNEXT</span> key <span class="c-1com">DO</span>
+</span><span>          <span class="c-1com">READ</span> rec <span class="c-1com">FROM</span> PROC, key <span class="c-1com">THEN</span>
+</span><span>             <span class="c-1com">IF</span> rec&lt;USER_PROC_USER_ROOT&gt <span class="c-1com">EQ</span> <span class="c-4str">'Sleeping beauty'</span> <span class="c-1com">THEN</span>
+</span><span>                <span class="c-1com">CRT</span> <span class="c-4str">'Found...'</span> :
+</span><span>                <span class="c-1com">WAKE</span> rec&lt;USER_PROC_PORT_NUMBER&gt
+</span><span>                <span class="c-1com">CRT</span> <span class="c-4str">'and awoken'</span>
+</span><span>                <span class="c-1com">STOP</span>
+</span><span>             <span class="c-1com">END</span>
+</span><span>          <span class="c-1com">END</span>
+</span><span>       <span class="c-1com">REPEAT</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-4str">'Nobody sleeps'</span>
+</span></pre><div id="timestamp">Last update: Thu, 25 Jul 2013 11:27 CET</div></div>
 </div>
 <script type="text/javascript">
 
