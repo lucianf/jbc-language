@@ -455,8 +455,18 @@
 </div>
 <div id="scrollable">
 <div id="content"><h1>@SELECTED</h1>
-<p>Number of elements from the last select list - Non stacked
-</p><div id="timestamp">Last update: Fri, 01 Feb 2013 08:29 CET</div></div>
+<p>Number of elements from the last select list - Non stacked.
+</p>
+<h2>EXAMPLE</h2>
+<pre><span>       proc_fname = <span class="c-0fun">SYSTEM</span>(<span class="c-2num">1027</span>)
+</span><span>       <span class="c-1com">OPEN</span> proc_fname <span class="c-1com">TO</span> proc_file <span class="c-1com">ELSE</span> <span class="c-1com">STOP</span> <span class="c-2num">201</span>, <span class="c-4str">"PROC"</span>
+</span><span>       <span class="c-1com">SELECT</span> proc_file <span class="c-1com">TO</span> proc_list
+</span><span>       <span class="c-1com">CRT</span> <span class="c-3typ">@SELECTED</span>                                 ;<span class="c-5com">* <span class="c-2num">0</span> - this is BASIC select</span>
+</span><span>       <span class="c-1com">EXECUTE</span> <span class="c-4str">'SELECT '</span> : proc_fname : <span class="c-4str">' TO 9'</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-3typ">@SELECTED</span>                                 ;<span class="c-5com">* <span class="c-2num">0</span> - that's not default list</span>
+</span><span>       <span class="c-1com">EXECUTE</span> <span class="c-4str">'SELECT '</span> : proc_fname
+</span><span>       <span class="c-1com">CRT</span> <span class="c-3typ">@SELECTED</span>
+</span></pre><div id="timestamp">Last update: Tue, 27 Aug 2013 12:36 CET</div></div>
 </div>
 <script type="text/javascript">
 
