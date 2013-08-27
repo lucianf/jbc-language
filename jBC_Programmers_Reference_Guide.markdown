@@ -1408,7 +1408,7 @@ Number of elements from the last select list - Non stacked.
        EXECUTE 'SELECT ' : proc_fname : ' TO 9'
        CRT @SELECTED                                 ;* 0 - that's not default list
        EXECUTE 'SELECT ' : proc_fname
-       CRT @SELECTED
+       CRT @SELECTED                                 ;* number of active sessions
 
 ## @TERMTYPE
 
