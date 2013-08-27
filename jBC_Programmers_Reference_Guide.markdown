@@ -15,6 +15,8 @@ jBASE and the jBASE logo (dove) are registered trademarks of T-jBASE SA, a compa
 
 ### Latest changes
 
+Tuesday, 27 Aug 2013. Added example for [@SELECTED](#@SELECTED).
+
 Thursday, 25 Jul 2013. Added example for [PAUSE](#PAUSE) / [WAKE](#WAKE).
 
 Monday, 08 Jul 2013. Minor formatting issues and several broken links corrected.
@@ -22,8 +24,6 @@ Monday, 08 Jul 2013. Minor formatting issues and several broken links corrected.
 Thursday, 20 Jun 2013: chapters [Numeric variables](#Numeric_variables), [Other notes](#Other_notes), [CLEAR](#CLEAR), [CLEARCOMMON](#CLEARCOMMON), [COLLECTDATA](#COLLECTDATA), [COMMON](#COMMON), [CONVERT](#CONVERT), [CLEARDATA](#CLEARDATA), [FDIV](#FDIV), [LOCALDATE](#LOCALDATE), [MATCHES](#MATCHES), [MATPARSE](#MATPARSE), [MAXIMUM](#MAXIMUM), [MSLEEP](#MSLEEP), [NEGS](#NEGS), [OCONV](#OCONV), [READL](#READL), [SENTENCE](#SENTENCE), [WEOFSEQ](#WEOFSEQ) and [XTD](#XTD) updated. Minor formatting corrections in many others.
 
 Tuesday, 21 May 2013: chapters [BITNOT](#BITNOT), [BITTEST](#BITTEST), [CATS](#CATS), [CHDIR](#CHDIR), [CHECKSUM](#CHECKSUM), [CREATE](#CREATE), [STATUS](#STATUS) and [XTD](#XTD) updated.
-
-Monday, 20 May 2013: chapter [INPUT](#INPUT) updated.
 
 ## What is TAFC
 
@@ -1397,7 +1397,18 @@ Entire current record
 
 ## @SELECTED
 
-Number of elements from the last select list - Non stacked
+Number of elements from the last select list - Non stacked.
+
+### EXAMPLE
+
+       proc_fname = SYSTEM(1027)
+       OPEN proc_fname TO proc_file ELSE STOP 201, "PROC"
+       SELECT proc_file TO proc_list
+       CRT @SELECTED                                 ;* 0 - this is BASIC select
+       EXECUTE 'SELECT ' : proc_fname : ' TO 9'
+       CRT @SELECTED                                 ;* 0 - that's not default list
+       EXECUTE 'SELECT ' : proc_fname
+       CRT @SELECTED
 
 ## @TERMTYPE
 
