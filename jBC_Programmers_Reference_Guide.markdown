@@ -15,6 +15,8 @@ jBASE and the jBASE logo (dove) are registered trademarks of T-jBASE SA, a compa
 
 ### Latest changes
 
+Friday, 20 Sep 2013. Added example for [ISSPACE](#ISSPACE).
+
 Tuesday, 27 Aug 2013. Added example for [@SELECTED](#@SELECTED).
 
 Thursday, 25 Jul 2013. Added example for [PAUSE](#PAUSE) / [WAKE](#WAKE).
@@ -22,8 +24,6 @@ Thursday, 25 Jul 2013. Added example for [PAUSE](#PAUSE) / [WAKE](#WAKE).
 Monday, 08 Jul 2013. Minor formatting issues and several broken links corrected.
 
 Thursday, 20 Jun 2013: chapters [Numeric variables](#Numeric_variables), [Other notes](#Other_notes), [CLEAR](#CLEAR), [CLEARCOMMON](#CLEARCOMMON), [COLLECTDATA](#COLLECTDATA), [COMMON](#COMMON), [CONVERT](#CONVERT), [CLEARDATA](#CLEARDATA), [FDIV](#FDIV), [LOCALDATE](#LOCALDATE), [MATCHES](#MATCHES), [MATPARSE](#MATPARSE), [MAXIMUM](#MAXIMUM), [MSLEEP](#MSLEEP), [NEGS](#NEGS), [OCONV](#OCONV), [READL](#READL), [SENTENCE](#SENTENCE), [WEOFSEQ](#WEOFSEQ) and [XTD](#XTD) updated. Minor formatting corrections in many others.
-
-Tuesday, 21 May 2013: chapters [BITNOT](#BITNOT), [BITTEST](#BITTEST), [CATS](#CATS), [CHDIR](#CHDIR), [CHECKSUM](#CHECKSUM), [CREATE](#CREATE), [STATUS](#STATUS) and [XTD](#XTD) updated.
 
 ## What is TAFC
 
@@ -8791,7 +8791,7 @@ of each character is determined according to the Unicode Standard.
        V.STRING = @FM : V.STRING
        CRT ISCNTRL(V.STRING)        ;* 1
 
-## ISDIGIT##
+## ISDIGIT
 
 The ISDIGIT function will check that the expression consists of entirely
 numeric characters.
@@ -8816,7 +8816,7 @@ of each character is determined according to the Unicode Standard.
 
        V.VAR = 5
        CRT ISDIGIT(V.VAR)                 ;* 1
-       V.VAR =- 1
+       V.VAR = -1
        CRT ISDIGIT(V.VAR)                 ;* 0 (we have minus now)
 
 ## ISLOWER
@@ -8881,6 +8881,23 @@ any characters, which are not space characters.
 
 When the ISSPACE function is used in International Mode the properties of
 each character is determined according to the Unicode Standard.
+
+### EXAMPLE
+
+       a_string = ''             ;  GOSUB CHK.IT    ;*  0
+       a_string := ' '           ;  GOSUB CHK.IT    ;*  1
+       a_string := CHAR(9)       ;  GOSUB CHK.IT    ;*  1 (TAB)
+       a_string := CHAR(10)      ;  GOSUB CHK.IT    ;*  1 (CR)
+       a_string := CHAR(11)      ;  GOSUB CHK.IT    ;*  1 (Vertical Tab)
+       a_string := CHAR(12)      ;  GOSUB CHK.IT    ;*  1 (Form feed)
+       a_string := CHAR(13)      ;  GOSUB CHK.IT    ;*  1 (LF)
+    *
+       STOP
+    *
+    CHK.IT:
+       CRT ISSPACE(a_string)
+       RETURN
+    END
 
 ## ISUPPER
 
