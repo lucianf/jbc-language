@@ -470,7 +470,23 @@
 <h2>INTERNATIONAL MODE</h2>
 <p>When the ISSPACE function is used in International Mode the properties of
  each character is determined according to the Unicode Standard.
-</p><div id="timestamp">Last update: Fri, 01 Feb 2013 08:29 CET</div></div>
+</p>
+<h2>EXAMPLE</h2>
+<pre><span>       a_string = <span class="c-4str">''</span>             ;  <span class="c-1com">GOSUB</span> CHK.IT    ;<span class="c-5com">*  <span class="c-2num">0</span></span>
+</span><span>       a_string := <span class="c-4str">' '</span>           ;  <span class="c-1com">GOSUB</span> CHK.IT    ;<span class="c-5com">*  <span class="c-2num">1</span></span>
+</span><span>       a_string := <span class="c-0fun">CHAR</span>(<span class="c-2num">9</span>)       ;  <span class="c-1com">GOSUB</span> CHK.IT    ;<span class="c-5com">*  <span class="c-2num">1</span> (TAB)</span>
+</span><span>       a_string := <span class="c-0fun">CHAR</span>(<span class="c-2num">10</span>)      ;  <span class="c-1com">GOSUB</span> CHK.IT    ;<span class="c-5com">*  <span class="c-2num">1</span> (CR)</span>
+</span><span>       a_string := <span class="c-0fun">CHAR</span>(<span class="c-2num">11</span>)      ;  <span class="c-1com">GOSUB</span> CHK.IT    ;<span class="c-5com">*  <span class="c-2num">1</span> (Vertical Tab)</span>
+</span><span>       a_string := <span class="c-0fun">CHAR</span>(<span class="c-2num">12</span>)      ;  <span class="c-1com">GOSUB</span> CHK.IT    ;<span class="c-5com">*  <span class="c-2num">1</span> (Form feed)</span>
+</span><span>       a_string := <span class="c-0fun">CHAR</span>(<span class="c-2num">13</span>)      ;  <span class="c-1com">GOSUB</span> CHK.IT    ;<span class="c-5com">*  <span class="c-2num">1</span> (LF)</span>
+</span><span>    <span class="c-5com">*</span>
+</span><span>       <span class="c-1com">STOP</span>
+</span><span>    <span class="c-5com">*</span>
+</span><span>    CHK.IT:
+</span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">ISSPACE</span>(a_string)
+</span><span>       <span class="c-1com">RETURN</span>
+</span><span>    <span class="c-1com">END</span>
+</span></pre><div id="timestamp">Last update: Fri, 20 Sep 2013 14:21 CET</div></div>
 </div>
 <script type="text/javascript">
 
