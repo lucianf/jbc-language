@@ -15,6 +15,8 @@ jBASE and the jBASE logo (dove) are registered trademarks of T-jBASE SA, a compa
 
 ### Latest changes
 
+Monday, 23 Sep 2013. New examples for [FLUSH](#FLUSH) and [ONGOTO](#ONGOTO).
+
 Friday, 20 Sep 2013. Added example for [ISSPACE](#ISSPACE).
 
 Tuesday, 27 Aug 2013. Added example for [@SELECTED](#@SELECTED).
@@ -22,8 +24,6 @@ Tuesday, 27 Aug 2013. Added example for [@SELECTED](#@SELECTED).
 Thursday, 25 Jul 2013. Added example for [PAUSE](#PAUSE) / [WAKE](#WAKE).
 
 Monday, 08 Jul 2013. Minor formatting issues and several broken links corrected.
-
-Thursday, 20 Jun 2013: chapters [Numeric variables](#Numeric_variables), [Other notes](#Other_notes), [CLEAR](#CLEAR), [CLEARCOMMON](#CLEARCOMMON), [COLLECTDATA](#COLLECTDATA), [COMMON](#COMMON), [CONVERT](#CONVERT), [CLEARDATA](#CLEARDATA), [FDIV](#FDIV), [LOCALDATE](#LOCALDATE), [MATCHES](#MATCHES), [MATPARSE](#MATPARSE), [MAXIMUM](#MAXIMUM), [MSLEEP](#MSLEEP), [NEGS](#NEGS), [OCONV](#OCONV), [READL](#READL), [SENTENCE](#SENTENCE), [WEOFSEQ](#WEOFSEQ) and [XTD](#XTD) updated. Minor formatting corrections in many others.
 
 ## What is TAFC
 
@@ -6837,19 +6837,38 @@ statements.
 
 ### EXAMPLE
 
-    OPENSEQ 'DIRFILE', 'RECORD' TO FILE THEN
-    PRINT "'DIRFILE' OPENED FOR SEQUENTIAL PROCESSING"
-    END ELSE STOP
-    WEOFSEQ FILE
-    *
-    WRITESEQ 'NEW LINE' ON FILE THEN
-    FLUSH FILE THEN
-    PRINT "BUFFER FLUSHED"
-    END ELSE PRINT "NOT FLUSHED"
-    ELSE ABORT
-    *
-    CLOSESEQ FILE
-    END
+       dir_name = '.'
+       file_name = 'report.txt'
+       DELETESEQ dir_name, file_name ELSE NULL
+       *
+       OPENSEQ dir_name, file_name TO f_report ELSE NULL
+       WRITESEQ 'New data' TO f_report ELSE NULL
+       *
+       FLUSH f_report ELSE NULL
+       CRT '<' : DIR(file_name)<1> : '>'     ;* 9
+
+### NOTE
+
+For **prime** emulation FLUSH in this example will fail if there were still no
+WRITESEQs since file isn't created immediately on OPENSEQ:
+
+       dir_name = '.'
+       file_name = 'report.txt'
+       DELETESEQ dir_name, file_name ELSE NULL
+       *
+       OPENSEQ dir_name, file_name TO f_report ELSE NULL
+       *
+       FLUSH f_report ELSE NULL
+       CRT '<' : DIR(file_name)<1> : '>'     ;* 0
+
+This program will crash with the following message:
+
+<pre>
+    &lowast;&lowast; Error [ NOT_FILE_VAR ] &lowast;&lowast;
+    Variable is not an opened file descriptor , Line     7 , Source test.b
+    Trap from an error message, error message name = NOT_FILE_VAR</pre>
+
+Under **seq** emulation program will not crash.
 
 ## FMT
 
@@ -8751,7 +8770,7 @@ of each character is determined according to the Unicode Standard.
 
 ### EXAMPLE
 
-Extending the example for [ISALPHA](#ISALPHA):
+Extending the example for [ALPHA](#ALPHA):
 
        V.STRING = 'AWERC'
     * check if there are only alphabetic characters
@@ -11448,10 +11467,38 @@ assumed to be 1 and a warning message is issued. If the index is found
 to be too big, then the last label in the list will be used to transfer
 execution and a warning message will be issued.
 
-### EXAMPLES
+### EXAMPLE
 
-    INPUT Ans,1_
-    ON SEQ(Ans) - SEQ(A) + 1 GOSUB RoutineA, RoutineB...
+       cntrl_var = 1
+    *
+       ON cntrl_var GOSUB BIGGER
+       ON cntrl_var GOSUB EXCEPT, SMALLER
+       ON cntrl_var GOSUB SMALLER
+    *
+       STOP
+    *
+    BIGGER:
+       cntrl_var ++
+       CRT cntrl_var
+       RETURN
+    *
+    SMALLER:
+       cntrl_var --
+       CRT cntrl_var
+       RETURN
+    *
+    EXCEPT:
+       CRT 'Error occured'
+       RETURN
+    *
+    END
+
+Output of this program:
+
+<pre>
+    2
+    1
+    0</pre>
 
 ## OPEN
 
