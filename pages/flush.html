@@ -472,20 +472,38 @@
  statements.
 </p>
 <h2>EXAMPLE</h2>
-<pre><span>    <span class="c-1com">OPENSEQ</span> <span class="c-4str">'DIRFILE'</span>, <span class="c-4str">'RECORD'</span> <span class="c-1com">TO</span> FILE <span class="c-1com">THEN</span>
-</span><span>    <span class="c-1com">PRINT</span> <span class="c-4str">"<span class="c-4str">'DIRFILE'</span> OPENED FOR SEQUENTIAL PROCESSING"</span>
-</span><span>    <span class="c-1com">END</span> <span class="c-1com">ELSE</span> <span class="c-1com">STOP</span>
-</span><span>    <span class="c-1com">WEOFSEQ</span> FILE
-</span><span>    <span class="c-5com">*</span>
-</span><span>    <span class="c-1com">WRITESEQ</span> <span class="c-4str">'NEW LINE'</span> <span class="c-1com">ON</span> FILE <span class="c-1com">THEN</span>
-</span><span>    <span class="c-1com">FLUSH</span> FILE <span class="c-1com">THEN</span>
-</span><span>    <span class="c-1com">PRINT</span> <span class="c-4str">"BUFFER FLUSHED"</span>
-</span><span>    <span class="c-1com">END</span> <span class="c-1com">ELSE</span> <span class="c-1com">PRINT</span> <span class="c-4str">"NOT FLUSHED"</span>
-</span><span>    <span class="c-1com">ELSE</span> <span class="c-1com">ABORT</span>
-</span><span>    <span class="c-5com">*</span>
-</span><span>    <span class="c-1com">CLOSESEQ</span> FILE
-</span><span>    <span class="c-1com">END</span>
-</span></pre><div id="timestamp">Last update: Fri, 01 Feb 2013 08:29 CET</div></div>
+<pre><span>       dir_name = <span class="c-4str">'.'</span>
+</span><span>       file_name = <span class="c-4str">'report.txt'</span>
+</span><span>       <span class="c-1com">DELETESEQ</span> dir_name, file_name <span class="c-1com">ELSE</span> <span class="c-1com">NULL</span>
+</span><span>       <span class="c-5com">*</span>
+</span><span>       <span class="c-1com">OPENSEQ</span> dir_name, file_name <span class="c-1com">TO</span> f_report <span class="c-1com">ELSE</span> <span class="c-1com">NULL</span>
+</span><span>       <span class="c-1com">WRITESEQ</span> <span class="c-4str">'New data'</span> <span class="c-1com">TO</span> f_report <span class="c-1com">ELSE</span> <span class="c-1com">NULL</span>
+</span><span>       <span class="c-5com">*</span>
+</span><span>       <span class="c-1com">FLUSH</span> f_report <span class="c-1com">ELSE</span> <span class="c-1com">NULL</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-4str">'&lt;'</span> : <span class="c-0fun">DIR</span>(file_name)&lt;<span class="c-2num">1</span>&gt : <span class="c-4str">'&gt'</span>     ;<span class="c-5com">* <span class="c-2num">9</span></span>
+</span></pre>
+<h2>NOTE</h2>
+<p>For <strong>prime</strong> emulation FLUSH in this example will fail if there were still no
+ WRITESEQs since file isn't created immediately on OPENSEQ:
+</p>
+<pre><span>       dir_name = <span class="c-4str">'.'</span>
+</span><span>       file_name = <span class="c-4str">'report.txt'</span>
+</span><span>       <span class="c-1com">DELETESEQ</span> dir_name, file_name <span class="c-1com">ELSE</span> <span class="c-1com">NULL</span>
+</span><span>       <span class="c-5com">*</span>
+</span><span>       <span class="c-1com">OPENSEQ</span> dir_name, file_name <span class="c-1com">TO</span> f_report <span class="c-1com">ELSE</span> <span class="c-1com">NULL</span>
+</span><span>       <span class="c-5com">*</span>
+</span><span>       <span class="c-1com">FLUSH</span> f_report <span class="c-1com">ELSE</span> <span class="c-1com">NULL</span>
+</span><span>       <span class="c-1com">CRT</span> <span class="c-4str">'&lt;'</span> : <span class="c-0fun">DIR</span>(file_name)&lt;<span class="c-2num">1</span>&gt : <span class="c-4str">'&gt'</span>     ;<span class="c-5com">* <span class="c-2num">0</span></span>
+</span></pre>
+<p>This program will crash with the following message:
+</p>
+<p><pre>
+     &lowast;&lowast; Error [ NOT_FILE_VAR ] &lowast;&lowast;
+     Variable is not an opened file descriptor , Line     7 , Source test.b
+     Trap from an error message, error message name = NOT_FILE_VAR</pre>
+</p>
+<p>Under <strong>seq</strong> emulation program will not crash.
+</p><div id="timestamp">Last update: Mon, 23 Sep 2013 12:41 CET</div></div>
 </div>
 <script type="text/javascript">
 
