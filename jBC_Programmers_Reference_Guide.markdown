@@ -15,6 +15,8 @@ jBASE and the jBASE logo (dove) are registered trademarks of T-jBASE SA, a compa
 
 ### Latest changes
 
+Wednesday, 25 Sep 2013. Updated chapters [FILEINFO](#FILEINFO), [ICONV](#ICONV) and [WRITESEQ](#WRITESEQ).
+
 Monday, 23 Sep 2013. New examples for [FLUSH](#FLUSH) and [ONGOTO](#ONGOTO).
 
 Friday, 20 Sep 2013. Added example for [ISSPACE](#ISSPACE).
@@ -22,8 +24,6 @@ Friday, 20 Sep 2013. Added example for [ISSPACE](#ISSPACE).
 Tuesday, 27 Aug 2013. Added example for [@SELECTED](#@SELECTED).
 
 Thursday, 25 Jul 2013. Added example for [PAUSE](#PAUSE) / [WAKE](#WAKE).
-
-Monday, 08 Jul 2013. Minor formatting issues and several broken links corrected.
 
 ## What is TAFC
 
@@ -6543,12 +6543,10 @@ variable.
 
     FILEINFO(file.variable, key)
 
-This function is currently limited to return values to determine if the
-file variable is a valid file descriptor variable (so key could only be 0).
+If **key** is 0, this function returns 1 if file.variable is a valid file variable, zero otherwise.
+If **key** is 1, this function returns file status information.
 
-Returns 1 if file.variable is a valid file variable, zero otherwise.
-
-### EXAMPLE
+### EXAMPLES
 
        IF NOT( GETENV('JEDIFILENAME_SYSTEM', FN.SYSTEM) ) THEN ABORT
        OPEN FN.SYSTEM TO F.SYSTEM ELSE NULL
@@ -6556,6 +6554,26 @@ Returns 1 if file.variable is a valid file variable, zero otherwise.
        CRT FILEINFO(F.SYSTEM, 0)        ;* 1
        CRT FILEINFO(F.SOMEFILE, 0)      ;* 0
 
+       IF NOT( GETENV('TAFC_HOME', tafc_home) ) THEN
+          CRT 'TAFC_HOME not defined'
+          STOP
+       END
+       //
+       log_dir = tafc_home : '/tmp'
+       log_file = 'jbase_error_trace'
+       //
+       OPENSEQ log_dir, log_file READONLY TO f_log THEN
+          CRT FMT( FILEINFO(f_log, 1), 'MCP' )
+       END ELSE
+          CRT 'jbase_error_trace not found'
+       END
+
+Sample output from the second example:
+
+<pre>
+    0^0^0^0^100666^107817^1^0^0^70770^24915^24915^34405^16705^25887^16643
+    ^39761^16220^0^C:\home\kzm\v-t24\r11\tafc/tmp\jbase_error_trace^SEQ^0
+    ^0^0^0^0^C:\home\kzm\v-t24\r11\tafc/tmp\jbase_error_trace^0^0^unknown</pre>
 
 ## FILELOCK
 
@@ -7190,14 +7208,14 @@ where complex expressions are in use.
 
 See also: [BREAK](#BREAK), [CONTINUE](#CONTINUE).
 
-### EXAMPLES
+### EXAMPLE
 
        V.ARRAY = ''
        FOR V.I = 1 TO 10
           V.ARRAY<-1> = 'Element #' : V.I
        NEXT V.I
        CRT V.ARRAY<6>                          ;* Element #6
-
+       //
        FOR V.I = 10 TO 1 STEP -2 WHILE V.I GT 3
           DEL V.ARRAY<V.I>
        NEXT V.I
@@ -7794,6 +7812,9 @@ unless the emulation option iconv_nonnumeric_return_null is set.
     * check if a year is a leap one
        CRT OCONV( ICONV('20111231', 'D4'), 'DJ' )    ;*  365
        CRT OCONV( ICONV('20121231', 'D4'), 'DJ' )    ;*  366
+
+       CRT ICONV('00:01:02', 'MTS')        ;* 62
+       CRT ICONV('4020412042', 'MX')       ;* @ A B
 
 ## ICONVS
 
@@ -11626,7 +11647,8 @@ the SELECT statement.
 
 ### COMMAND SYNTAX
 
-    OPENINDEX filename,indexname TO indexvar { SETTING setvar } THEN | ELSE statements
+    OPENINDEX filename,indexname TO indexvar { SETTING setvar } THEN  \
+      | ELSE statements
 
 ### SYNTAX ELEMENTS
 
@@ -16948,6 +16970,40 @@ Append data to file:
           CRT 'Write error'
           STOP
        END
+
+If file was opened in read only mode, WRITESEQ will fail and statements defined
+after ELSE clause will be processed:
+
+       IF NOT( GETENV('TAFC_HOME', tafc_home) ) THEN
+          CRT 'TAFC_HOME not defined'
+          STOP
+       END
+       //
+       log_dir = tafc_home : '/tmp'
+       log_file = 'jbase_error_trace'
+       //
+       OPENSEQ log_dir, log_file READONLY TO f_log THEN
+       //
+          FOR i = 1 TO 3   ;* read the first message
+             READSEQ the_line FROM f_log ELSE BREAK
+             CRT the_line
+          NEXT i
+       //
+          WRITESEQ 'One more line' APPEND TO f_log ELSE
+             CRT 'Write error'
+             STOP
+          END
+       END ELSE
+          CRT 'jbase_error_trace not found'
+       END
+
+Sample output:
+
+<pre>
+    &nbsp;
+    Trace message from pid 3588 port 237 at 'Mon May 28 14:02:41 2012'
+        Port 1 (Pid 6184) has been inactive for 34317875 seconds, Port cleared
+    Write error</pre>
 
 ## WRITESEQF
 
