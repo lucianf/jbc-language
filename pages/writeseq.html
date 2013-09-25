@@ -502,7 +502,41 @@
 </span><span>          <span class="c-1com">CRT</span> <span class="c-4str">'Write error'</span>
 </span><span>          <span class="c-1com">STOP</span>
 </span><span>       <span class="c-1com">END</span>
-</span></pre><div id="timestamp">Last update: Fri, 01 Feb 2013 08:29 CET</div></div>
+</span></pre>
+<p>If file was opened in read only mode, WRITESEQ will fail and statements defined
+ after ELSE clause will be processed:
+</p>
+<pre><span>       <span class="c-1com">IF</span> <span class="c-0fun">NOT</span>( <span class="c-0fun">GETENV</span>(<span class="c-4str">'TAFC_HOME'</span>, tafc_home) ) <span class="c-1com">THEN</span>
+</span><span>          <span class="c-1com">CRT</span> <span class="c-4str">'TAFC_HOME not defined'</span>
+</span><span>          <span class="c-1com">STOP</span>
+</span><span>       <span class="c-1com">END</span>
+</span><span>       <span class="c-5com"><span class="c-5com">//</span></span>
+</span><span>       log_dir = tafc_home : <span class="c-4str">'/tmp'</span>
+</span><span>       log_file = <span class="c-4str">'jbase_error_trace'</span>
+</span><span>       <span class="c-5com"><span class="c-5com">//</span></span>
+</span><span>       <span class="c-1com">OPENSEQ</span> log_dir, log_file <span class="c-1com">READONLY</span> <span class="c-1com">TO</span> f_log <span class="c-1com">THEN</span>
+</span><span>       <span class="c-5com"><span class="c-5com">//</span></span>
+</span><span>          <span class="c-1com">FOR</span> i = <span class="c-2num">1</span> <span class="c-1com">TO</span> <span class="c-2num">3</span>   ;<span class="c-5com">* read the first message</span>
+</span><span>             <span class="c-1com">READSEQ</span> the_line <span class="c-1com">FROM</span> f_log <span class="c-1com">ELSE</span> <span class="c-1com">BREAK</span>
+</span><span>             <span class="c-1com">CRT</span> the_line
+</span><span>          <span class="c-1com">NEXT</span> i
+</span><span>       <span class="c-5com"><span class="c-5com">//</span></span>
+</span><span>          <span class="c-1com">WRITESEQ</span> <span class="c-4str">'One more line'</span> <span class="c-1com">APPEND</span> <span class="c-1com">TO</span> f_log <span class="c-1com">ELSE</span>
+</span><span>             <span class="c-1com">CRT</span> <span class="c-4str">'Write error'</span>
+</span><span>             <span class="c-1com">STOP</span>
+</span><span>          <span class="c-1com">END</span>
+</span><span>       <span class="c-1com">END</span> <span class="c-1com">ELSE</span>
+</span><span>          <span class="c-1com">CRT</span> <span class="c-4str">'jbase_error_trace not found'</span>
+</span><span>       <span class="c-1com">END</span>
+</span></pre>
+<p>Sample output:
+</p>
+<p><pre>
+     &nbsp;
+     Trace message from pid 3588 port 237 at 'Mon May 28 14:02:41 2012'
+         Port 1 (Pid 6184) has been inactive for 34317875 seconds, Port cleared
+     Write error</pre>
+</p><div id="timestamp">Last update: Wed, 25 Sep 2013 12:51 CET</div></div>
 </div>
 <script type="text/javascript">
 

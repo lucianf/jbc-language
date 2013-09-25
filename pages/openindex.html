@@ -460,7 +460,8 @@
  the SELECT statement.
 </p>
 <h2>COMMAND SYNTAX</h2>
-<pre><span>    <span class="c-1com">OPENINDEX</span> filename,indexname <span class="c-1com">TO</span> indexvar { <span class="c-1com">SETTING</span> setvar } <span class="c-1com">THEN</span> | <span class="c-1com">ELSE</span> statements
+<pre><span>    <span class="c-1com">OPENINDEX</span> filename,indexname <span class="c-1com">TO</span> indexvar { <span class="c-1com">SETTING</span> setvar } <span class="c-1com">THEN</span>  \
+</span><span>      | <span class="c-1com">ELSE</span> statements
 </span></pre>
 <h2>SYNTAX ELEMENTS</h2>
 <p><strong>filename</strong> should correspond to a valid file which has at least one
@@ -485,7 +486,7 @@
 </span><span>      <span class="c-1com">CRT</span> <span class="c-4str">"OPENINDEX failed for file CUSTOMER, index IXLASTNAME"</span>
 </span><span>      <span class="c-1com">ABORT</span>
 </span><span>    <span class="c-1com">END</span>
-</span></pre><div id="timestamp">Last update: Fri, 01 Feb 2013 08:29 CET</div></div>
+</span></pre><div id="timestamp">Last update: Wed, 25 Sep 2013 12:41 CET</div></div>
 </div>
 <script type="text/javascript">
 

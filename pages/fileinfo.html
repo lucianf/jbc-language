@@ -463,18 +463,37 @@
 <h2>COMMAND SYNTAX</h2>
 <pre><span>    <span class="c-0fun">FILEINFO</span>(file.variable, key)
 </span></pre>
-<p>This function is currently limited to return values to determine if the
- file variable is a valid file descriptor variable (so key could only be 0).
+<p>If <strong>key</strong> is 0, this function returns 1 if file.variable is a valid file variable, zero otherwise.
+ If <strong>key</strong> is 1, this function returns file status information.
 </p>
-<p>Returns 1 if file.variable is a valid file variable, zero otherwise.
-</p>
-<h2>EXAMPLE</h2>
+<h2>EXAMPLES</h2>
 <pre><span>       <span class="c-1com">IF</span> <span class="c-0fun">NOT</span>( <span class="c-0fun">GETENV</span>(<span class="c-4str">'JEDIFILENAME_SYSTEM'</span>, FN.SYSTEM) ) <span class="c-1com">THEN</span> <span class="c-1com">ABORT</span>
 </span><span>       <span class="c-1com">OPEN</span> FN.SYSTEM <span class="c-1com">TO</span> F.SYSTEM <span class="c-1com">ELSE</span> <span class="c-1com">NULL</span>
 </span><span>       <span class="c-1com">OPEN</span> <span class="c-4str">'SOMENONEXISTENTFILE'</span> <span class="c-1com">TO</span> F.SOMEFILE <span class="c-1com">ELSE</span> <span class="c-1com">NULL</span>
 </span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">FILEINFO</span>(F.SYSTEM, <span class="c-2num">0</span>)        ;<span class="c-5com">* <span class="c-2num">1</span></span>
 </span><span>       <span class="c-1com">CRT</span> <span class="c-0fun">FILEINFO</span>(F.SOMEFILE, <span class="c-2num">0</span>)      ;<span class="c-5com">* <span class="c-2num">0</span></span>
-</span></pre><div id="timestamp">Last update: Fri, 01 Feb 2013 08:29 CET</div></div>
+</span></pre>
+<pre><span>       <span class="c-1com">IF</span> <span class="c-0fun">NOT</span>( <span class="c-0fun">GETENV</span>(<span class="c-4str">'TAFC_HOME'</span>, tafc_home) ) <span class="c-1com">THEN</span>
+</span><span>          <span class="c-1com">CRT</span> <span class="c-4str">'TAFC_HOME not defined'</span>
+</span><span>          <span class="c-1com">STOP</span>
+</span><span>       <span class="c-1com">END</span>
+</span><span>       <span class="c-5com"><span class="c-5com">//</span></span>
+</span><span>       log_dir = tafc_home : <span class="c-4str">'/tmp'</span>
+</span><span>       log_file = <span class="c-4str">'jbase_error_trace'</span>
+</span><span>       <span class="c-5com"><span class="c-5com">//</span></span>
+</span><span>       <span class="c-1com">OPENSEQ</span> log_dir, log_file <span class="c-1com">READONLY</span> <span class="c-1com">TO</span> f_log <span class="c-1com">THEN</span>
+</span><span>          <span class="c-1com">CRT</span> <span class="c-0fun">FMT</span>( <span class="c-0fun">FILEINFO</span>(f_log, <span class="c-2num">1</span>), <span class="c-4str">'MCP'</span> )
+</span><span>       <span class="c-1com">END</span> <span class="c-1com">ELSE</span>
+</span><span>          <span class="c-1com">CRT</span> <span class="c-4str">'jbase_error_trace not found'</span>
+</span><span>       <span class="c-1com">END</span>
+</span></pre>
+<p>Sample output from the second example:
+</p>
+<p><pre>
+     0^0^0^0^100666^107817^1^0^0^70770^24915^24915^34405^16705^25887^16643
+     ^39761^16220^0^C:\home\kzm\v-t24\r11\tafc/tmp\jbase_error_trace^SEQ^0
+     ^0^0^0^0^C:\home\kzm\v-t24\r11\tafc/tmp\jbase_error_trace^0^0^unknown</pre>
+</p><div id="timestamp">Last update: Wed, 25 Sep 2013 12:46 CET</div></div>
 </div>
 <script type="text/javascript">
 
