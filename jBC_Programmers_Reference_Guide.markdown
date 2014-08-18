@@ -15,7 +15,9 @@ jBASE and the jBASE logo (dove) are registered trademarks of T-jBASE SA, a compa
 
 ### Latest changes
 
-Thursday, 14 Aug 2014, 16:10:30. New example for [EXTRACT](#EXTRACT).
+Sunday, 17 Aug 2014. Another example for [SSELECT](#SSELECT).
+
+Thursday, 14 Aug 2014. New example for [EXTRACT](#EXTRACT).
 
 ## What is TAFC
 
@@ -15178,6 +15180,63 @@ Or:
 
 <pre>
     Got strings from AAGPKJJP to ZZTMYNNX</pre>
+
+### EXAMPLE 3
+
+Don't try to sort an array with **SSELECTV** if this array has values or subvalues (they all will be lost -
+after all, it's intended to sort just select lists). The correct way to do that is also shown below:
+
+    *
+    init_array = 3 : @VM : 'Third row'
+    init_array<-1> = 2 : @VM : 'Second row'
+    init_array<-1> = 4 : @VM : 'Fourth row'
+    init_array<-1> = 1 : @VM : 'First row'
+    &nbsp;
+    the_len = DCOUNT(init_array, @FM)
+    &nbsp;
+    SSELECTV init_array TO sorted_array
+    GOSUB SHOW.RESULT
+    * Output:
+    * 1
+    * 2
+    * 3
+    * 4
+    &nbsp;
+    elem_to_sort = 1     ;* sort by 1st value
+    GOSUB MAKE.SORT
+    GOSUB SHOW.RESULT
+    * Output:
+    * 1]First row
+    * 2]Second row
+    * 3]Third row
+    * 4]Fourth row
+    &nbsp;
+    elem_to_sort = 2     ;* sort by 2nd value
+    GOSUB MAKE.SORT
+    GOSUB SHOW.RESULT
+    * Output:
+    * 1]First row
+    * 4]Fourth row
+    * 2]Second row
+    * 3]Third row
+    &nbsp;
+    RETURN
+    &nbsp;
+    MAKE.SORT:
+       seek_array = ''
+       sorted_array = ''
+       FOR i = 1 TO the_len
+          LOCATE init_array<i,elem_to_sort> IN seek_array BY 'AN' SETTING ins_posn ELSE NULL
+          INS init_array<i,elem_to_sort> BEFORE seek_array<ins_posn>
+          INS init_array<i> BEFORE sorted_array<ins_posn>
+       NEXT i
+       RETURN
+    &nbsp;
+    SHOW.RESULT:
+       FOR i = 1 TO the_len
+          CRT OCONV(sorted_array<i>, 'MCP')
+       NEXT i
+       RETURN
 
 ## SSELECTN
 
