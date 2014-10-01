@@ -493,7 +493,47 @@
 </span><span>       <span class="c-1com">NEXT</span> I
 </span><span>       Home = @(<span class="c-2num">0</span>,<span class="c-2num">0</span>) ;<span class="c-5com">* Remember the cursor home position</span>
 </span><span>       <span class="c-1com">CRT</span> Home: <span class="c-4str">"Hi honey, I'm HOME!"</span> :
-</span></pre><div id="timestamp">Last update: Mon, 08 Jul 2013 13:29 CET</div></div>
+</span></pre>
+<h2>EXAMPLE 2</h2>
+<p>Here the screen will be drawn, parts of it redrawn and then cleared:
+</p>
+<pre><span>       size_x = <span class="c-0fun">SYSTEM</span>(<span class="c-2num">2</span>) - <span class="c-2num">5</span> ; size_y = <span class="c-0fun">SYSTEM</span>(<span class="c-2num">3</span>) - <span class="c-2num">5</span>
+</span><span>       info_x = <span class="c-2num">1</span>  ;  info_y = size_y + <span class="c-2num">1</span>
+</span><span>       <span class="c-1com">DIM</span> the_screen(size_x, size_y)
+</span><span>       <span class="c-1com">CRT</span> @(<span class="c-2num">-1</span>)
+</span><span>       <span class="c-1com">MAT</span> the_screen = <span class="c-4str">'*'</span>
+</span><span>       left_offset = <span class="c-2num">1</span>
+</span><span>       <span class="c-1com">GOSUB</span> DRAW.SCREEN
+</span><span>       <span class="c-1com">MAT</span> the_screen = <span class="c-4str">'#'</span>
+</span><span>       left_offset = <span class="c-0fun">INT</span>(size_x / <span class="c-2num">2</span>)
+</span><span>       <span class="c-1com">GOSUB</span> DRAW.SCREEN
+</span><span>       hole_x = <span class="c-2num">5</span>  ;  hole_y = <span class="c-2num">5</span>  ;  hole_len = <span class="c-2num">5</span>
+</span><span>       <span class="c-1com">GOSUB</span> MAKE.HOLE
+</span><span>       hole_x = left_offset - <span class="c-2num">5</span>  ;  hole_y = <span class="c-2num">10</span>  ;  hole_len = <span class="c-2num">20</span>
+</span><span>       <span class="c-1com">GOSUB</span> MAKE.HOLE
+</span><span>       <span class="c-1com">CRT</span> @(info_x, info_y) : <span class="c-4str">"That's all folks!"</span> : @(<span class="c-2num">-3</span>)
+</span><span>                      ;<span class="c-5com">* <span class="c-2num">-3</span> clears all to the end of line</span>
+</span><span>       <span class="c-5com">*</span>
+</span><span>       <span class="c-1com">STOP</span>
+</span><span>       <span class="c-5com">*</span>
+</span><span>       DRAW.SCREEN:
+</span><span>          <span class="c-1com">CRT</span> @(info_x, info_y) : <span class="c-4str">'Drawing '</span> : the_screen(<span class="c-2num">1</span>, <span class="c-2num">1</span>) : <span class="c-4str">"'s..."</span>
+</span><span>          <span class="c-1com">FOR</span> i = left_offset <span class="c-1com">TO</span> size_x
+</span><span>             <span class="c-1com">FOR</span> j = <span class="c-2num">1</span> <span class="c-1com">TO</span> size_y
+</span><span>                <span class="c-1com">CRT</span> @(i, j) : the_screen(i, j):
+</span><span>             <span class="c-1com">NEXT</span> j
+</span><span>          <span class="c-1com">MSLEEP</span>(<span class="c-2num">100</span>) ;<span class="c-5com">* <span class="c-2num">0</span>.<span class="c-2num">1</span> sec</span>
+</span><span>          <span class="c-1com">NEXT</span> i
+</span><span>          <span class="c-1com">MSLEEP</span>(<span class="c-2num">2000</span>)
+</span><span>          <span class="c-1com">RETURN</span>
+</span><span>       <span class="c-5com">*</span>
+</span><span>       MAKE.HOLE:
+</span><span>          <span class="c-1com">CRT</span> @(info_x, info_y) : <span class="c-4str">'Making a hole at '</span> : hole_x : <span class="c-4str">'/'</span> : hole_y
+</span><span>          <span class="c-1com">CRT</span> @(hole_x, hole_y) : <span class="c-0fun">STR</span>(<span class="c-4str">' '</span>, hole_len)
+</span><span>          <span class="c-1com">MSLEEP</span>(<span class="c-2num">2000</span>)
+</span><span>          <span class="c-1com">RETURN</span>
+</span><span>       <span class="c-1com">END</span>
+</span></pre><div id="timestamp">Last update: Tue, 30 Sep 2014 18:49 UTC+5</div></div>
 </div>
 <script type="text/javascript">
 
