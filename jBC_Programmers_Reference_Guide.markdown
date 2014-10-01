@@ -15,6 +15,8 @@ jBASE and the jBASE logo (dove) are registered trademarks of T-jBASE SA, a compa
 
 ### Latest changes
 
+Tuesday, 30 Sep 2014. Another example for [@](#@) function.
+
 Sunday, 17 Aug 2014. Another example for [SSELECT](#SSELECT).
 
 Thursday, 14 Aug 2014. New example for [EXTRACT](#EXTRACT).
@@ -1661,6 +1663,47 @@ this by accessing the terminfo database through the SYSTEM () function.
        NEXT I
        Home = @(0,0) ;* Remember the cursor home position
        CRT Home: "Hi honey, I'm HOME!" :
+
+### EXAMPLE 2
+
+Here the screen will be drawn, parts of it redrawn and then cleared:
+
+       size_x = SYSTEM(2) - 5 ; size_y = SYSTEM(3) - 5
+       info_x = 1  ;  info_y = size_y + 1
+       DIM the_screen(size_x, size_y)
+       CRT @(-1)
+       MAT the_screen = '*'
+       left_offset = 1
+       GOSUB DRAW.SCREEN
+       MAT the_screen = '#'
+       left_offset = INT(size_x / 2)
+       GOSUB DRAW.SCREEN
+       hole_x = 5  ;  hole_y = 5  ;  hole_len = 5
+       GOSUB MAKE.HOLE
+       hole_x = left_offset - 5  ;  hole_y = 10  ;  hole_len = 20
+       GOSUB MAKE.HOLE
+       CRT @(info_x, info_y) : "That's all folks!" : @(-3)
+                      ;* -3 clears all to the end of line
+       *
+       STOP
+       *
+       DRAW.SCREEN:
+          CRT @(info_x, info_y) : 'Drawing ' : the_screen(1, 1) : "'s..."
+          FOR i = left_offset TO size_x
+             FOR j = 1 TO size_y
+                CRT @(i, j) : the_screen(i, j):
+             NEXT j
+          MSLEEP(100) ;* 0.1 sec
+          NEXT i
+          MSLEEP(2000)
+          RETURN
+       *
+       MAKE.HOLE:
+          CRT @(info_x, info_y) : 'Making a hole at ' : hole_x : '/' : hole_y
+          CRT @(hole_x, hole_y) : STR(' ', hole_len)
+          MSLEEP(2000)
+          RETURN
+       END
 
 ## @ (SCREENCODE)
 
