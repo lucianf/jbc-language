@@ -107,9 +107,9 @@ to convert FM, VM and SM delimiters to a printable form, e.g.:
 
 Where possible, the output is shown in a comment (as it is in the example above).
 
-## Variables Visibility and Lifetime
+## Variable Scope
 
-Variable is visible throughout the program or its subroutine (i.e. in
+A variable is visible throughout the program or its subroutine (i.e. in
 the bounds of particular source code file). To share a variable between
 different programs/subroutines pass them as parameters in [CALL](#CALL)
 statement or use a named or unnamed [COMMON](#COMMON).
