@@ -3509,7 +3509,7 @@ options reflect this. But as they are not compatible with the IBM JDK
 you can set the JBCIBMJDK option to allow the running of the IBM JDK
 for Linux.
 
-### DEFAULT OPTIONS###
+### DEFAULT OPTIONS
 
 |Platform       |   Parameter                         |
 |---------------|-------------------------------------|
@@ -3707,7 +3707,7 @@ Output:
     neither A nor B nor C
      </pre>
 
-## CATALOG Command
+## CATALOG
 
 <a name="CATALOG"/>
 
@@ -5060,7 +5060,7 @@ Describes the debugger here.
         DEBUG ;*enter the debugger
     END
 
-## DECATALOG and DELETE-CATALOG Commands##
+## DECATALOG and DELETE-CATALOG
 
 The DECATALOG and DELETE-CATALOG commands are used to remove the
 run-time versions of  cataloged jBC programs.
@@ -5071,7 +5071,7 @@ run-time versions of  cataloged jBC programs.
 
     DECATALOG ProgramName
 
-## DECRYPT##
+## DECRYPT
 
 <a name="DECRYPT"/>
 
@@ -5304,7 +5304,7 @@ The return value is set in the function using the RETURN (value)
 statement. If the RETURN statement specifies no value then the function
 returns an empty string.
 
-### EXAMPLE 1###
+### EXAMPLE 1
 
     DEFFUN Add()
     A = 10
@@ -7798,7 +7798,7 @@ specify the "N" option, all output sent to the terminal is paged.
 
     HEADING 'Programming staff by size of waist Page "P"'
 
-## HEADINGE and HEADINGN##
+## HEADINGE and HEADINGN
 
 The HEADINGE statement is the same as the HEADING statement, which
 causes a page eject with the HEADING statement.
@@ -7904,7 +7904,7 @@ The STATUS function reflects the result of the conversion:
 
 See also: [OCONVS](#OCONVS) function.
 
-## IF (statement)
+## IF
 
 Allows other statements to be conditionally executed
 
@@ -8817,7 +8817,7 @@ alphabetic characters.
 
 Same as [ALPHA](#ALPHA).
 
-## ISALNUM##
+## ISALNUM
 
 The ISALNUM function will check that the expression consists of
 entirely alphanumeric characters.
@@ -8929,7 +8929,7 @@ any characters, which are not lower case characters.
 When the ISLOWER function is used in International Mode the properties of
 each character is determined according to the Unicode Standard
 
-## ISPRINT##
+## ISPRINT
 
 The ISPRINT function will check that the expression consists of entirely
 printable characters.
@@ -10946,7 +10946,7 @@ until a specified time.
        SLEEP sleep_until
        CRT OCONV( TIME(), 'MTS' ), ',', "I'm back as promised"
 
-## MULS##
+## MULS
 
 MULS function is used to create a dynamic array of the element-by-element
 multiplication of two dynamic arrays.
@@ -12451,7 +12451,7 @@ Waking program:
 
 PERFORM is synonymous with [EXECUTE](#EXECUTE)
 
-## PRECISION##
+## PRECISION
 
 <a name="PRECISION"/>
 
@@ -13322,7 +13322,7 @@ The difference to the example above starts with the first READPREV:
        CRT 'NEXT:' : V.ID                              ;*  NEXT:
 
 
-## READSELECT##
+## READSELECT
 
 See also: [READLIST](#READLIST)
 
@@ -13995,7 +13995,7 @@ runs it updates that record - puts a new field in it, but only if theres less th
           WRITE V.REC TO F.TEMP, 'REC1'
        END
 
-## REMOVE##
+## REMOVE
 
 REMOVE will successively extract delimited strings from a dynamic
 array.
@@ -17539,7 +17539,7 @@ will display
 <pre>
     A]1]Vendor Name]]]]]L]30</pre>
 
-## XMLTODYN##
+## XMLTODYN
 
 <a name="XMLTODYN"/>
 
